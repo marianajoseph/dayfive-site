@@ -24,11 +24,13 @@ async function persist(entry) {
 
   for (const file of targets) {
     try {
-      await fs.mkdir(path.dirname(file), { recursive: true });
+      // turbopackIgnore comments: these paths are resolved at runtime, not
+      // bundled. Without them the bundler tries to trace them and warns.
+      await fs.mkdir(/*turbopackIgnore: true*/ path.dirname(file), { recursive: true });
 
       let list = [];
       try {
-        list = JSON.parse(await fs.readFile(file, "utf8"));
+        list = JSON.parse(await fs.readFile(/*turbopackIgnore: true*/ file, "utf8"));
         if (!Array.isArray(list)) list = [];
       } catch {
         list = []; // first write, or an unreadable file
@@ -39,7 +41,11 @@ async function persist(entry) {
       }
 
       list.push(entry);
-      await fs.writeFile(file, `${JSON.stringify(list, null, 2)}\n`, "utf8");
+      await fs.writeFile(
+        /*turbopackIgnore: true*/ file,
+        `${JSON.stringify(list, null, 2)}\n`,
+        "utf8",
+      );
       return { ok: true, file, duplicate: false };
     } catch {
       // read-only filesystem — try the next target
