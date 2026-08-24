@@ -1,0 +1,110 @@
+import { Fraunces, Manrope } from "next/font/google";
+import "./globals.css";
+
+// The serif is reserved for big headlines, so we load the weight axis only —
+// no SOFT/WONK/opsz. Smaller file, faster first paint on a phone.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-fraunces",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-manrope",
+});
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dayfive.co";
+
+export const metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default:
+      "DayFive — Automated Bookkeeping Service NJ | Your Books Closed by Day Five",
+    template: "%s · DayFive",
+  },
+  description:
+    "DayFive is an automated bookkeeping service in NJ for service businesses. Your monthly close lands by business day 5 with five plain-English insights. Flat monthly price, no meetings, first close free.",
+  keywords: [
+    "automated bookkeeping service NJ",
+    "bookkeeping service New Jersey",
+    "monthly close",
+    "outsourced bookkeeping",
+    "small business accounting NJ",
+    "AI bookkeeping",
+    "FP&A for small business",
+    "childcare center bookkeeping",
+  ],
+  applicationName: "DayFive",
+  authors: [{ name: "DayFive" }],
+  creator: "DayFive",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "DayFive",
+    title: "Your books. Closed by day five. Every month.",
+    description:
+      "An automated bookkeeping service in NJ. Clean financials plus five ranked, plain-English insights by business day 5 — every month. First close free.",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Your books. Closed by day five. Every month.",
+    description:
+      "An automated bookkeeping service in NJ. Clean financials plus five ranked insights by business day 5. First close free.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+};
+
+export const viewport = {
+  // The page opens on the navy hero band, so the phone's browser chrome
+  // should match that rather than the cream body.
+  themeColor: "#081426",
+  width: "device-width",
+  initialScale: 1,
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "DayFive",
+  description:
+    "Automated bookkeeping service in NJ. Monthly close delivered by business day 5 with five plain-English insights.",
+  url: SITE_URL,
+  email: "docs@dayfive.co",
+  areaServed: { "@type": "State", name: "New Jersey" },
+  address: { "@type": "PostalAddress", addressRegion: "NJ", addressCountry: "US" },
+  priceRange: "$450–$1,800 per month",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Bookkeeping plans",
+    itemListElement: [
+      { "@type": "Offer", name: "Essentials", price: "450", priceCurrency: "USD" },
+      { "@type": "Offer", name: "Growth", price: "850", priceCurrency: "USD" },
+      { "@type": "Offer", name: "Insights", price: "1800", priceCurrency: "USD" },
+    ],
+  },
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" className={`${fraunces.variable} ${manrope.variable}`}>
+      <body className="antialiased">
+        {/* ANALYTICS SLOT — paste your provider snippet here when you're ready.
+            Events are already being emitted by lib/analytics.js. */}
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {children}
+      </body>
+    </html>
+  );
+}

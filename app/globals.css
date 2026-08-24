@@ -1,0 +1,219 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ theme */
+
+@theme {
+  /* ---- Cream: the base the whole site sits on -------------------------- */
+  --color-cream: #f7f3ea; /* page base */
+  --color-cream-tint: #f1e9db; /* alternate band, for rhythm */
+  --color-cream-200: #e9dfcd; /* hairline borders */
+  --color-cream-300: #dbcfb7; /* stronger borders */
+
+  /* ---- Navy: body text on cream, and the two dark bands ---------------- */
+  --color-navy-950: #050c17;
+  --color-navy-900: #081426;
+  --color-navy-850: #0b1c33;
+  --color-navy-800: #102540;
+  --color-navy-700: #1a3557;
+  --color-navy-600: #27486f;
+
+  /* Text on cream. Every one of these clears AA (4.5:1) on --color-cream. */
+  --color-ink: #0e1c31; /* 15.4:1 — body + headlines */
+  --color-ink-600: #4a5768; /* 6.6:1  — secondary text */
+  --color-ink-500: #626d7e; /* 4.7:1  — the lightest text we allow */
+
+  /* ---- Gold: the accent, in five jobs ---------------------------------- */
+  --color-gold-300: #eccb8b; /* light accent on navy */
+  --color-gold-400: #e0b45f; /* accent TEXT on navy    — 9.5:1 */
+  --color-gold-500: #d4a03c; /* button + shape fills   — 8.3:1 w/ navy text */
+  --color-gold-600: #a67a1e; /* strokes + icons on cream — 3.5:1 */
+  --color-gold-700: #8a6510; /* accent TEXT on cream   — 4.8:1 */
+
+  /* Text on navy bands. */
+  --color-mist: #e6edf7; /* 16.7:1 on navy-900 */
+  --color-mist-600: #9db0ca; /* 8.3:1 */
+  --color-mist-700: #8095b3; /* 6.1:1 */
+
+  /* Status — checked against both cream and white. */
+  --color-status-good: #35785a; /* 4.8:1 on cream, 5.3:1 on white */
+  --color-status-watch: #96610f; /* 4.7:1 on cream, 5.2:1 on white */
+  --color-status-bad: #a8452a; /* 5.3:1 on cream, 5.9:1 on white */
+
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  /* Soft shadows — white cards floating on cream, never hard-edged. */
+  --shadow-soft: 0 1px 2px rgb(20 30 48 / 0.04), 0 8px 24px -10px rgb(20 30 48 / 0.13);
+  --shadow-card: 0 1px 3px rgb(20 30 48 / 0.05), 0 16px 36px -14px rgb(20 30 48 / 0.18);
+  --shadow-sheet: 0 2px 5px rgb(20 30 48 / 0.07), 0 22px 50px -16px rgb(20 30 48 / 0.24);
+  --shadow-lift: 0 8px 16px rgb(20 30 48 / 0.12), 0 48px 90px -28px rgb(20 30 48 / 0.38);
+}
+
+/* ------------------------------------------------------------------ base */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  /* Generous by default: 18px body, roomy leading. */
+  font-size: 1.125rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-gold-500);
+  color: var(--color-navy-950);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold-600);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* On the navy bands the focus ring needs to be the light gold instead. */
+.band-navy :focus-visible {
+  outline-color: var(--color-gold-400);
+}
+
+/* --------------------------------------------------------------- helpers */
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Hairline rule that fades at both ends — used between sections. */
+@utility rule-fade {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-cream-300),
+    transparent
+  );
+}
+
+/* A whisper of warmth behind the hero and the closing band. */
+@utility glow-gold {
+  background: radial-gradient(
+    70% 60% at 50% 0%,
+    color-mix(in srgb, var(--color-gold-500) 12%, transparent),
+    transparent 72%
+  );
+}
+
+/* Paper texture for the document sheets — a hint, no image files. */
+@utility paper-grain {
+  background-image:
+    radial-gradient(circle at 20% 12%, rgb(0 0 0 / 0.016) 0.5px, transparent 0.5px),
+    radial-gradient(circle at 72% 64%, rgb(0 0 0 / 0.012) 0.5px, transparent 0.5px);
+  background-size: 7px 7px, 11px 11px;
+}
+
+/* Hand-drawn line icons: uniform round stroke, never a filled clip-art glyph. */
+@utility ink-stroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ------------------------------------------------ document mockups ------ */
+
+/* Each A4 sheet sizes its own root font from its container width; everything
+   inside is in `em`. One component therefore renders identically whether it is
+   thumbnail-sized in the fan or full-bleed in the lightbox. */
+.doc-shell {
+  container-type: inline-size;
+}
+
+.doc {
+  font-size: 1.62cqi;
+  line-height: 1.45;
+}
+
+.doc-watermark {
+  font-size: 6.2em;
+  letter-spacing: 0.26em;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--color-ink) 7%, transparent);
+  transform: rotate(-27deg);
+  user-select: none;
+}
+
+/* The fan of overlapping sheets.
+   Below lg the sheets are a swipeable rail (plain Tailwind on the elements).
+   At lg and up the same DOM becomes an overlapping fan — each sheet reads its
+   resting position from custom properties set inline, so every page is
+   rendered exactly once instead of twice. */
+@media (min-width: 64rem) {
+  .doc-fan {
+    position: relative;
+    display: block;
+    overflow: visible;
+    padding: 0;
+    margin: 0;
+  }
+
+  .doc-fan-item {
+    position: absolute;
+    left: 50%;
+    top: 4%;
+    height: 88%;
+    width: auto;
+    cursor: zoom-in;
+    transform: translate(-50%, 0) translate(var(--tx), var(--ty)) rotate(var(--r))
+      scale(var(--s, 1));
+    filter: brightness(var(--dim, 1));
+    transition:
+      transform 450ms cubic-bezier(0.16, 1, 0.3, 1),
+      filter 300ms ease;
+  }
+}
+
+/* Dotted leader between an account name and its figure. */
+.doc-leader {
+  flex: 1;
+  margin: 0 0.5em 0.28em;
+  border-bottom: 1px dotted color-mix(in srgb, var(--color-ink-500) 45%, transparent);
+}
+
+/* ------------------------------------------------- entrance animations */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .rise {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
