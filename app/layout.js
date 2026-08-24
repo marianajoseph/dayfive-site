@@ -15,7 +15,14 @@ const manrope = Manrope({
   variable: "--font-manrope",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dayfive.co";
+// The live address. Used for canonical URLs and to build the absolute URL of
+// the OG image, so it must be the address people actually visit.
+//
+// Setting NEXT_PUBLIC_SITE_URL in Vercel overrides this — but it isn't
+// required. When dayfive.co is pointed at this site, change the fallback below
+// to "https://dayfive.co" and push; that is the whole job.
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://dayfive-site.vercel.app";
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
