@@ -18,10 +18,13 @@ const groups = [
     id: "close-pack",
     tier: "Every plan",
     title: "The monthly close pack",
+    /* `page` is where the sheet actually sits in the real pack, so the viewer
+       can say "Page 5 of 14" rather than pretending the pack is three pages. */
+    packSize: 14,
     pages: [
-      { label: "Your month in five insights", node: <FiveInsights /> },
-      { label: "Statement of Profit & Loss", node: <ProfitAndLoss /> },
-      { label: "Balance Sheet", node: <BalanceSheet /> },
+      { label: "Your month in five insights", page: 1, node: <FiveInsights /> },
+      { label: "Statement of Profit & Loss", page: 5, node: <ProfitAndLoss /> },
+      { label: "Balance Sheet", page: 7, node: <BalanceSheet /> },
     ],
     body: (
       <p>
@@ -37,10 +40,11 @@ const groups = [
     id: "money-in-motion",
     tier: "Growth adds",
     title: "Money in Motion",
+    packSize: 3,
     pages: [
-      { label: "Money in Motion — who owes you", node: <MoneyInMotion /> },
-      { label: "Money in Motion — who you owe", node: <WhoYouOwe /> },
-      { label: "The weekly numbers email", node: <WeeklyEmail /> },
+      { label: "Money in Motion — who owes you", page: 1, node: <MoneyInMotion /> },
+      { label: "Money in Motion — who you owe", page: 2, node: <WhoYouOwe /> },
+      { label: "The weekly numbers email", page: 3, node: <WeeklyEmail /> },
     ],
     body: (
       <p>
@@ -59,10 +63,11 @@ const groups = [
     id: "fpa-pack",
     tier: "Insights adds",
     title: "The FP&A pack",
+    packSize: 9,
     pages: [
-      { label: "Your Business Scoreboard", node: <BusinessScoreboard /> },
-      { label: "Budget vs. what actually happened", node: <BudgetVsActual /> },
-      { label: "Rolling 12-month forecast", node: <RollingForecast /> },
+      { label: "Your Business Scoreboard", page: 1, node: <BusinessScoreboard /> },
+      { label: "Budget vs. what actually happened", page: 2, node: <BudgetVsActual /> },
+      { label: "Rolling 12-month forecast", page: 4, node: <RollingForecast /> },
     ],
     body: (
       <p>
@@ -131,7 +136,7 @@ export default function Inbox() {
                 i % 2 === 1 ? "lg:order-1 lg:col-start-1" : ""
               }`}
             >
-              <DocStack pages={g.pages} group={g.title} />
+              <DocStack pages={g.pages} group={g.title} packSize={g.packSize} />
             </div>
           </div>
         ))}

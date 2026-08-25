@@ -17,6 +17,10 @@ const variants = {
   /* outlined, for the navy bands */
   onNavy:
     "border-2 border-navy-600 bg-transparent text-mist hover:border-gold-on-dark hover:text-gold-hover hover:-translate-y-0.5",
+  /* an underlined text link on navy — a deliberate step down in weight, so
+     the closing band reminds rather than competing with the real close */
+  linkOnNavy:
+    "px-2 text-gold-on-dark underline decoration-gold-on-dark/50 decoration-2 underline-offset-[6px] hover:text-gold-hover hover:decoration-gold-hover",
 };
 
 export default function CTAButton({

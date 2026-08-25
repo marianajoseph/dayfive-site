@@ -222,28 +222,53 @@ body {
   border-bottom: 1px dotted color-mix(in srgb, var(--color-ink-500) 45%, transparent);
 }
 
-/* ------------------------------------------------- entrance animations */
+/* ------------------------------------------------------------ motion ---- */
 
-@keyframes rise {
+/* Two moving things on the whole page, both in the hero, and nothing else.
+   The staggered entrance that used to run across the headline, subhead,
+   tagline, buttons and trust strip is gone — five things easing in made the
+   page feel like a deck transition. */
+
+/* The day-5 tile fills gold on load. */
+@keyframes day-five-fill {
   from {
-    opacity: 0;
-    transform: translateY(14px);
+    background-color: transparent;
+    color: var(--color-ink-500);
+    box-shadow: 0 0 0 0 rgb(217 174 82 / 0);
   }
   to {
-    opacity: 1;
-    transform: none;
+    background-color: var(--color-gold-on-dark);
+    color: var(--color-navy-950);
+    box-shadow: 0 0 0 4px rgb(217 174 82 / 0.28);
   }
 }
 
-.rise {
-  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+.day-five {
+  animation: day-five-fill 400ms ease-out 250ms both;
+}
+
+/* The "Reconciling" dot breathes on a slow loop — it is the one thing on the
+   page claiming to be happening right now. */
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.dot-pulse {
+  animation: soft-pulse 2s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .rise {
+  .day-five,
+  .dot-pulse {
     animation: none;
   }
   *,

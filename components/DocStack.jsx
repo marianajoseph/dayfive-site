@@ -18,7 +18,7 @@ const A4 = "1 / 1.4142";
  * On phones the offset page is dropped entirely: one page, full width.
  * Everything in the pack is still reachable through the viewer.
  */
-export default function DocStack({ pages, group }) {
+export default function DocStack({ pages, group, packSize }) {
   const [open, setOpen] = useState(null);
   const closeRef = useRef(null);
   const lastFocused = useRef(null);
@@ -95,7 +95,7 @@ export default function DocStack({ pages, group }) {
           <span aria-hidden="true">→</span>
         </button>
         <p className="text-[0.8125rem] text-ink-500">
-          {pages.length} pages in this pack · watermarked SAMPLE
+          {pages.length} of the {packSize} pages in this pack · watermarked SAMPLE
         </p>
       </div>
 
@@ -108,17 +108,24 @@ export default function DocStack({ pages, group }) {
           className="band-navy fixed inset-0 z-[100] flex flex-col items-center justify-center bg-navy-950/94 p-4 backdrop-blur-sm sm:p-8"
           onClick={close}
         >
+          {/* On a wide screen the page list sits beside the sheet rather than
+              under it. Stacking it cost the sheet ~70px of width for no reason
+              — the modal was 467px wide inside a 1440px viewport. */}
           <div
-            className="flex max-h-full w-full max-w-[min(96vw,calc((100vh-9rem)/1.4142))] flex-col"
+            className="flex max-h-full w-full flex-col items-center gap-5 lg:flex-row lg:items-start lg:justify-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mb-3 flex items-center justify-between gap-4">
-              <p className="min-w-0 truncate text-[1rem] font-medium text-mist">
-                {pages[open].label}
-                <span className="ml-3 text-[0.9rem] text-mist-700">
-                  {open + 1} of {pages.length}
-                </span>
-              </p>
+            <div className="flex w-full min-w-0 flex-col lg:w-[min(70vw,calc((100vh-9rem)/1.4142))]">
+            <div className="mb-3 flex items-end justify-between gap-4">
+              <div className="min-w-0">
+                <p className="truncate text-[1.05rem] font-semibold text-mist">
+                  {pages[open].label}
+                </p>
+                {/* where this sheet actually sits in the real pack */}
+                <p className="mt-0.5 truncate text-[0.85rem] text-mist-700">
+                  Page {pages[open].page} of {packSize} · {group}
+                </p>
+              </div>
               <div className="flex shrink-0 items-center gap-2">
                 <button
                   type="button"
@@ -148,12 +155,43 @@ export default function DocStack({ pages, group }) {
               </div>
             </div>
 
-            <div
-              className="w-full overflow-hidden rounded-md shadow-lift"
-              style={{ aspectRatio: A4 }}
-            >
-              {pages[open].node}
+              <div
+                className="mx-auto w-full max-w-[min(92vw,calc((100vh-13rem)/1.4142))] overflow-hidden rounded-md shadow-lift lg:max-w-none"
+                style={{ aspectRatio: A4 }}
+              >
+                {pages[open].node}
+              </div>
             </div>
+
+            {/* Jump straight to any of the three. Read three pages and you
+                believe the other eleven. */}
+            <nav
+              aria-label="Pages in this sample"
+              className="-mx-1 flex w-full shrink-0 gap-2 overflow-x-auto px-1 pb-1 lg:mx-0 lg:mt-16 lg:w-60 lg:flex-col lg:overflow-visible lg:px-0"
+            >
+              {pages.map((p, i) => (
+                <button
+                  key={p.label}
+                  type="button"
+                  onClick={() => setOpen(i)}
+                  aria-current={i === open ? "true" : undefined}
+                  className={`flex min-h-[2.75rem] shrink-0 items-center gap-2.5 rounded-full border px-4 text-left text-[0.9rem] transition-colors lg:rounded-xl lg:py-2.5 ${
+                    i === open
+                      ? "border-gold-on-dark bg-gold-on-dark/15 font-semibold text-gold-on-dark"
+                      : "border-navy-600 text-mist-600 hover:border-gold-on-dark hover:text-gold-hover"
+                  }`}
+                >
+                  <span className="tnum shrink-0 text-[0.8rem] opacity-70">p.{p.page}</span>
+                  <span className="max-w-[11rem] truncate lg:max-w-none lg:whitespace-normal">
+                    {p.label}
+                  </span>
+                </button>
+              ))}
+              <p className="hidden pt-2 text-[0.8rem] leading-snug text-mist-700 lg:block">
+                Three of the {packSize} pages in this month&rsquo;s pack. Use ← and → to
+                move between them.
+              </p>
+            </nav>
           </div>
         </div>
       )}
