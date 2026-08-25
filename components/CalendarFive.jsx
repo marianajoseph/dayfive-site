@@ -21,7 +21,7 @@ export default function CalendarFive() {
         <div className="flex items-center justify-between">
           <p className="eyebrow text-gold-on-light">Business days</p>
           <span className="flex items-center gap-1.5 text-[0.85rem] font-medium text-ink-500">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-status-good" />
+            <span className="dot-pulse h-2 w-2 rounded-full bg-status-good" />
             Reconciling · 2:14&nbsp;AM
           </span>
         </div>
@@ -48,7 +48,7 @@ export default function CalendarFive() {
                   key={d}
                   className={`tnum relative flex aspect-square items-center justify-center rounded-xl text-[0.95rem] ${
                     isFive
-                      ? "bg-gold-on-dark font-display text-[1.4rem] font-semibold text-navy-950 shadow-[0_0_0_4px_rgba(217,174,82,0.28)]"
+                      ? "day-five font-display text-[1.4rem] font-semibold"
                       : done
                         ? "bg-white font-medium text-ink-600 shadow-soft"
                         : "text-ink-500/45"

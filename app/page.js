@@ -43,14 +43,13 @@ function Hero() {
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-7">
-          <h1 className="rise font-display text-[2.5rem] font-semibold leading-[1.05] tracking-[-0.03em] text-cream sm:text-[3.2rem] lg:text-[4.1rem]">
+          <h1 className="font-display text-[2.5rem] font-semibold leading-[1.05] tracking-[-0.03em] text-cream sm:text-[3.2rem] lg:text-[4.1rem]">
             Your books. Closed by <span className="text-gold-on-dark">day five</span>. Every
             month.
           </h1>
 
           <p
-            className="rise mt-5 max-w-2xl text-lg font-semibold leading-[1.55] text-mist sm:mt-7 sm:text-xl"
-            style={{ animationDelay: "90ms" }}
+            className="mt-5 max-w-2xl text-lg font-semibold leading-[1.55] text-mist sm:mt-7 sm:text-xl"
           >
             DayFive is your fully automated back office. Your bookkeeping runs 24/7 —
             while you sleep, we reconcile — and your monthly close lands by business day
@@ -59,15 +58,13 @@ function Hero() {
           </p>
 
           <p
-            className="rise mt-4 text-[1.15rem] font-bold tracking-[-0.01em] text-gold-on-dark sm:mt-6 sm:text-[1.3rem]"
-            style={{ animationDelay: "160ms" }}
+            className="mt-4 text-[1.15rem] font-bold tracking-[-0.01em] text-gold-on-dark sm:mt-6 sm:text-[1.3rem]"
           >
             Always on. Never late. No meetings needed.
           </p>
 
           <div
-            className="rise mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:items-center"
-            style={{ animationDelay: "230ms" }}
+            className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:items-center"
           >
             <CTAButton location="hero">Get your first close free</CTAButton>
             <CTAButton href="#how-it-works" variant="onNavy" location="hero" arrow={false}>
@@ -77,7 +74,7 @@ function Hero() {
 
         </div>
 
-        <div className="rise lg:col-span-5" style={{ animationDelay: "380ms" }}>
+        <div className="lg:col-span-5">
           <CalendarFive />
         </div>
       </div>
@@ -85,8 +82,7 @@ function Hero() {
       {/* Full width, below the two columns: at 1152px the four chips sit on one
           line with room to spare, so nothing wraps and no separator strands. */}
       <ul
-        className="rise relative mx-auto mt-12 max-w-6xl border-t border-navy-700 pt-6 text-[1rem] text-mist-600 trust-row"
-        style={{ animationDelay: "300ms" }}
+        className="relative mx-auto mt-12 max-w-6xl border-t border-navy-700 pt-6 text-[1rem] text-mist-600 trust-row"
       >
         {trustSignals.map((s) => (
           <li key={s}>{s}</li>
@@ -282,8 +278,11 @@ function FirstClose() {
           That&rsquo;s how confident we are in what lands on day five.
         </p>
 
+        {/* the dominant close on the page */}
         <div className="mt-9 flex justify-center">
-          <CTAButton location="first-close">Start now</CTAButton>
+          <CTAButton location="first-close" className="min-h-[3.75rem] px-10 text-[1.15rem]">
+            Start now
+          </CTAButton>
         </div>
 
         <p className="mx-auto mt-8 max-w-2xl text-[1.05rem] leading-relaxed text-ink-600">
@@ -471,7 +470,14 @@ function FAQ() {
 
       <div className="mt-10 overflow-hidden rounded-3xl bg-white shadow-soft">
         {faqs.map(([q, a], i) => (
-          <details key={q} className={`group ${i > 0 ? "border-t border-cream-200" : ""}`}>
+          /* The first answer is open on load, so the accordion doesn't read as
+             inert. Dividers lifted off the cream hairline, which was reading
+             as a rendering artefact rather than a rule. */
+          <details
+            key={q}
+            open={i === 0}
+            className={`group ${i > 0 ? "border-t border-[rgb(11_26_44_/_0.10)]" : ""}`}
+          >
             <summary className="flex cursor-pointer list-none items-start justify-between gap-5 px-6 py-6 text-left [&::-webkit-details-marker]:hidden sm:px-8">
               <span className="text-[1.15rem] font-bold leading-snug tracking-[-0.015em] text-ink sm:text-[1.25rem]">
                 {q}
@@ -507,8 +513,12 @@ function ClosingBand() {
         <p className="mx-auto mt-6 max-w-xl text-lg font-semibold leading-relaxed text-mist sm:text-xl">
           Onboarded in twenty minutes. First close free. Decide with the evidence in hand.
         </p>
+        {/* A text link, not a fourth gold pill. "Try DayFive with nothing to
+            lose" is the dominant close; this band is the reminder. */}
         <div className="mt-9 flex justify-center">
-          <CTAButton location="footer-cta">Get your first close free</CTAButton>
+          <CTAButton location="footer-cta" variant="linkOnNavy">
+            Get your first close free
+          </CTAButton>
         </div>
       </div>
 

@@ -72,6 +72,18 @@ function Gauge({ item, theme }) {
             strokeWidth="7"
             strokeLinecap="round"
           />
+          {/* the acceptable band, shaded behind the reading */}
+          {item.healthyFrom != null && (
+            <path
+              d={`M8 50 A${R} ${R} 0 0 1 92 50`}
+              fill="none"
+              stroke={s.color}
+              strokeOpacity="0.16"
+              strokeWidth="13"
+              strokeDasharray={`${ARC_LENGTH * (1 - item.healthyFrom)} ${ARC_LENGTH}`}
+              strokeDashoffset={-ARC_LENGTH * item.healthyFrom}
+            />
+          )}
           <path
             d={`M8 50 A${R} ${R} 0 0 1 92 50`}
             fill="none"
@@ -122,7 +134,17 @@ function Gauge({ item, theme }) {
         </div>
       </div>
 
-      <p className="mt-[0.7em] text-[0.78em] leading-snug text-ink-600">{item.note}</p>
+      {item.healthyLabel && (
+        <p className="mt-[0.6em] flex items-center gap-[0.4em] text-[0.7em] font-semibold text-ink-500">
+          <span
+            aria-hidden="true"
+            className="inline-block h-[0.5em] w-[0.9em] rounded-[0.1em]"
+            style={{ background: s.color, opacity: 0.22 }}
+          />
+          {item.healthyLabel}
+        </p>
+      )}
+      <p className="mt-[0.5em] text-[0.78em] leading-snug text-ink-600">{item.note}</p>
     </div>
   );
 }
