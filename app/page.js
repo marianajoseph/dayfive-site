@@ -398,23 +398,63 @@ const trades = [
   [Blocks, "Childcare"],
 ];
 
+/* Kept as data rather than one long sentence so the separators can be set in
+   gold and given room — six specialisms run together in plain prose read as a
+   wall, and this paragraph is the one a sceptical reader scans for their own
+   line of work. */
+const fluency = [
+  "job costing and percentage-of-completion for project work",
+  "retainers, deposits, and deferred revenue",
+  "inventory and COGS",
+  "payout and processor reconciliation (Stripe, Square, marketplaces)",
+  "class and location tracking for multi-site operations",
+  "cash or accrual, and the switch between them when your business outgrows one",
+];
+
 function WhoWeServe() {
   return (
     <Section tone="tint" divider>
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
         <div>
           <Eyebrow icon={People}>Who we serve</Eyebrow>
-          {/* Sans, not serif: this is a paragraph, not a headline. */}
+          {/* Sans, not serif: this is a paragraph, not a headline.
+
+              Three paragraphs, each opening on a bolded phrase. The section
+              answers "is this for me?", which is a question people scan for
+              rather than read for — the three lead-ins are the answer at a
+              glance, and the prose is there for whoever wants it. */}
           <p className="max-w-[64ch] text-xl leading-[1.6] text-ink-600">
-            Service businesses from $300K to $5M in revenue: contractors, agencies,
-            e-commerce, healthcare practices,{" "}
             <strong className="font-bold text-ink">
-              and childcare centers — our specialty.
-            </strong>
+              Any business that runs on its numbers
+            </strong>{" "}
+            — which is every business. Contractors, agencies, e-commerce, healthcare
+            practices, restaurants, logistics, professional services, nonprofits,
+            childcare centers — solo operators to companies with a full finance stack.
+            If you have transactions, we can run your back office; if you already have
+            systems and a bookkeeper you love, we can still be your FP&amp;A department
+            — budgets, forecasts, variance analysis, and a scoreboard — on top of
+            whatever you run today.
           </p>
+
           <p className="mt-5 max-w-[64ch] text-lg leading-relaxed text-ink-600">
-            (We speak Brightwheel, tuition billing, CCAP, and district UPK contracts
-            fluently.)
+            <strong className="font-bold text-ink">Any starting point.</strong> Shoebox
+            of receipts, tidy QuickBooks, sprawling NetSuite: we meet your books where
+            they are, in your system or ours.
+          </p>
+
+          <p className="mt-5 max-w-[64ch] text-lg leading-relaxed text-ink-600">
+            <strong className="font-bold text-ink">Fluency where it counts:</strong>{" "}
+            {fluency.map((item, i) => (
+              <span key={item}>
+                {i > 0 && (
+                  <span aria-hidden="true" className="px-1.5 text-gold-on-light">
+                    ·
+                  </span>
+                )}
+                {item}
+              </span>
+            ))}
+            . Whatever your industry calls its numbers, we speak it.
           </p>
 
           <ul className="mt-10 flex flex-wrap items-start gap-x-6 gap-y-6">
@@ -429,6 +469,17 @@ function WhoWeServe() {
                 </span>
               </li>
             ))}
+
+            {/* Sixth slot. The row now says the list is open, so the copy no
+                longer has to. Dashed, so it reads as an invitation rather than
+                a sixth category, and held to the icons' 34px so every label
+                below keeps its shared baseline. */}
+            <li className="flex min-w-[5rem] flex-col items-center text-center">
+              <span className="flex h-[34px] items-center rounded-full border border-dashed border-gold-on-light px-3.5 text-[0.95rem] font-semibold text-gold-on-light">
+                + yours
+              </span>
+              <span aria-hidden="true" className="mt-2 flex h-10 items-start" />
+            </li>
           </ul>
         </div>
 
