@@ -71,8 +71,11 @@ To go live: paste your provider's snippet at the `ANALYTICS SLOT` comment in
 
 ## Before launch
 
-- Set `NEXT_PUBLIC_SITE_URL` to the real domain (Vercel → Settings → Environment
-  Variables) so canonical URLs and the OG image resolve correctly.
+- The production domain is `https://getdayfive.com`, hard-coded as the fallback
+  in `app/layout.js` and used for canonical URLs, the OG image and the JSON-LD.
+  `NEXT_PUBLIC_SITE_URL` overrides it if set in Vercel — nothing sets it today,
+  so if you add it, keep it in step with that fallback or the two will disagree.
+- `dayfivebooks.com` is a redirect-only domain pointing at `getdayfive.com`.
 - Replace `/start` with the real Stripe checkout.
 - The financial figures are illustrative samples for a fictional client, and the
   footer says so. Keep that disclosure if you keep the mockups.

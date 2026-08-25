@@ -392,7 +392,7 @@ export function WeeklyEmail() {
       <div className={`p-[1.1em] ${PANEL}`}>
         <div className="border-b border-cream-200 pb-[0.7em]">
           <p className="text-[0.72em] uppercase tracking-[0.12em] text-ink-500">
-            From: DayFive &lt;weekly@dayfive.co&gt;
+            From: DayFive &lt;weekly@getdayfive.com&gt;
           </p>
           <p className="mt-[0.2em] text-[1.15em] font-bold tracking-[-0.02em] text-ink">
             {weekly.subject}

@@ -132,10 +132,10 @@ const steps = [
       <>
         Email receipts to{" "}
         <a
-          href="mailto:docs@dayfive.co"
+          href="mailto:docs@getdayfive.com"
           className="font-semibold text-gold-on-light underline decoration-gold-on-dark decoration-2 underline-offset-4"
         >
-          docs@dayfive.co
+          docs@getdayfive.com
         </a>
         . Snap photos of invoices. Or change nothing — if you already use QuickBooks,
         Xero, or NetSuite, we work inside YOUR system. Shoebox or ERP, we swallow it all.
@@ -577,10 +577,10 @@ function ClosingBand() {
           {/* py-3 keeps every footer link at a 44px tap target */}
           <div className="flex flex-col text-[1rem] text-mist-600 sm:items-end">
             <a
-              href="mailto:docs@dayfive.co"
+              href="mailto:docs@getdayfive.com"
               className="inline-flex min-h-[2.75rem] items-center transition-colors hover:text-gold-hover"
             >
-              docs@dayfive.co
+              docs@getdayfive.com
             </a>
             <div className="flex gap-6">
               <a
