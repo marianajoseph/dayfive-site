@@ -215,10 +215,6 @@ function HowItWorks() {
             />
           </div>
         </div>
-        <figcaption className="mt-4 text-[0.95rem] leading-relaxed text-ink-500">
-          The paperwork he already does. Invoices like this one are the mess he
-          forwards — and the last of it he ever has to touch.
-        </figcaption>
       </figure>
     </Section>
   );
