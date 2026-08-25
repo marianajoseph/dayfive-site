@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "DayFive — your books, closed by day five, every month. Automated bookkeeping service in NJ.";
+  "DayFive — your books, closed by day five, every month. Automated bookkeeping and FP&A.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -93,8 +93,8 @@ export default function OpengraphImage() {
             Your books. Closed by day five. Every month.
           </div>
           <div style={{ display: "flex", fontSize: 28, color: INK_600, maxWidth: 880 }}>
-            Bookkeeping for New Jersey service businesses. Clean numbers and five
-            plain-English insights, by business day 5.
+            Automated bookkeeping and FP&amp;A. Clean numbers and five plain-English
+            insights, by business day 5.
           </div>
         </div>
 

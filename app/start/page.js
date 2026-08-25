@@ -6,7 +6,7 @@ import { Check, EnvelopeSpark } from "@/components/Icons";
 export const metadata = {
   title: "Get started",
   description:
-    "Onboarding for DayFive — bookkeeping for New Jersey service businesses — opens shortly. Leave your email and we'll write to you the moment it does.",
+    "Onboarding for DayFive — automated bookkeeping and FP&A — opens shortly. Leave your email and we'll write to you the moment it does.",
   robots: { index: false, follow: true },
 };
 
