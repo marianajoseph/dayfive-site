@@ -121,15 +121,19 @@ function Gauge({ item, theme }) {
           {item.maxLabel}
         </span>
 
-        {/* figure + unit share a baseline, unit at 40% of the figure */}
-        <div className="absolute inset-x-0 bottom-[1.5em] flex items-baseline justify-center">
+        {/* Figure + unit share a baseline, unit at 40% of the figure
+            (0.88 / 2.2). The gap sits on the flex container, not as a margin on
+            the unit: an em margin there resolves against the unit's own 0.88em,
+            so it came out at ~2.7px and "4.2" and "months" collided. On the
+            container it resolves against the gauge's font-size, making 0.37em a
+            true 4px at the size these render — and it stays 4px-equivalent as
+            the container query scales the sheet up. */}
+        <div className="absolute inset-x-0 bottom-[1.5em] flex items-baseline justify-center gap-[0.37em]">
           <span className="tnum font-display text-[2.2em] font-semibold leading-none tracking-[-0.03em] text-ink">
             {item.value}
           </span>
           {item.unit && (
-            <span className="ml-[0.28em] text-[0.88em] font-medium text-ink-600">
-              {item.unit}
-            </span>
+            <span className="text-[0.88em] font-medium text-ink-600">{item.unit}</span>
           )}
         </div>
       </div>
