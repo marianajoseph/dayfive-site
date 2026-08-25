@@ -18,11 +18,12 @@ const manrope = Manrope({
 // The live address. Used for canonical URLs and to build the absolute URL of
 // the OG image, so it must be the address people actually visit.
 //
-// Setting NEXT_PUBLIC_SITE_URL in Vercel overrides this — but it isn't
-// required. When dayfive.co is pointed at this site, change the fallback below
-// to "https://dayfive.co" and push; that is the whole job.
+// Setting NEXT_PUBLIC_SITE_URL in Vercel overrides this. Nothing sets it today,
+// so the fallback below is what ships — which is why it has to be the real
+// domain and not the vercel.app one. If that variable is ever added in Vercel,
+// it wins, so keep the two in step.
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://dayfive-site.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://getdayfive.com";
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -87,7 +88,7 @@ const jsonLd = {
   description:
     "Automated bookkeeping and FP&A. Monthly close delivered by business day 5 with five plain-English insights.",
   url: SITE_URL,
-  email: "docs@dayfive.co",
+  email: "docs@getdayfive.com",
   areaServed: { "@type": "Country", name: "United States" },
   address: { "@type": "PostalAddress", addressCountry: "US" },
   priceRange: "$450–$1,800 per month",

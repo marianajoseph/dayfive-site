@@ -75,10 +75,10 @@ export default function StartPage() {
         <p>
           Questions before you sign up? Write to{" "}
           <a
-            href="mailto:docs@dayfive.co"
+            href="mailto:docs@getdayfive.com"
             className="font-semibold text-gold-on-light underline decoration-gold-on-dark decoration-2 underline-offset-4"
           >
-            docs@dayfive.co
+            docs@getdayfive.com
           </a>{" "}
           — you&rsquo;ll get a written answer, usually within hours.
         </p>
