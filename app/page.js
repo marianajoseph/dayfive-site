@@ -213,16 +213,17 @@ function AlwaysOn() {
 
           {/* The client's side of the promise: his workday, his phone, his
               numbers arriving — sitting opposite the 11:04pm exchange.
-              Cropped off the portrait original to a 4:3 landscape and warmed
-              a touch so the orange sits with the gold rather than against it. */}
+              Cropped right of centre so he holds the frame with the tool chest
+              and oil bottles still reading behind him, and warmed a little so
+              the blue coveralls don't pull the section cold against the cream. */}
           <figure className="mt-10 overflow-hidden rounded-3xl shadow-card">
             <div className="relative aspect-[4/3] w-full bg-cream-tint">
               <Image
                 src="/worker-checking-phone.jpg"
-                alt="A worker in a well-worn hi-vis jacket sits on a bench in low afternoon sun, absorbed in reading something on his phone."
+                alt="A mechanic in coveralls stands in his workshop reading something on his phone, a tool chest and oil bottles on the bench behind him."
                 fill
                 sizes="(min-width: 1024px) 44vw, 100vw"
-                className="object-cover object-[38%_35%] [filter:saturate(1.04)_contrast(1.02)_sepia(0.06)]"
+                className="object-cover object-[62%_center] [filter:saturate(1.03)_contrast(1.02)_sepia(0.08)]"
               />
             </div>
           </figure>
