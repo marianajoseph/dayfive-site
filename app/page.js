@@ -338,22 +338,30 @@ function FirstClose() {
   );
 }
 
-/* ────────────────────────────────────────────────────── no meetings ─── */
+/* ─────────────────────────────────────────────── always on, included ─── */
 
-function NoMeetings() {
+function AlwaysIncluded() {
   return (
     <Section divider>
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-6">
-          <Eyebrow icon={CalendarStruck}>
-            Why you&rsquo;ll never need a meeting
-          </Eyebrow>
-          <SectionTitle>Because meetings are how the old firms bill you.</SectionTitle>
+          {/* Every section on the page carries an eyebrow, so this one keeps
+              its label and its struck calendar — the icon still reads right,
+              since the promise is now "no appointment" rather than "no call".
+              The label is lifted from the closing box below rather than
+              invented, so the section says one thing three times over. */}
+          <Eyebrow icon={CalendarStruck}>Ask us anything</Eyebrow>
+          <SectionTitle>Always on. Always included.</SectionTitle>
           <p className="mt-7 text-xl leading-relaxed text-ink-600">
-            Everything DayFive delivers arrives in writing — clear enough that no call is
-            needed. You get your evenings back; nobody gets a calendar invite. Real people
-            review everything behind the scenes, and if a question ever needs one, your
-            answer still arrives in writing — usually within hours, often within minutes.
+            The old firms give you one hour a month, scheduled two weeks out, billed by
+            the minute. DayFive gives you all the hours. Ask anything, any day, any time
+            — &ldquo;can I afford a second van?&rdquo;, &ldquo;why did materials
+            jump?&rdquo; — and get a real answer from your actual numbers, usually within
+            hours, often within minutes. No appointment, no clock running, no invoice for
+            talking to us.{" "}
+            <strong className="font-bold text-ink">
+              Questions aren&rsquo;t billable events here; they&rsquo;re the service.
+            </strong>
           </p>
         </div>
 
@@ -366,13 +374,14 @@ function NoMeetings() {
           <div className="rounded-3xl border-2 border-dashed border-cream-300 p-7">
             <p className="eyebrow text-ink-500">The old way</p>
             <p className="mt-3 text-xl leading-relaxed text-ink-600">
-              hourly bills, three-week closes, &ldquo;let&rsquo;s hop on a call.&rdquo;
+              hourly bills, three-week closes, &ldquo;let&rsquo;s find a time next
+              week.&rdquo;
             </p>
           </div>
           <div className="rounded-3xl bg-white p-7 shadow-card ring-2 ring-gold-on-dark">
             <p className="eyebrow text-gold-on-light">DayFive</p>
             <p className="mt-3 font-display text-[1.45rem] font-semibold leading-snug tracking-[-0.025em] text-ink">
-              flat price, day-five close, already answered.
+              flat price, day-five close, ask us anything — it&rsquo;s already included.
             </p>
           </div>
         </div>
@@ -642,7 +651,7 @@ export default function Home() {
         <AlwaysOn />
         <Pricing />
         <FirstClose />
-        <NoMeetings />
+        <AlwaysIncluded />
         <WhoWeServe />
         <About />
         <FAQ />
