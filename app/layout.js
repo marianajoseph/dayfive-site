@@ -28,20 +28,23 @@ export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
-      "DayFive — Automated Bookkeeping Service NJ | Your Books Closed by Day Five",
+      "DayFive — Automated Bookkeeping & FP&A | Your Books Closed by Day Five",
     template: "%s · DayFive",
   },
   description:
-    "DayFive is an automated bookkeeping service in NJ for service businesses. Your monthly close lands by business day 5 with five plain-English insights. Flat monthly price, no meetings, first close free.",
+    "DayFive is an automated bookkeeping and FP&A service for small businesses. Your monthly close lands by business day 5 with five plain-English insights. Flat monthly price, no meetings, first close free.",
+  // Deliberately national and capability-led. The page qualifies its market by
+  // what a business has (transactions) rather than where it is, so geographic
+  // and single-vertical terms were pulling against the copy they sit on.
   keywords: [
-    "automated bookkeeping service NJ",
-    "bookkeeping service New Jersey",
-    "monthly close",
+    "automated bookkeeping service",
     "outsourced bookkeeping",
-    "small business accounting NJ",
+    "virtual bookkeeping service",
+    "monthly close",
+    "catch-up bookkeeping",
+    "small business accounting",
     "AI bookkeeping",
     "FP&A for small business",
-    "childcare center bookkeeping",
   ],
   applicationName: "DayFive",
   authors: [{ name: "DayFive" }],
@@ -53,14 +56,14 @@ export const metadata = {
     siteName: "DayFive",
     title: "Your books. Closed by day five. Every month.",
     description:
-      "An automated bookkeeping service in NJ. Clean financials plus five ranked, plain-English insights by business day 5 — every month. First close free.",
+      "An automated bookkeeping and FP&A service. Clean financials plus five ranked, plain-English insights by business day 5 — every month. First close free.",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
     title: "Your books. Closed by day five. Every month.",
     description:
-      "An automated bookkeeping service in NJ. Clean financials plus five ranked insights by business day 5. First close free.",
+      "An automated bookkeeping and FP&A service. Clean financials plus five ranked insights by business day 5. First close free.",
   },
   robots: {
     index: true,
@@ -82,11 +85,11 @@ const jsonLd = {
   "@type": "ProfessionalService",
   name: "DayFive",
   description:
-    "Automated bookkeeping service in NJ. Monthly close delivered by business day 5 with five plain-English insights.",
+    "Automated bookkeeping and FP&A. Monthly close delivered by business day 5 with five plain-English insights.",
   url: SITE_URL,
   email: "docs@dayfive.co",
-  areaServed: { "@type": "State", name: "New Jersey" },
-  address: { "@type": "PostalAddress", addressRegion: "NJ", addressCountry: "US" },
+  areaServed: { "@type": "Country", name: "United States" },
+  address: { "@type": "PostalAddress", addressCountry: "US" },
   priceRange: "$450–$1,800 per month",
   hasOfferCatalog: {
     "@type": "OfferCatalog",

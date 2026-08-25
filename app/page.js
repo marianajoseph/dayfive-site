@@ -448,6 +448,7 @@ function WhoWeServe() {
           <ul className="flex flex-col gap-4">
             {[
               "Bank-level encryption in transit and at rest",
+              "Professional liability insurance on every engagement",
               "Your data never trains AI models or leaves our controlled pipeline",
               "Every automated entry carries an audit trail",
               "Reviewed under treasury-department standards",
