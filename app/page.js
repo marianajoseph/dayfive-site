@@ -213,17 +213,17 @@ function AlwaysOn() {
 
           {/* The client's side of the promise: his workday, his phone, his
               numbers arriving — sitting opposite the 11:04pm exchange.
-              Cropped right of centre so he holds the frame with the tool chest
-              and oil bottles still reading behind him, and warmed a little so
-              the blue coveralls don't pull the section cold against the cream. */}
-          <figure className="mt-10 overflow-hidden rounded-3xl shadow-card">
-            <div className="relative aspect-[4/3] w-full bg-cream-tint">
+              Held to 380px and cropped 4:5 rather than run full-width: the
+              source file is 408px wide, so a wider slot would visibly soften
+              it. Reads as a deliberate portrait at this size. */}
+          <figure className="mt-10 max-w-[380px] overflow-hidden rounded-3xl shadow-card">
+            <div className="relative aspect-[4/5] w-full bg-cream-tint">
               <Image
-                src="/worker-checking-phone.jpg"
-                alt="A mechanic in coveralls stands in his workshop reading something on his phone, a tool chest and oil bottles on the bench behind him."
+                src="/tradesperson-checking-phone.jpg"
+                alt="A tradesperson in work overalls stands in a utility room, frowning slightly as he reads something on his phone."
                 fill
-                sizes="(min-width: 1024px) 44vw, 100vw"
-                className="object-cover object-[62%_center] [filter:saturate(1.03)_contrast(1.02)_sepia(0.08)]"
+                sizes="380px"
+                className="object-cover object-[50%_28%] [filter:saturate(0.97)_contrast(1.02)]"
               />
             </div>
           </figure>
