@@ -9,7 +9,6 @@ const field =
 
 export default function EmailCapture() {
   const [email, setEmail] = useState("");
-  const [business, setBusiness] = useState("");
   const [company, setCompany] = useState(""); // honeypot
   const [state, setState] = useState("idle"); // idle | sending | done | error
   const [error, setError] = useState("");
@@ -25,7 +24,7 @@ export default function EmailCapture() {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, business, company, source: "start-page" }),
+        body: JSON.stringify({ email, company, source: "start-page" }),
       });
       const data = await res.json().catch(() => ({}));
 
@@ -82,28 +81,6 @@ export default function EmailCapture() {
           onChange={(e) => setEmail(e.target.value)}
           aria-invalid={state === "error"}
           aria-describedby={state === "error" ? "capture-error" : undefined}
-          className={field}
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="business"
-          className="mb-2 block text-[0.85rem] font-bold uppercase tracking-[0.12em] text-ink-600"
-        >
-          Business name{" "}
-          <span className="font-medium normal-case tracking-normal text-ink-500">
-            (optional)
-          </span>
-        </label>
-        <input
-          id="business"
-          name="business"
-          type="text"
-          autoComplete="organization"
-          placeholder="Riverside Plumbing LLC"
-          value={business}
-          onChange={(e) => setBusiness(e.target.value)}
           className={field}
         />
       </div>
