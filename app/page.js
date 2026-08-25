@@ -586,8 +586,8 @@ function ClosingBand() {
           <div>
             <Logo tone="light" />
             <p className="mt-3 max-w-sm text-[1rem] leading-relaxed text-mist-600">
-              Bookkeeping for New Jersey service businesses. Your monthly close, by
-              business day five.
+              Automated bookkeeping and FP&amp;A. Your monthly close, by business day
+              five.
             </p>
           </div>
 
