@@ -25,7 +25,7 @@ export default function StartPage() {
         </Link>
         <Link
           href="/"
-          className="py-2 text-[1rem] font-medium text-ink-600 transition-colors hover:text-gold-700"
+          className="py-2 text-[1rem] font-medium text-ink-600 transition-colors hover:text-gold-on-light"
         >
           ← Back to the site
         </Link>
@@ -34,14 +34,14 @@ export default function StartPage() {
       <div className="mx-auto flex w-full max-w-5xl flex-1 items-center py-12 sm:py-20">
         <div className="grid w-full items-start gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
-            <p className="mb-5 flex items-center gap-3 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-gold-700">
-              <EnvelopeSpark size={24} className="text-gold-600" />
+            <p className="mb-5 flex items-center gap-3 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-gold-on-light">
+              <EnvelopeSpark size={24} className="text-gold-on-light" />
               Almost there
             </p>
 
             <h1 className="font-display text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] text-ink sm:text-[3rem]">
               Onboarding opens shortly —{" "}
-              <span className="text-gold-700">leave your email</span>
+              <span className="text-gold-on-light">leave your email</span>
             </h1>
 
             <p className="mt-6 max-w-lg text-xl leading-relaxed text-ink-600">
@@ -53,7 +53,7 @@ export default function StartPage() {
             <ul className="mt-9 flex flex-col gap-5 border-t border-cream-200 pt-8">
               {promises.map(([title, body]) => (
                 <li key={title} className="flex gap-4">
-                  <Check size={22} className="mt-1 shrink-0 text-gold-600" />
+                  <Check size={22} className="mt-1 shrink-0 text-gold-on-light" />
                   <span>
                     <strong className="block text-[1.15rem] font-bold tracking-[-0.015em] text-ink">
                       {title}
@@ -71,12 +71,12 @@ export default function StartPage() {
         </div>
       </div>
 
-      <footer className="mx-auto w-full max-w-5xl border-t border-cream-200 pt-6 text-[1rem] text-ink-500">
+      <footer className="mx-auto w-full max-w-5xl border-t border-cream-200 pt-6 text-[1rem] text-ink-600">
         <p>
           Questions before you sign up? Write to{" "}
           <a
             href="mailto:docs@dayfive.co"
-            className="font-semibold text-gold-700 underline decoration-gold-500 decoration-2 underline-offset-4"
+            className="font-semibold text-gold-on-light underline decoration-gold-on-dark decoration-2 underline-offset-4"
           >
             docs@dayfive.co
           </a>{" "}

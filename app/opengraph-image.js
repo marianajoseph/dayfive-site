@@ -8,28 +8,26 @@ export const contentType = "image/png";
 const CREAM = "#f7f3ea";
 const CREAM_300 = "#dbcfb7";
 const INK = "#0e1c31";
-const INK_600 = "#4a5768";
-const GOLD = "#a67a1e";
-const GOLD_TEXT = "#8a6510";
+const INK_600 = "#36434f";
+const GOLD_ON_DARK = "#d9ae52";
+const GOLD_TEXT = "#8a6a20";
 const NAVY = "#081426";
 
-/** The mark, at OG scale — same geometry, stroke scaled with it. */
-function MarkPaths({ scale = 1, color = GOLD }) {
+/** The solid tile mark — the same asset the nav and favicon use. */
+function MarkPaths({ scale = 1 }) {
   return (
-    <svg
-      width={32 * scale}
-      height={32 * scale}
-      viewBox="0 0 32 32"
-      fill="none"
-      stroke={color}
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M11 3.2v3.6" />
-      <path d="M21 3.2v3.6" />
-      <rect x="3" y="6.8" width="26" height="22.2" rx="5" />
-      <path d="M19.3 12.4H12.7v4.2H16a2.8 2.8 0 1 1-2.5 4" />
+    <svg width={32 * scale} height={32 * scale} viewBox="0 0 32 32">
+      <rect width="32" height="32" rx="7" fill={GOLD_ON_DARK} />
+      <g transform="translate(16 16) scale(1.63) translate(-16 -17.3)">
+        <path
+          d="M19.3 12.4H12.7v4.2H16a2.8 2.8 0 1 1-2.5 4"
+          fill="none"
+          stroke={NAVY}
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
     </svg>
   );
 }

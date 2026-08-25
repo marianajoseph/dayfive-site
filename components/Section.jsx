@@ -1,16 +1,15 @@
-export function Eyebrow({ children, tone = "dark", icon = null, className = "" }) {
-  const color = tone === "light" ? "text-gold-400" : "text-gold-700";
-  const rule = tone === "light" ? "bg-gold-400/60" : "bg-gold-600/50";
+/**
+ * One ornament for every eyebrow on the page: icon + label, 8px gap, 13px,
+ * 0.14em tracking. `icon` is a required component — an eyebrow without one
+ * breaks the system, which is why some previously carried a rule, some an
+ * icon, and the Scoreboard's carried neither.
+ */
+export function Eyebrow({ children, icon: Ornament, tone = "dark", className = "" }) {
+  const color = tone === "light" ? "text-gold-on-dark" : "text-gold-on-light";
 
   return (
-    <p
-      className={`mb-5 flex items-center gap-3 text-[0.8rem] font-bold uppercase tracking-[0.16em] ${color} ${className}`}
-    >
-      {icon ? (
-        <span className="shrink-0">{icon}</span>
-      ) : (
-        <span aria-hidden="true" className={`h-px w-7 ${rule}`} />
-      )}
+    <p className={`eyebrow mb-5 ${color} ${className}`}>
+      <Ornament size={20} className="shrink-0" />
       {children}
     </p>
   );
@@ -52,7 +51,9 @@ export default function Section({
   return (
     <section
       id={id}
-      className={`relative scroll-mt-24 px-5 py-16 sm:px-8 sm:py-24 lg:py-32 ${bands[tone]} ${className}`}
+      /* One scale, no per-section overrides: 72px top and bottom at ≤768px,
+         120px above that. */
+      className={`relative scroll-mt-24 px-5 py-18 sm:px-8 md:py-30 ${bands[tone]} ${className}`}
     >
       {divider && (
         <div

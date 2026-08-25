@@ -18,13 +18,15 @@ import {
   weekly,
 } from "@/lib/sample-data";
 
+/* `gold` is the brand accent on cream; the rest are the semantic status
+   colours, which are deliberately nowhere near it. */
 const TONE_COLOR = {
-  gold: "#a67a1e",
-  amber: "#96610f",
-  green: "#35785a",
-  ok: "#35785a",
-  warn: "#96610f",
-  bad: "#a8452a",
+  gold: "#8a6a20",
+  amber: "#b4531b",
+  green: "#2e6f4e",
+  ok: "#2e6f4e",
+  warn: "#b4531b",
+  bad: "#9b2c22",
 };
 
 /** A tinted panel on the white sheet — used for callouts and totals. */
@@ -123,7 +125,7 @@ export function ProfitAndLoss() {
         indent
       />
 
-      <div className="mt-[0.5em] rounded-[0.35em] bg-gold-500/15 px-[0.7em]">
+      <div className="mt-[0.5em] rounded-[0.35em] bg-gold-on-dark/15 px-[0.7em]">
         <TotalRow label="Net income" values={pnl.netIncome.map(money)} heavy />
         <Row label="Net margin" values={pnl.netMargin} muted />
       </div>
@@ -177,7 +179,7 @@ export function BalanceSheet() {
       ))}
       <TotalRow label="Total member's equity" values={[usd(b.equityTotal)]} />
 
-      <div className="mt-[0.45em] rounded-[0.35em] bg-gold-500/15 px-[0.7em]">
+      <div className="mt-[0.45em] rounded-[0.35em] bg-gold-on-dark/15 px-[0.7em]">
         <TotalRow
           label="Total liabilities & equity"
           values={[usd(b.liabilitiesAndEquityTotal)]}
@@ -205,7 +207,7 @@ export function MoneyInMotion() {
       subtitle={`Accounts receivable aging · ${client.periodShort}`}
       pageNo="1 of 3"
     >
-      <div className="flex items-end justify-between rounded-[0.4em] bg-gold-500/15 px-[1em] py-[0.75em]">
+      <div className="flex items-end justify-between rounded-[0.4em] bg-gold-on-dark/15 px-[1em] py-[0.75em]">
         <div>
           <p className="text-[0.74em] font-bold uppercase tracking-[0.12em] text-ink-600">
             Owed to you
@@ -286,7 +288,7 @@ export function MoneyInMotion() {
         ))}
       </div>
 
-      <p className="mt-auto rounded-[0.35em] border-l-[0.22em] border-gold-500 bg-cream px-[0.85em] py-[0.6em] text-[0.82em] leading-snug text-ink">
+      <p className="mt-auto rounded-[0.35em] border-l-[0.22em] border-gold-on-dark bg-cream px-[0.85em] py-[0.6em] text-[0.82em] leading-snug text-ink">
         <strong className="font-bold">One thing to do:</strong> call Johnson Property
         Group&rsquo;s AP contact this week — two emails have gone unanswered. The call
         script is on page 2. Everything else we&rsquo;ll keep chasing for you.
@@ -371,7 +373,7 @@ export function WhoYouOwe() {
         needed; we&rsquo;ll write to you if that number moves.
       </p>
 
-      <p className="mt-auto rounded-[0.35em] border-l-[0.22em] border-gold-500 bg-cream px-[0.85em] py-[0.6em] text-[0.82em] leading-snug text-ink">
+      <p className="mt-auto rounded-[0.35em] border-l-[0.22em] border-gold-on-dark bg-cream px-[0.85em] py-[0.6em] text-[0.82em] leading-snug text-ink">
         <strong className="font-bold">One thing to do:</strong> approve the Ferguson
         payment before Friday August 8 and keep $427. It is drafted, funded and waiting
         — it needs one click.
@@ -494,7 +496,7 @@ export function BusinessScoreboard() {
         </p>
       </div>
 
-      <p className="mt-auto rounded-[0.35em] border-l-[0.22em] border-gold-500 bg-cream px-[0.85em] py-[0.6em] text-[0.82em] leading-snug text-ink">
+      <p className="mt-auto rounded-[0.35em] border-l-[0.22em] border-gold-on-dark bg-cream px-[0.85em] py-[0.6em] text-[0.82em] leading-snug text-ink">
         Until the web portal ships, the Scoreboard is a page in your monthly pack. When
         it ships, these same three numbers will be live, and you&rsquo;ll be able to ask
         them questions at eleven at night.
@@ -554,7 +556,7 @@ export function BudgetVsActual() {
           <li key={i} className="flex gap-[0.6em] text-[0.84em] leading-snug text-ink-600">
             <span
               aria-hidden="true"
-              className="mt-[0.45em] inline-block h-[0.35em] w-[0.35em] shrink-0 rounded-full bg-gold-600"
+              className="mt-[0.45em] inline-block h-[0.35em] w-[0.35em] shrink-0 rounded-full bg-gold-on-light"
             />
             <span>{n}</span>
           </li>
@@ -682,7 +684,7 @@ export function RollingForecast() {
             Revenue
           </span>
           <span className="flex items-center gap-[0.4em]">
-            <span className="inline-block h-[0.18em] w-[0.9em] rounded-full bg-gold-600" />
+            <span className="inline-block h-[0.18em] w-[0.9em] rounded-full bg-gold-on-light" />
             Cash at month end
           </span>
           <span className="ml-auto tnum">Figures in $000s</span>

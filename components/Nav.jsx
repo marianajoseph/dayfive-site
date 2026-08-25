@@ -17,25 +17,26 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 80);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* At the top the bar floats over the navy hero band; once you scroll it
-     lands on cream and flips to dark type. */
+  /* At the top the bar floats over the navy hero band. Past 80px it lands on
+     cream and needs a real fill and a bottom edge — without them the sample
+     document cards slid under the links. */
   const solid = scrolled || open;
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
         solid
-          ? "border-b border-cream-200 bg-cream/95 backdrop-blur-lg"
+          ? "border-b border-[rgb(11_26_44_/_0.10)] bg-[rgb(247_243_234_/_0.94)] backdrop-blur-[8px]"
           : "border-b border-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:h-[4.5rem] sm:px-8">
+      <div className="mx-auto flex h-[3.75rem] max-w-6xl items-center justify-between px-5 sm:h-[4.5rem] sm:px-8">
         <Link href="/" aria-label="DayFive — home" className="shrink-0 py-2">
           <Logo tone={solid ? "dark" : "light"} />
         </Link>
@@ -46,7 +47,7 @@ export default function Nav() {
               key={href}
               href={href}
               className={`text-[1rem] font-medium transition-colors ${
-                solid ? "text-ink-600 hover:text-gold-700" : "text-mist-600 hover:text-gold-300"
+                solid ? "text-ink-600 hover:text-gold-on-light" : "text-mist-600 hover:text-gold-hover"
               }`}
             >
               {label}

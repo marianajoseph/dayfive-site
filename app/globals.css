@@ -9,7 +9,7 @@
   --color-cream-200: #e9dfcd; /* hairline borders */
   --color-cream-300: #dbcfb7; /* stronger borders */
 
-  /* ---- Navy: body text on cream, and the two dark bands ---------------- */
+  /* ---- Navy: the two dark bands --------------------------------------- */
   --color-navy-950: #050c17;
   --color-navy-900: #081426;
   --color-navy-850: #0b1c33;
@@ -17,27 +17,30 @@
   --color-navy-700: #1a3557;
   --color-navy-600: #27486f;
 
-  /* Text on cream. Every one of these clears AA (4.5:1) on --color-cream. */
-  --color-ink: #0e1c31; /* 15.4:1 — body + headlines */
-  --color-ink-600: #4a5768; /* 6.6:1  — secondary text */
-  --color-ink-500: #626d7e; /* 4.7:1  — the lightest text we allow */
+  /* ---- Text on cream --------------------------------------------------- */
+  --color-ink: #0e1c31; /* 15.4:1 — headlines */
+  --color-ink-600: #36434f; /* 9.2:1 cream · 8.4:1 beige — ALL body copy */
+  --color-ink-500: #626d7e; /* 4.7:1 — 13px meta and captions ONLY, never prose */
 
-  /* ---- Gold: the accent, in five jobs ---------------------------------- */
-  --color-gold-300: #eccb8b; /* light accent on navy */
-  --color-gold-400: #e0b45f; /* accent TEXT on navy    — 9.5:1 */
-  --color-gold-500: #d4a03c; /* button + shape fills   — 8.3:1 w/ navy text */
-  --color-gold-600: #a67a1e; /* strokes + icons on cream — 3.5:1 */
-  --color-gold-700: #8a6510; /* accent TEXT on cream   — 4.8:1 */
+  /* ---- Gold: exactly two accent tokens, split by what they sit on ------ */
+  /* Navy bands, button fills, the logo tile. */
+  --color-gold-on-dark: #d9ae52; /* 8.9:1 on navy · 9.5:1 behind a navy label */
+  /* Everything on cream: eyebrows, icons, checkmarks, inline links, rules. */
+  --color-gold-on-light: #8a6a20; /* 4.6:1 on cream */
+  /* Hover state on the navy bands only — not an accent in its own right. */
+  --color-gold-hover: #e8c274;
 
-  /* Text on navy bands. */
+  /* ---- Text on the navy bands ----------------------------------------- */
   --color-mist: #e6edf7; /* 16.7:1 on navy-900 */
   --color-mist-600: #9db0ca; /* 8.3:1 */
   --color-mist-700: #8095b3; /* 6.1:1 */
 
-  /* Status — checked against both cream and white. */
-  --color-status-good: #35785a; /* 4.8:1 on cream, 5.3:1 on white */
-  --color-status-watch: #96610f; /* 4.7:1 on cream, 5.2:1 on white */
-  --color-status-bad: #a8452a; /* 5.3:1 on cream, 5.9:1 on white */
+  /* Status. Deliberately NOT in the gold family — the old amber sat within a
+     few degrees of the brand accent, so "needs attention" read as ornament.
+     Brand gold is never used for status. */
+  --color-status-good: #2e6f4e; /* 5.4:1 on cream, 6.0:1 on white */
+  --color-status-watch: #b4531b; /* 4.5:1 on cream, 5.0:1 on white */
+  --color-status-risk: #9b2c22; /* 6.8:1 on cream, 7.6:1 on white */
 
   --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
@@ -53,7 +56,8 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
+  /* clears the 72px desktop nav */
+  scroll-padding-top: 6rem;
 }
 
 body {
@@ -68,19 +72,19 @@ body {
 }
 
 ::selection {
-  background: var(--color-gold-500);
+  background: var(--color-gold-on-dark);
   color: var(--color-navy-950);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-gold-600);
+  outline: 2px solid var(--color-gold-on-light);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* On the navy bands the focus ring needs to be the light gold instead. */
+/* On the navy bands the focus ring needs the light gold instead. */
 .band-navy :focus-visible {
-  outline-color: var(--color-gold-400);
+  outline-color: var(--color-gold-on-dark);
 }
 
 /* --------------------------------------------------------------- helpers */
@@ -105,7 +109,7 @@ body {
 @utility glow-gold {
   background: radial-gradient(
     70% 60% at 50% 0%,
-    color-mix(in srgb, var(--color-gold-500) 12%, transparent),
+    color-mix(in srgb, var(--color-gold-on-dark) 12%, transparent),
     transparent 72%
   );
 }
@@ -127,56 +131,87 @@ body {
   stroke-linejoin: round;
 }
 
+/* One ornament for every section eyebrow without exception: icon + label,
+   8px gap, 13px, 0.14em tracking. Some previously carried a rule, some an
+   icon, some neither — the inconsistency read as carelessness. */
+@utility eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+/* The hero's trust chips. Separators are ::before, never text nodes — as
+   content they could orphan at the start of a wrapped line and they landed in
+   anyone's copy-paste. Below lg the row becomes a 2×2 grid with no separators
+   at all, so a wrap can't strand one. */
+@utility trust-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1.25rem;
+}
+
+@media (min-width: 64rem) {
+  .trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+
+  .trust-row > li + li::before {
+    content: "·";
+    margin-right: 1.25rem;
+    color: var(--color-navy-600);
+  }
+}
+
 /* ------------------------------------------------ document mockups ------ */
 
 /* Each A4 sheet sizes its own root font from its container width; everything
    inside is in `em`. One component therefore renders identically whether it is
-   thumbnail-sized in the fan or full-bleed in the lightbox. */
+   preview-sized or full-bleed in the lightbox. */
 .doc-shell {
   container-type: inline-size;
 }
 
+/* Sized so the front sheet clears the legibility floor: at the 620px minimum
+   front-page width this is 11.0px, putting body copy at 9.5px and the page
+   headline at 16.6px. Below that the pages are texture, not proof. */
 .doc {
-  font-size: 1.62cqi;
+  font-size: 1.78cqi;
   line-height: 1.45;
 }
 
+/* Exactly one watermark element per page. The negative margin cancels the
+   trailing letter-space, which is what threw the glyphs off-centre and made
+   the word look doubled. */
 .doc-watermark {
   font-size: 6.2em;
-  letter-spacing: 0.26em;
   font-weight: 700;
-  color: color-mix(in srgb, var(--color-ink) 7%, transparent);
-  transform: rotate(-27deg);
+  letter-spacing: 0.35em;
+  margin-right: -0.35em;
+  color: var(--color-ink);
+  opacity: 0.06;
+  transform: rotate(-24deg);
+  transform-origin: center;
+  pointer-events: none;
   user-select: none;
 }
 
-/* The fan of overlapping sheets.
-   Below lg the sheets are a swipeable rail (plain Tailwind on the elements).
-   At lg and up the same DOM becomes an overlapping fan — each sheet reads its
-   resting position from custom properties set inline, so every page is
-   rendered exactly once instead of twice. */
-@media (min-width: 64rem) {
-  .doc-fan {
-    position: relative;
-    display: block;
-    overflow: visible;
-    padding: 0;
-    margin: 0;
-  }
+/* Two sheets, squared up rather than fanned: one front page big enough to
+   read, one offset behind it to say "there is more in the pack". */
+.doc-sheet {
+  cursor: zoom-in;
+  transition: transform 150ms ease-out;
+}
 
-  .doc-fan-item {
-    position: absolute;
-    left: 50%;
-    top: 4%;
-    height: 88%;
-    width: auto;
-    cursor: zoom-in;
-    transform: translate(-50%, 0) translate(var(--tx), var(--ty)) rotate(var(--r))
-      scale(var(--s, 1));
-    filter: brightness(var(--dim, 1));
-    transition:
-      transform 450ms cubic-bezier(0.16, 1, 0.3, 1),
-      filter 300ms ease;
+@media (hover: hover) {
+  .doc-sheet:hover {
+    transform: scale(1.02);
   }
 }
 
