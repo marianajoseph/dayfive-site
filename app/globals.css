@@ -202,6 +202,13 @@ body {
   user-select: none;
 }
 
+/* The offset sheet behind the front page keeps its own watermark, and where
+   the two sheets overlap the pair reads as one doubled, smeared word. Only the
+   front page needs to say SAMPLE — the sheet behind is texture. */
+.doc-behind .doc-watermark {
+  display: none;
+}
+
 /* Two sheets, squared up rather than fanned: one front page big enough to
    read, one offset behind it to say "there is more in the pack". */
 .doc-sheet {

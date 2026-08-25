@@ -1,5 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" rx="7" fill="#d9ae52"/>
+  <!-- calendar tab — two notches cut into the top edge, matching MarkTile -->
+  <rect x="8.96" y="0" width="3" height="6" fill="#081426"/>
+  <rect x="20.04" y="0" width="3" height="6" fill="#081426"/>
   <g transform="translate(16 16) scale(1.63) translate(-16 -17.3)">
     <path d="M19.3 12.4H12.7v4.2H16a2.8 2.8 0 1 1-2.5 4"
           fill="none" stroke="#081426" stroke-width="2"

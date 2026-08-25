@@ -61,42 +61,54 @@ export default function DocStack({ pages, group, packSize }) {
 
   return (
     <>
-      <div className="relative w-full sm:pt-[6.5%]">
-        {/* The page behind — desktop only, and inert to assistive tech since
-            the front page and the button already lead into the same viewer. */}
-        {behind && (
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute left-[16%] top-0 hidden w-[80%] overflow-hidden rounded-md shadow-sheet sm:block"
+      {/* Clearance is padding on the wrapper, not percentage margins on the
+          sheets. The sheets used to be offset by percentages inside the bare
+          column, so the gap to the container edge scaled with the viewport and
+          the outer sheet ran into it — the front page on the right in the close
+          pack, the offset page on the left in the blocks where the grid
+          reverses. A fixed 32px holds whatever the width, and absorbs the 2%
+          hover scale rather than letting it spill. Inside the padded box the
+          front page spans 0–84% and the offset page 16–100%. */}
+      <div className="w-full sm:px-8">
+        <div className="relative w-full sm:pt-[6.5%]">
+          {/* The page behind — desktop only, and inert to assistive tech since
+              the front page and the button already lead into the same viewer.
+              `doc-behind` suppresses its watermark: both sheets carry one, and
+              where they overlap the two marks read as a single doubled word. */}
+          {behind && (
+            <div
+              aria-hidden="true"
+              className="doc-behind pointer-events-none absolute left-[16%] top-0 hidden w-[84%] overflow-hidden rounded-md shadow-sheet sm:block"
+              style={{ aspectRatio: A4 }}
+            >
+              {behind.node}
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={() => openAt(0)}
+            aria-label={`Open ${front.label} at full size`}
+            className="doc-sheet relative block w-full overflow-hidden rounded-md text-left shadow-sheet sm:w-[84%]"
             style={{ aspectRatio: A4 }}
           >
-            {behind.node}
-          </div>
-        )}
+            {front.node}
+          </button>
+        </div>
 
-        <button
-          type="button"
-          onClick={() => openAt(0)}
-          aria-label={`Open ${front.label} at full size`}
-          className="doc-sheet relative block w-full overflow-hidden rounded-md text-left shadow-sheet sm:ml-[4%] sm:w-[80%]"
-          style={{ aspectRatio: A4 }}
-        >
-          {front.node}
-        </button>
-      </div>
-
-      <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 sm:ml-[4%]">
-        <button
-          type="button"
-          onClick={() => openAt(0)}
-          className="inline-flex min-h-[3rem] items-center gap-2 rounded-full border-2 border-cream-300 bg-white px-6 text-[1.05rem] font-semibold text-ink shadow-soft transition-colors hover:border-gold-on-light hover:text-gold-on-light"
-        >
-          Open a page
-          <span aria-hidden="true">→</span>
-        </button>
-        <p className="text-[0.8125rem] text-ink-500">
-          {pages.length} of the {packSize} pages in this pack · watermarked SAMPLE
-        </p>
+        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <button
+            type="button"
+            onClick={() => openAt(0)}
+            className="inline-flex min-h-[3rem] items-center gap-2 rounded-full border-2 border-cream-300 bg-white px-6 text-[1.05rem] font-semibold text-ink shadow-soft transition-colors hover:border-gold-on-light hover:text-gold-on-light"
+          >
+            Open a page
+            <span aria-hidden="true">→</span>
+          </button>
+          <p className="text-[0.8125rem] text-ink-500">
+            {pages.length} of the {packSize} pages in this pack · watermarked SAMPLE
+          </p>
+        </div>
       </div>
 
       {/* ── the viewer ─────────────────────────────────────────────────── */}

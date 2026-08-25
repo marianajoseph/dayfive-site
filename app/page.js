@@ -7,13 +7,9 @@ import Inbox from "@/components/Inbox";
 import Pricing from "@/components/Pricing";
 import Logo from "@/components/Logo";
 import {
-  SignedPage,
-  Shoebox,
-  EnvelopeSpark,
   CalendarStruck,
   Moon,
   Lock,
-  Clock,
   Check,
   Squiggle,
   Route,
@@ -93,9 +89,13 @@ function Hero() {
 function Problem() {
   return (
     <Section inner="max-w-5xl">
-      <Clock size={40} className="mb-7 text-gold-on-light" />
       {/* Stays in the serif — it is a pull quote, not body copy — but drops
-          from ~42px to 32px so it stops competing with the section titles. */}
+          from ~42px to 32px so it stops competing with the section titles.
+
+          The clock that used to sit above it is gone. Every other ornament on
+          the page is an eyebrow icon with a label beside it; this one floated
+          alone, labelled nothing, and left the reader deciding whether it was
+          decoration or a control. */}
       <p className="font-display text-[1.6rem] font-medium leading-[1.3] tracking-[-0.025em] text-ink-600 sm:text-[1.85rem] lg:text-[2rem]">
         Your bookkeeper closes your books three weeks late and tells you nothing.
         <br className="hidden sm:block" /> Your accountant charges by the hour and
@@ -108,25 +108,23 @@ function Problem() {
 
 /* ────────────────────────────────────────────────────── how it works ─── */
 
+/* Each card carries a numbered gold disc; a line icon beside it was a second
+   ornament saying the same thing, and the numbers are what make this a
+   sequence. The struck-calendar glyph that trailed step 1's copy is gone for
+   the same reason — mid-sentence it read as a typo rather than a flourish. */
 const steps = [
   {
     n: "1",
-    icon: SignedPage,
     title: "Order online.",
     body: (
       <>
         Pick a package, sign electronically, connect your bank. Twenty minutes, start to
         finish. No discovery call. No proposal. No calendar links.
-        <CalendarStruck
-          size={30}
-          className="ml-2 inline-block align-[-0.5em] text-gold-on-light"
-        />
       </>
     ),
   },
   {
     n: "2",
-    icon: Shoebox,
     title: "Forward us the mess.",
     body: (
       <>
@@ -144,7 +142,6 @@ const steps = [
   },
   {
     n: "3",
-    icon: EnvelopeSpark,
     title: "Day five: your numbers, explained.",
     body: (
       <>
@@ -169,23 +166,17 @@ function HowItWorks() {
       </div>
 
       <ol className="mt-10 grid gap-6 md:grid-cols-3">
-        {steps.map((s) => {
-          const StepIcon = s.icon;
-          return (
-            <li key={s.n} className="rounded-3xl bg-white p-7 shadow-soft sm:p-8">
-              <div className="flex items-center gap-3.5">
-                <span className="tnum flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold-on-dark text-[1.15rem] font-bold text-navy-950">
-                  {s.n}
-                </span>
-                <StepIcon size={40} className="text-gold-on-light" />
-              </div>
-              <h3 className="mt-5 text-[1.35rem] font-bold tracking-[-0.02em] text-ink">
-                {s.title}
-              </h3>
-              <p className="mt-3 text-lg leading-relaxed text-ink-600">{s.body}</p>
-            </li>
-          );
-        })}
+        {steps.map((s) => (
+          <li key={s.n} className="rounded-3xl bg-white p-7 shadow-soft sm:p-8">
+            <span className="tnum flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold-on-dark text-[1.15rem] font-bold text-navy-950">
+              {s.n}
+            </span>
+            <h3 className="mt-5 text-[1.35rem] font-bold tracking-[-0.02em] text-ink">
+              {s.title}
+            </h3>
+            <p className="mt-3 text-lg leading-relaxed text-ink-600">{s.body}</p>
+          </li>
+        ))}
       </ol>
     </Section>
   );
@@ -221,7 +212,7 @@ function AlwaysOn() {
             <div className="relative aspect-[4/5] w-full bg-cream-tint">
               <Image
                 src="/handyman-checking-phone.jpg"
-                alt="A handyman in a denim shirt and tan overalls stands in his workshop, frowning slightly as he reads something on his phone."
+                alt="A tradesperson in his workshop, checking his numbers on his phone."
                 fill
                 sizes="380px"
                 className="object-cover object-[50%_26%] [filter:saturate(0.92)_contrast(1.01)_sepia(0.05)]"

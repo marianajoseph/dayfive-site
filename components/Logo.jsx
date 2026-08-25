@@ -11,6 +11,12 @@
  * to mush below about 24px, so everything small — nav, favicon, document
  * letterheads, email avatars — uses the tile instead. The 5 is scaled 1.63×
  * about its own optical centre and re-seated on the tile's true centre.
+ *
+ * The tile carries the same calendar tab as the outline, cut into the top edge
+ * as two navy notches — 3 wide, 6 tall, inset 28% from each side. Without them
+ * the small mark was a gold square with a 5 in it and read as nothing in
+ * particular; with them both marks say "calendar" at every size. The notches
+ * clear the numeral: the 5's ink starts at y 8.0 once scaled, they stop at 6.
  */
 
 export function Mark({ size = 32, className = "" }) {
@@ -50,6 +56,9 @@ export function MarkTile({ size = 32, className = "" }) {
       focusable="false"
     >
       <rect width="32" height="32" rx="7" fill="var(--color-gold-on-dark)" />
+      {/* calendar tab — two notches cut into the top edge */}
+      <rect x="8.96" y="0" width="3" height="6" fill="var(--color-navy-900)" />
+      <rect x="20.04" y="0" width="3" height="6" fill="var(--color-navy-900)" />
       <g transform="translate(16 16) scale(1.63) translate(-16 -17.3)">
         <path
           d="M19.3 12.4H12.7v4.2H16a2.8 2.8 0 1 1-2.5 4"

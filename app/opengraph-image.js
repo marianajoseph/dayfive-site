@@ -18,6 +18,9 @@ function MarkPaths({ scale = 1 }) {
   return (
     <svg width={32 * scale} height={32 * scale} viewBox="0 0 32 32">
       <rect width="32" height="32" rx="7" fill={GOLD_ON_DARK} />
+      {/* calendar tab — two notches cut into the top edge, matching MarkTile */}
+      <rect x="8.96" y="0" width="3" height="6" fill={NAVY} />
+      <rect x="20.04" y="0" width="3" height="6" fill={NAVY} />
       <g transform="translate(16 16) scale(1.63) translate(-16 -17.3)">
         <path
           d="M19.3 12.4H12.7v4.2H16a2.8 2.8 0 1 1-2.5 4"
