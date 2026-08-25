@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Nav from "@/components/Nav";
 import CTAButton from "@/components/CTAButton";
 import Section, { Eyebrow, SectionTitle } from "@/components/Section";
@@ -209,6 +210,22 @@ function AlwaysOn() {
             While your old bookkeeper works banker&rsquo;s hours, DayFive works all of
             them.
           </SectionTitle>
+
+          {/* The client's side of the promise: his workday, his phone, his
+              numbers arriving — sitting opposite the 11:04pm exchange.
+              Cropped off the portrait original to a 4:3 landscape and warmed
+              a touch so the orange sits with the gold rather than against it. */}
+          <figure className="mt-10 overflow-hidden rounded-3xl shadow-card">
+            <div className="relative aspect-[4/3] w-full bg-cream-tint">
+              <Image
+                src="/worker-checking-phone.jpg"
+                alt="A worker in a well-worn hi-vis jacket sits on a bench in low afternoon sun, absorbed in reading something on his phone."
+                fill
+                sizes="(min-width: 1024px) 44vw, 100vw"
+                className="object-cover object-[38%_35%] [filter:saturate(1.04)_contrast(1.02)_sepia(0.06)]"
+              />
+            </div>
+          </figure>
         </div>
 
         <div className="lg:col-span-6 lg:pt-14">
