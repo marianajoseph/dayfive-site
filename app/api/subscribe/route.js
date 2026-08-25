@@ -1,58 +1,73 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import os from "node:os";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const LOCAL_STORE = path.join(process.cwd(), "data", "leads.json");
-
 /**
  * Where captured emails go.
  *
- * Locally this is ./data/leads.json — open it in any editor to see the list.
+ * Production: POSTed to a Google Apps Script web app bound to the owner's
+ * Google Sheet. The script appends a row (timestamp, email, source) and
+ * emails a copy. Its URL and a shared token live in Vercel environment
+ * variables — never in this repo.
  *
- * On Vercel the app directory is read-only, so we fall back to the writable
- * temp directory. That file does NOT survive between requests on serverless,
- * so treat production writes as best-effort only: the authoritative record in
- * production is the structured log line below, which you can see in the Vercel
- * dashboard under Logs. Swap `persist()` for a real store (Airtable, Resend
- * audience, Postgres, Google Sheet) when you're ready.
+ * Local development with no webhook configured: appended to ./data/leads.json
+ * so the form stays testable offline. That file is gitignored.
  */
-async function persist(entry) {
-  const targets = [LOCAL_STORE, path.join(os.tmpdir(), "dayfive-leads.json")];
+async function toSheet(entry) {
+  const url = process.env.SHEETS_WEBHOOK_URL;
+  const token = process.env.SHEETS_WEBHOOK_TOKEN;
+  if (!url || !token) return { ok: false, reason: "not-configured" };
 
-  for (const file of targets) {
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, ...entry }),
+      // Apps Script answers with a 302 across to script.googleusercontent.com
+      redirect: "follow",
+    });
+
+    const text = await res.text();
+    let data = {};
     try {
-      // turbopackIgnore comments: these paths are resolved at runtime, not
-      // bundled. Without them the bundler tries to trace them and warns.
-      await fs.mkdir(/*turbopackIgnore: true*/ path.dirname(file), { recursive: true });
-
-      let list = [];
-      try {
-        list = JSON.parse(await fs.readFile(/*turbopackIgnore: true*/ file, "utf8"));
-        if (!Array.isArray(list)) list = [];
-      } catch {
-        list = []; // first write, or an unreadable file
-      }
-
-      if (list.some((l) => l.email === entry.email)) {
-        return { ok: true, file, duplicate: true };
-      }
-
-      list.push(entry);
-      await fs.writeFile(
-        /*turbopackIgnore: true*/ file,
-        `${JSON.stringify(list, null, 2)}\n`,
-        "utf8",
-      );
-      return { ok: true, file, duplicate: false };
+      data = JSON.parse(text);
     } catch {
-      // read-only filesystem — try the next target
+      // non-JSON reply means the script errored or the deployment is wrong
     }
-  }
 
-  return { ok: false };
+    if (!res.ok || data.ok !== true) {
+      return { ok: false, reason: `rejected ${res.status}: ${text.slice(0, 160)}` };
+    }
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, reason: `unreachable: ${e.message}` };
+  }
+}
+
+/** Dev-only fallback so the form works with no network and no credentials. */
+async function toLocalFile(entry) {
+  const file = path.join(process.cwd(), "data", "leads.json");
+  try {
+    await fs.mkdir(/*turbopackIgnore: true*/ path.dirname(file), { recursive: true });
+    let list = [];
+    try {
+      list = JSON.parse(await fs.readFile(/*turbopackIgnore: true*/ file, "utf8"));
+      if (!Array.isArray(list)) list = [];
+    } catch {
+      list = [];
+    }
+    list.push(entry);
+    await fs.writeFile(
+      /*turbopackIgnore: true*/ file,
+      `${JSON.stringify(list, null, 2)}\n`,
+      "utf8",
+    );
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, reason: e.message };
+  }
 }
 
 // Deliberately permissive: catches typos like "a@b" while accepting the odd
@@ -68,7 +83,6 @@ export async function POST(request) {
   }
 
   const email = String(body?.email ?? "").trim().toLowerCase();
-  const business = String(body?.business ?? "").trim().slice(0, 120);
 
   if (!EMAIL.test(email) || email.length > 254) {
     return Response.json(
@@ -84,22 +98,26 @@ export async function POST(request) {
   }
 
   const entry = {
+    timestamp: new Date().toISOString(),
     email,
-    business: business || null,
     source: String(body?.source ?? "start-page").slice(0, 60),
-    at: new Date().toISOString(),
   };
 
-  const result = await persist(entry);
+  let result = await toSheet(entry);
+  if (result.reason === "not-configured") result = await toLocalFile(entry);
 
-  // Structured log — this is the production-safe record of the signup.
-  console.log(`[dayfive:lead] ${JSON.stringify(entry)}`);
-
-  if (!result.ok) {
-    console.warn("[dayfive:lead] could not persist to disk; log line above is the record");
+  if (result.ok) {
+    console.log(`[dayfive:lead] ${JSON.stringify(entry)}`);
+  } else {
+    // The signup is not lost — this line is the recovery record. We still
+    // answer 200: failing the form would lose the address entirely, and a
+    // missing copy in the owner's inbox is the signal that something broke.
+    console.error(
+      `[dayfive:lead:FAILED] ${result.reason} ${JSON.stringify(entry)}`,
+    );
   }
 
-  return Response.json({ ok: true, duplicate: result.duplicate ?? false });
+  return Response.json({ ok: true });
 }
 
 export async function GET() {
