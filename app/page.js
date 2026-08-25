@@ -193,29 +193,31 @@ function HowItWorks() {
         })}
       </ol>
 
-      {/* Step 3, shown instead of described. The screen is our own artwork
-          warped into the photograph, so what he is reading is the insight
-          quoted directly above — not a stock prop carrying invented numbers
-          that fall apart when you look at them. Cropped 14:9 so the handset
-          stays big enough to read in one glance; the file is 2240px, twice
-          the widest slot it can occupy here. The filter pulls the jacket's
-          red back toward brick, so it sits with the cream instead of
-          shouting over it. */}
-      <figure className="mt-12">
+      {/* Ties to step 2, not step 3: what he is holding is an invoice he
+          raised, which is exactly the paperwork he forwards to us.
+
+          Two constraints set the size. The source is 1200x630 and there is
+          no larger one, so a full-width slot would render it soft on retina;
+          held to max-w-3xl it lands near 1.6x instead. That narrower width
+          also keeps the small print on the handset below reading size, which
+          is the right outcome — the numbers on that screen are a stock
+          mock-up and do not add up. Aspect is 40:21, the file's own ratio,
+          so nothing is cropped away. */}
+      <figure className="mx-auto mt-12 max-w-3xl">
         <div className="overflow-hidden rounded-3xl shadow-card">
-          <div className="relative aspect-[14/9] w-full bg-cream-tint">
+          <div className="relative aspect-[40/21] w-full bg-cream-tint">
             <Image
-              src="/day-five-insight-in-hand.jpg"
-              alt="A tradesperson in a red work jacket stands at a job holding his phone. The screen reads: Day 5, insight 1 of 5 — card fees grew 19%, revenue grew 8%, here's the script for that call."
+              src="/tradesperson-invoice-on-phone.webp"
+              alt="Over the shoulder of a tradesperson in a blue work shirt, standing at the open back of his van, holding a phone with an invoice open on it."
               fill
-              sizes="(min-width: 1200px) 1088px, 100vw"
-              className="object-cover [filter:saturate(0.9)_contrast(1.01)_sepia(0.05)]"
+              sizes="(min-width: 768px) 768px, 100vw"
+              className="object-cover [filter:saturate(0.92)_contrast(1.01)_sepia(0.05)]"
             />
           </div>
         </div>
         <figcaption className="mt-4 text-[0.95rem] leading-relaxed text-ink-500">
-          Day five, as it actually arrives: one ranked insight and the next move,
-          on the job, with nobody booking a call about it.
+          The paperwork he already does. Invoices like this one are the mess he
+          forwards — and the last of it he ever has to touch.
         </figcaption>
       </figure>
     </Section>
