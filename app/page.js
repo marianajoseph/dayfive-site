@@ -165,7 +165,7 @@ function HowItWorks() {
     <Section id="how-it-works" tone="tint" divider>
       <div className="max-w-3xl">
         <Eyebrow icon={Route}>How it works</Eyebrow>
-        <SectionTitle>Three steps. None of them a meeting.</SectionTitle>
+        <SectionTitle>Three steps.</SectionTitle>
       </div>
 
       <ol className="mt-10 grid gap-6 md:grid-cols-3">
