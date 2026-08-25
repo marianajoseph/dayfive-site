@@ -5,7 +5,7 @@ import { track } from "@/lib/analytics";
 import { Check } from "./Icons";
 
 const field =
-  "w-full rounded-2xl border-2 border-cream-300 bg-cream px-5 py-4 text-lg text-ink placeholder:text-ink-500/70 transition-colors focus:border-gold-600 focus:outline-none";
+  "w-full rounded-2xl border-2 border-cream-300 bg-cream px-5 py-4 text-lg text-ink placeholder:text-ink-500/70 transition-colors focus:border-gold-on-light focus:outline-none";
 
 export default function EmailCapture() {
   const [email, setEmail] = useState("");
@@ -46,13 +46,13 @@ export default function EmailCapture() {
   if (state === "done") {
     return (
       <div role="status" className="text-center sm:text-left">
-        <Check size={44} className="mx-auto text-gold-600 sm:mx-0" />
+        <Check size={44} className="mx-auto text-gold-on-light sm:mx-0" />
         <p className="mt-4 font-display text-[1.6rem] font-semibold tracking-[-0.03em] text-ink">
           You&rsquo;re on the list.
         </p>
         <p className="mt-3 text-lg leading-relaxed text-ink-600">
           We&rsquo;ll write to{" "}
-          <strong className="font-bold text-gold-700">{email}</strong> the moment
+          <strong className="font-bold text-gold-on-light">{email}</strong> the moment
           onboarding opens — one email, no drip campaign. Want a head start? Reply to it
           with how far behind your books are and we&rsquo;ll quote the catch-up before you
           sign anything.
@@ -123,7 +123,7 @@ export default function EmailCapture() {
       </div>
 
       {state === "error" && (
-        <p id="capture-error" role="alert" className="text-[1rem] font-semibold text-status-bad">
+        <p id="capture-error" role="alert" className="text-[1rem] font-semibold text-status-risk">
           {error}
         </p>
       )}
@@ -131,12 +131,12 @@ export default function EmailCapture() {
       <button
         type="submit"
         disabled={state === "sending"}
-        className="inline-flex min-h-[3.5rem] items-center justify-center rounded-full bg-gold-500 px-8 text-[1.05rem] font-semibold tracking-tight text-navy-950 shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-gold-600 hover:text-cream disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex min-h-[3.5rem] items-center justify-center rounded-full bg-gold-on-dark px-8 text-[1.05rem] font-semibold tracking-tight text-navy-950 shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-gold-on-light hover:text-cream disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {state === "sending" ? "Adding you…" : "Tell me when it opens"}
       </button>
 
-      <p className="text-[1rem] leading-relaxed text-ink-500">
+      <p className="text-[1rem] leading-relaxed text-ink-600">
         One email when onboarding opens. No newsletter, we don&rsquo;t share your address
         with anyone, and you can unsubscribe in one click.
       </p>

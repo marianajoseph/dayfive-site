@@ -3,17 +3,22 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { track } from "@/lib/analytics";
 
-/** Resting position of each sheet in the desktop fan. */
-const FAN = [
-  { x: 0, y: 0, r: -2, z: 30 },
-  { x: 26, y: 6, r: 7, z: 20 },
-  { x: -26, y: 9, r: -10, z: 10 },
-];
-
 const A4 = "1 / 1.4142";
 
+/**
+ * Two sheets, not three, and squared up rather than fanned.
+ *
+ * The fan was the problem: three pages meant the front one rendered its body
+ * copy at 5–6px, and the outer two were clipped by the section edge. Here the
+ * front page takes 80% of the container — 620px at the narrowest supported
+ * layout, where `.doc` puts body copy at 9.5px — and one page sits behind it,
+ * offset. The pair spans 4%–96% of the container, so both stay fully inside
+ * with ~33px of clearance at the section edge.
+ *
+ * On phones the offset page is dropped entirely: one page, full width.
+ * Everything in the pack is still reachable through the viewer.
+ */
 export default function DocStack({ pages, group }) {
-  const [hovered, setHovered] = useState(null);
   const [open, setOpen] = useState(null);
   const closeRef = useRef(null);
   const lastFocused = useRef(null);
@@ -22,7 +27,7 @@ export default function DocStack({ pages, group }) {
     (i) => {
       lastFocused.current = document.activeElement;
       setOpen(i);
-      track("doc_enlarge", { group, document: pages[i].label });
+      track("doc_open", { group, document: pages[i].label });
     },
     [group, pages],
   );
@@ -52,60 +57,49 @@ export default function DocStack({ pages, group }) {
     };
   }, [open, pages.length, close]);
 
+  const [front, behind] = pages;
+
   return (
     <>
-      {/* One set of sheets. A rail on phones, a fan from lg up — see globals.css. */}
-      <div
-        className="doc-fan -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-5 pt-2 sm:-mx-8 sm:px-8 lg:aspect-[4/3.4] lg:w-full"
-        onMouseLeave={() => setHovered(null)}
-      >
-        {pages.map((p, i) => {
-          const f = FAN[i] ?? FAN[0];
-          const isUp = hovered === i;
-          const dimmed = hovered !== null && !isUp;
+      <div className="relative w-full sm:pt-[6.5%]">
+        {/* The page behind — desktop only, and inert to assistive tech since
+            the front page and the button already lead into the same viewer. */}
+        {behind && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-[16%] top-0 hidden w-[80%] overflow-hidden rounded-md shadow-sheet sm:block"
+            style={{ aspectRatio: A4 }}
+          >
+            {behind.node}
+          </div>
+        )}
 
-          return (
-            <button
-              key={p.label}
-              type="button"
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-              onClick={() => openAt(i)}
-              aria-label={`Enlarge: ${p.label}`}
-              className="doc-fan-item w-[74%] shrink-0 snap-center text-left sm:w-[54%]"
-              style={{
-                "--tx": `${isUp ? f.x * 0.35 : f.x}%`,
-                "--ty": isUp ? "-4%" : `${f.y}%`,
-                "--r": isUp ? "0deg" : `${f.r}deg`,
-                "--s": isUp ? 1.05 : 1,
-                "--dim": dimmed ? 0.82 : 1,
-                zIndex: isUp ? 50 : f.z,
-              }}
-            >
-              <div
-                className="w-full overflow-hidden rounded-md shadow-sheet lg:h-full"
-                style={{ aspectRatio: A4 }}
-              >
-                {p.node}
-              </div>
-              <span className="mt-3 block text-[0.95rem] font-medium text-ink-600 lg:hidden">
-                {p.label}
-                <span className="ml-2 font-semibold text-gold-700">Tap to enlarge</span>
-              </span>
-            </button>
-          );
-        })}
+        <button
+          type="button"
+          onClick={() => openAt(0)}
+          aria-label={`Open ${front.label} at full size`}
+          className="doc-sheet relative block w-full overflow-hidden rounded-md text-left shadow-sheet sm:ml-[4%] sm:w-[80%]"
+          style={{ aspectRatio: A4 }}
+        >
+          {front.node}
+        </button>
+      </div>
 
-        <p className="pointer-events-none absolute inset-x-0 bottom-0 hidden text-center text-[0.95rem] text-ink-500 lg:block">
-          {hovered === null ? (
-            <>Hover a page to lift it · click to see it full size</>
-          ) : (
-            <span className="font-semibold text-gold-700">{pages[hovered].label}</span>
-          )}
+      <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 sm:ml-[4%]">
+        <button
+          type="button"
+          onClick={() => openAt(0)}
+          className="inline-flex min-h-[3rem] items-center gap-2 rounded-full border-2 border-cream-300 bg-white px-6 text-[1.05rem] font-semibold text-ink shadow-soft transition-colors hover:border-gold-on-light hover:text-gold-on-light"
+        >
+          Open a page
+          <span aria-hidden="true">→</span>
+        </button>
+        <p className="text-[0.8125rem] text-ink-500">
+          {pages.length} pages in this pack · watermarked SAMPLE
         </p>
       </div>
 
-      {/* ── lightbox ───────────────────────────────────────────────────── */}
+      {/* ── the viewer ─────────────────────────────────────────────────── */}
       {open !== null && (
         <div
           role="dialog"
@@ -130,7 +124,7 @@ export default function DocStack({ pages, group }) {
                   type="button"
                   onClick={() => setOpen((i) => (i - 1 + pages.length) % pages.length)}
                   aria-label="Previous page"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-navy-600 text-mist transition-colors hover:border-gold-400 hover:text-gold-300"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-navy-600 text-mist transition-colors hover:border-gold-on-dark hover:text-gold-hover"
                 >
                   ←
                 </button>
@@ -138,7 +132,7 @@ export default function DocStack({ pages, group }) {
                   type="button"
                   onClick={() => setOpen((i) => (i + 1) % pages.length)}
                   aria-label="Next page"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-navy-600 text-mist transition-colors hover:border-gold-400 hover:text-gold-300"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-navy-600 text-mist transition-colors hover:border-gold-on-dark hover:text-gold-hover"
                 >
                   →
                 </button>
@@ -147,7 +141,7 @@ export default function DocStack({ pages, group }) {
                   type="button"
                   onClick={close}
                   aria-label="Close"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-navy-600 text-mist transition-colors hover:border-gold-400 hover:text-gold-300"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-navy-600 text-mist transition-colors hover:border-gold-on-dark hover:text-gold-hover"
                 >
                   ✕
                 </button>

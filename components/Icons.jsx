@@ -168,6 +168,76 @@ export function Blocks(props) {
   );
 }
 
+/* ── eyebrow ornaments: one per section, so none goes bare ─────────────── */
+
+/** How it works — three stops on a route. */
+export function Route(props) {
+  return (
+    <Icon {...props} tilt={-1}>
+      <path d="M4.4 6.2h6.3a3.4 3.4 0 0 1 .1 6.8H8.2a3.5 3.5 0 0 0 0 7h11.3" />
+      <circle cx="4.4" cy="6.2" r="1.9" />
+      <circle cx="19.5" cy="20" r="1.9" />
+    </Icon>
+  );
+}
+
+/** Your first close is on us — a parcel with a ribbon. */
+export function Gift(props) {
+  return (
+    <Icon {...props} tilt={1.5}>
+      <path d="M3.6 10.4h16.9v9.3a1.2 1.2 0 0 1-1.2 1.2H4.8a1.2 1.2 0 0 1-1.2-1.2z" />
+      <path d="M2.7 6.9h18.6v3.5H2.7z" />
+      <path d="M12 6.9v13.9" />
+      <path d="M12 6.9c-1.6-.2-3.9.3-4.7-1a1.9 1.9 0 0 1 1.4-2.9c1.7-.1 2.8 2.2 3.3 3.9.6-1.8 1.6-4 3.3-3.9a1.9 1.9 0 0 1 1.4 2.9c-.8 1.3-3 .8-4.7 1z" />
+    </Icon>
+  );
+}
+
+/** Who we serve — two people, drawn quickly. */
+export function People(props) {
+  return (
+    <Icon {...props} tilt={-1.5}>
+      <circle cx="9.1" cy="7.6" r="3.4" />
+      <path d="M3.2 20.4c.4-3.6 2.9-5.9 5.9-5.9s5.5 2.3 5.9 5.9" />
+      <path d="M16.2 5.2a3.4 3.4 0 0 1 .3 6.6" />
+      <path d="M17.6 14.9c1.7.7 2.9 2.7 3.2 5.5" />
+    </Icon>
+  );
+}
+
+/** About — a notebook with ruled lines. */
+export function Notebook(props) {
+  return (
+    <Icon {...props} tilt={1}>
+      <path d="M6.4 3.4h11.2a1.4 1.4 0 0 1 1.4 1.4v14.4a1.4 1.4 0 0 1-1.4 1.4H6.4a1.4 1.4 0 0 1-1.4-1.4V4.8a1.4 1.4 0 0 1 1.4-1.4z" />
+      <path d="M8.7 8.2h6.8M8.7 12h6.6M8.7 15.7h4.3" />
+      <path d="M5.1 6.6H3.3M5.1 11.9H3.3M5.1 17.2H3.3" />
+    </Icon>
+  );
+}
+
+/** Questions — a speech bubble with a question mark. */
+export function Question(props) {
+  return (
+    <Icon {...props} tilt={-1}>
+      <path d="M4.2 4.3h15.5a1.4 1.4 0 0 1 1.4 1.4v9.4a1.4 1.4 0 0 1-1.4 1.4h-8.2l-4.8 3.6v-3.6H4.2a1.4 1.4 0 0 1-1.4-1.4V5.7a1.4 1.4 0 0 1 1.4-1.4z" />
+      <path d="M9.7 8.5a2.4 2.4 0 0 1 4.5 1.1c0 1.5-2.1 1.7-2.1 3" />
+      <path d="M12.1 13.9h.02" />
+    </Icon>
+  );
+}
+
+/** Scoreboard — a dial with a needle. */
+export function Gauge(props) {
+  return (
+    <Icon {...props} tilt={1}>
+      <path d="M3.4 17.6a8.9 8.9 0 1 1 17.2 0" />
+      <path d="M12 17.4 16.4 10" />
+      <path d="M3.4 17.6h2.2M18.4 17.6h2.2M12 6.2V8" />
+    </Icon>
+  );
+}
+
 /* ── small utility marks ───────────────────────────────────────────────── */
 export function Check({ size = 20, className = "" }) {
   return (

@@ -20,6 +20,11 @@ import {
   Stethoscope,
   Blocks,
   Squiggle,
+  Route,
+  Gift,
+  People,
+  Notebook,
+  Question,
 } from "@/components/Icons";
 
 /* ───────────────────────────────────────────────────────────── hero ─── */
@@ -38,8 +43,8 @@ function Hero() {
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-7">
-          <h1 className="rise font-display text-[2.05rem] font-semibold leading-[1.06] tracking-[-0.03em] text-cream sm:text-[3.2rem] lg:text-[4.1rem]">
-            Your books. Closed by <span className="text-gold-400">day five</span>. Every
+          <h1 className="rise font-display text-[2.5rem] font-semibold leading-[1.05] tracking-[-0.03em] text-cream sm:text-[3.2rem] lg:text-[4.1rem]">
+            Your books. Closed by <span className="text-gold-on-dark">day five</span>. Every
             month.
           </h1>
 
@@ -54,7 +59,7 @@ function Hero() {
           </p>
 
           <p
-            className="rise mt-4 text-[1.15rem] font-bold tracking-[-0.01em] text-gold-400 sm:mt-6 sm:text-[1.3rem]"
+            className="rise mt-4 text-[1.15rem] font-bold tracking-[-0.01em] text-gold-on-dark sm:mt-6 sm:text-[1.3rem]"
             style={{ animationDelay: "160ms" }}
           >
             Always on. Never late. No meetings needed.
@@ -70,27 +75,23 @@ function Hero() {
             </CTAButton>
           </div>
 
-          <ul
-            className="rise mt-10 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-navy-700 pt-6 text-[1rem] text-mist-600 sm:mt-12 sm:pt-7"
-            style={{ animationDelay: "300ms" }}
-          >
-            {trustSignals.map((s, i) => (
-              <li key={s} className="flex items-center gap-3">
-                {i > 0 && (
-                  <span aria-hidden="true" className="text-navy-600">
-                    ·
-                  </span>
-                )}
-                <span>{s}</span>
-              </li>
-            ))}
-          </ul>
         </div>
 
         <div className="rise lg:col-span-5" style={{ animationDelay: "380ms" }}>
           <CalendarFive />
         </div>
       </div>
+
+      {/* Full width, below the two columns: at 1152px the four chips sit on one
+          line with room to spare, so nothing wraps and no separator strands. */}
+      <ul
+        className="rise relative mx-auto mt-12 max-w-6xl border-t border-navy-700 pt-6 text-[1rem] text-mist-600 trust-row"
+        style={{ animationDelay: "300ms" }}
+      >
+        {trustSignals.map((s) => (
+          <li key={s}>{s}</li>
+        ))}
+      </ul>
     </section>
   );
 }
@@ -100,8 +101,10 @@ function Hero() {
 function Problem() {
   return (
     <Section inner="max-w-5xl">
-      <Clock size={40} className="mb-7 text-gold-600" />
-      <p className="font-display text-[1.7rem] font-medium leading-[1.28] tracking-[-0.025em] text-ink-600 sm:text-[2.2rem] lg:text-[2.6rem]">
+      <Clock size={40} className="mb-7 text-gold-on-light" />
+      {/* Stays in the serif — it is a pull quote, not body copy — but drops
+          from ~42px to 32px so it stops competing with the section titles. */}
+      <p className="font-display text-[1.6rem] font-medium leading-[1.3] tracking-[-0.025em] text-ink-600 sm:text-[1.85rem] lg:text-[2rem]">
         Your bookkeeper closes your books three weeks late and tells you nothing.
         <br className="hidden sm:block" /> Your accountant charges by the hour and
         answers by Friday.{" "}
@@ -124,7 +127,7 @@ const steps = [
         finish. No discovery call. No proposal. No calendar links.
         <CalendarStruck
           size={30}
-          className="ml-2 inline-block align-[-0.5em] text-gold-600"
+          className="ml-2 inline-block align-[-0.5em] text-gold-on-light"
         />
       </>
     ),
@@ -138,7 +141,7 @@ const steps = [
         Email receipts to{" "}
         <a
           href="mailto:docs@dayfive.co"
-          className="font-semibold text-gold-700 underline decoration-gold-500 decoration-2 underline-offset-4"
+          className="font-semibold text-gold-on-light underline decoration-gold-on-dark decoration-2 underline-offset-4"
         >
           docs@dayfive.co
         </a>
@@ -156,7 +159,7 @@ const steps = [
         Every month, by the fifth business day: clean financials plus a one-page summary
         in plain English — five insights, ranked, each one actionable. Not &ldquo;revenue
         was $62,340.&rdquo; Instead:{" "}
-        <em className="font-semibold not-italic text-gold-700">
+        <em className="font-semibold not-italic text-gold-on-light">
           &ldquo;Your card fees grew 19% while revenue grew 8% — here&rsquo;s the script
           for the call to your processor.&rdquo;
         </em>
@@ -169,20 +172,20 @@ function HowItWorks() {
   return (
     <Section id="how-it-works" tone="tint" divider>
       <div className="max-w-3xl">
-        <Eyebrow>How it works</Eyebrow>
+        <Eyebrow icon={Route}>How it works</Eyebrow>
         <SectionTitle>Three steps. None of them a meeting.</SectionTitle>
       </div>
 
-      <ol className="mt-12 grid gap-5 md:grid-cols-3">
+      <ol className="mt-10 grid gap-6 md:grid-cols-3">
         {steps.map((s) => {
           const StepIcon = s.icon;
           return (
             <li key={s.n} className="rounded-3xl bg-white p-7 shadow-soft sm:p-8">
               <div className="flex items-center gap-3.5">
-                <span className="tnum flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold-500 text-[1.15rem] font-bold text-navy-950">
+                <span className="tnum flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold-on-dark text-[1.15rem] font-bold text-navy-950">
                   {s.n}
                 </span>
-                <StepIcon size={40} className="text-gold-600" />
+                <StepIcon size={40} className="text-gold-on-light" />
               </div>
               <h3 className="mt-5 text-[1.35rem] font-bold tracking-[-0.02em] text-ink">
                 {s.title}
@@ -203,7 +206,7 @@ function AlwaysOn() {
     <Section divider>
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-6">
-          <Eyebrow icon={<Moon size={24} className="text-gold-600" />}>
+          <Eyebrow icon={Moon}>
             The 24/7 part
           </Eyebrow>
           <SectionTitle>
@@ -222,7 +225,7 @@ function AlwaysOn() {
             from your actual numbers.
           </p>
 
-          <div className="mt-8 rounded-3xl bg-white p-6 shadow-soft sm:p-7">
+          <div className="mt-10 rounded-3xl bg-white p-7 shadow-soft">
             <p className="text-[0.8rem] font-bold uppercase tracking-[0.14em] text-ink-500">
               11:04 PM · you
             </p>
@@ -230,8 +233,8 @@ function AlwaysOn() {
               Can I afford to hire a second on-call tech in October?
             </p>
             <div className="mt-5 border-t border-cream-200 pt-4">
-              <p className="flex items-center gap-2 text-[0.8rem] font-bold uppercase tracking-[0.14em] text-gold-700">
-                <Moon size={17} className="text-gold-600" />
+              <p className="flex items-center gap-2 text-[0.8rem] font-bold uppercase tracking-[0.14em] text-gold-on-light">
+                <Moon size={17} className="text-gold-on-light" />
                 11:04 PM · DayFive
               </p>
               <p className="mt-2 text-lg leading-relaxed text-ink-600">
@@ -242,7 +245,7 @@ function AlwaysOn() {
                 right month to start, not September.
               </p>
             </div>
-            <p className="mt-5 text-[1rem] text-ink-500">
+            <p className="mt-5 text-[1rem] text-ink-600">
               Included in Growth and Insights plans when the portal ships. Until then,
               write to us — the answer still arrives, in writing.
             </p>
@@ -260,9 +263,11 @@ function FirstClose() {
     <Section id="first-close" tone="tint" divider>
       <div className="mx-auto max-w-3xl text-center">
         <div className="mb-6 flex justify-center">
-          <Check size={44} className="text-gold-600" />
+          <Check size={44} className="text-gold-on-light" />
         </div>
-        <Eyebrow className="justify-center">Your first close is on us</Eyebrow>
+        <Eyebrow icon={Gift} className="justify-center">
+            Your first close is on us
+          </Eyebrow>
         <SectionTitle>Try DayFive with nothing to lose.</SectionTitle>
 
         <p className="mt-7 text-xl leading-relaxed text-ink-600">
@@ -281,7 +286,7 @@ function FirstClose() {
           <CTAButton location="first-close">Start now</CTAButton>
         </div>
 
-        <p className="mx-auto mt-8 max-w-2xl text-[1.05rem] leading-relaxed text-ink-500">
+        <p className="mx-auto mt-8 max-w-2xl text-[1.05rem] leading-relaxed text-ink-600">
           (Fine print, honestly: card on file at signup, billing starts only after your
           free close; catch-up beyond three months of backlog quoted separately; one trial
           per business.)
@@ -298,7 +303,7 @@ function NoMeetings() {
     <Section divider>
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-6">
-          <Eyebrow icon={<CalendarStruck size={24} className="text-gold-600" />}>
+          <Eyebrow icon={CalendarStruck}>
             Why you&rsquo;ll never need a meeting
           </Eyebrow>
           <SectionTitle>Because meetings are how the old firms bill you.</SectionTitle>
@@ -310,19 +315,20 @@ function NoMeetings() {
           </p>
         </div>
 
-        <div className="grid gap-4 lg:col-span-6 lg:pt-8">
-          <div className="rounded-3xl border-2 border-dashed border-cream-300 p-6 sm:p-7">
-            <p className="text-[0.8rem] font-bold uppercase tracking-[0.14em] text-ink-500">
-              The old way
-            </p>
-            <p className="mt-3 text-xl leading-relaxed text-ink-500 line-through decoration-status-bad decoration-2">
+        {/* self-start so the boxes size to their contents — as grid children
+            they were stretching to match the paragraph column and ran about
+            three times taller than the text inside them. The dashed border
+            already says "old way", so the strikethrough is gone: one signal,
+            and the sentence is readable again. */}
+        <div className="flex flex-col gap-6 self-start lg:col-span-6 lg:pt-8">
+          <div className="rounded-3xl border-2 border-dashed border-cream-300 p-7">
+            <p className="eyebrow text-ink-500">The old way</p>
+            <p className="mt-3 text-xl leading-relaxed text-ink-600">
               hourly bills, three-week closes, &ldquo;let&rsquo;s hop on a call.&rdquo;
             </p>
           </div>
-          <div className="rounded-3xl bg-white p-6 shadow-card ring-2 ring-gold-500 sm:p-7">
-            <p className="text-[0.8rem] font-bold uppercase tracking-[0.14em] text-gold-700">
-              DayFive
-            </p>
+          <div className="rounded-3xl bg-white p-7 shadow-card ring-2 ring-gold-on-dark">
+            <p className="eyebrow text-gold-on-light">DayFive</p>
             <p className="mt-3 font-display text-[1.45rem] font-semibold leading-snug tracking-[-0.025em] text-ink">
               flat price, day-five close, already answered.
             </p>
@@ -335,10 +341,12 @@ function NoMeetings() {
 
 /* ──────────────────────────────────────────── who we serve + security ─── */
 
+/* "E-commerce" ran to two lines while the other four sat on one, which broke
+   the row's baseline. Unhyphenated it fits, and the label row is fixed. */
 const trades = [
   [Wrench, "Contractors"],
   [Laptop, "Agencies"],
-  [Cart, "E-commerce"],
+  [Cart, "Ecommerce"],
   [Stethoscope, "Healthcare"],
   [Blocks, "Childcare"],
 ];
@@ -346,33 +354,39 @@ const trades = [
 function WhoWeServe() {
   return (
     <Section tone="tint" divider>
-      <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
+      <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
         <div>
-          <Eyebrow>Who we serve</Eyebrow>
-          <p className="font-display text-[1.6rem] font-medium leading-[1.3] tracking-[-0.025em] text-ink-600 sm:text-[1.95rem]">
+          <Eyebrow icon={People}>Who we serve</Eyebrow>
+          {/* Sans, not serif: this is a paragraph, not a headline. */}
+          <p className="max-w-[64ch] text-xl leading-[1.6] text-ink-600">
             Service businesses from $300K to $5M in revenue: contractors, agencies,
             e-commerce, healthcare practices,{" "}
-            <strong className="font-semibold text-ink">
+            <strong className="font-bold text-ink">
               and childcare centers — our specialty.
             </strong>
           </p>
-          <p className="mt-5 text-lg leading-relaxed text-ink-600">
+          <p className="mt-5 max-w-[64ch] text-lg leading-relaxed text-ink-600">
             (We speak Brightwheel, tuition billing, CCAP, and district UPK contracts
             fluently.)
           </p>
 
-          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-5">
+          <ul className="mt-10 flex flex-wrap items-start gap-x-6 gap-y-6">
             {trades.map(([TradeIcon, label]) => (
-              <li key={label} className="flex w-20 flex-col items-center gap-2 text-center">
-                <TradeIcon size={34} className="text-gold-600" />
-                <span className="text-[0.95rem] font-medium text-ink-600">{label}</span>
+              <li
+                key={label}
+                className="flex min-w-[5rem] flex-col items-center text-center"
+              >
+                <TradeIcon size={34} className="text-gold-on-light" />
+                <span className="mt-2 flex h-10 items-start whitespace-nowrap text-[0.95rem] font-medium text-ink-600">
+                  {label}
+                </span>
               </li>
             ))}
           </ul>
         </div>
 
         <div>
-          <Eyebrow icon={<Lock size={24} className="text-gold-600" />}>Security</Eyebrow>
+          <Eyebrow icon={Lock}>Security</Eyebrow>
           <ul className="flex flex-col gap-4">
             {[
               "Bank-level encryption in transit and at rest",
@@ -382,7 +396,7 @@ function WhoWeServe() {
               "Read-only bank connections via Plaid — we can see, never move",
             ].map((s) => (
               <li key={s} className="flex gap-3 text-lg leading-snug text-ink-600">
-                <Check size={20} className="mt-1 shrink-0 text-gold-600" />
+                <Check size={20} className="mt-1 shrink-0 text-gold-on-light" />
                 <span>{s}</span>
               </li>
             ))}
@@ -401,15 +415,19 @@ function WhoWeServe() {
 function About() {
   return (
     <Section divider inner="max-w-4xl">
-      <Eyebrow>About</Eyebrow>
-      <p className="font-display text-[1.45rem] font-medium leading-[1.4] tracking-[-0.02em] text-ink-600 sm:text-[1.75rem]">
+      <Eyebrow icon={Notebook}>About</Eyebrow>
+      {/* Was the only sustained body copy on the page set in the display
+          serif, at ~28px across ~75 characters — the single strongest "pricey"
+          signal on the site. Now sans at 20px/1.6 on a 64ch measure, with the
+          serif kept for the closing line, which is the accent. */}
+      <p className="max-w-[64ch] text-xl leading-[1.6] text-ink-600">
         DayFive was built on a simple observation: small businesses get the worst
         financial service money can buy — slow, expensive, and silent. So we built the
         back office we&rsquo;d want to own: always-on automation for speed and
         availability, professional oversight on every number, and a promise in the name.{" "}
-        <strong className="relative inline-block font-semibold text-ink">
+        <strong className="relative inline-block font-display text-[1.35rem] font-semibold tracking-[-0.02em] text-ink">
           Your books, by day five.
-          <Squiggle className="absolute -bottom-1.5 left-0 h-2.5 w-full text-gold-500" />
+          <Squiggle className="absolute -bottom-1.5 left-0 h-2.5 w-full text-gold-on-light" />
         </strong>
       </p>
     </Section>
@@ -448,7 +466,7 @@ const faqs = [
 function FAQ() {
   return (
     <Section id="faq" tone="tint" divider inner="max-w-4xl">
-      <Eyebrow>Questions</Eyebrow>
+      <Eyebrow icon={Question}>Questions</Eyebrow>
       <SectionTitle>The honest six.</SectionTitle>
 
       <div className="mt-10 overflow-hidden rounded-3xl bg-white shadow-soft">
@@ -460,7 +478,7 @@ function FAQ() {
               </span>
               <span
                 aria-hidden="true"
-                className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cream text-[1.3rem] font-semibold text-gold-700 transition-transform duration-300 group-open:rotate-45"
+                className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cream text-[1.3rem] font-semibold text-gold-on-light transition-transform duration-300 group-open:rotate-45"
               >
                 +
               </span>
@@ -504,21 +522,31 @@ function ClosingBand() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-1 text-[1rem] text-mist-600 sm:items-end">
+          {/* py-3 keeps every footer link at a 44px tap target */}
+          <div className="flex flex-col text-[1rem] text-mist-600 sm:items-end">
             <a
               href="mailto:docs@dayfive.co"
-              className="py-1.5 transition-colors hover:text-gold-300"
+              className="inline-flex min-h-[2.75rem] items-center transition-colors hover:text-gold-hover"
             >
               docs@dayfive.co
             </a>
             <div className="flex gap-6">
-              <a href="#pricing" className="py-1.5 transition-colors hover:text-gold-300">
+              <a
+                href="#pricing"
+                className="inline-flex min-h-[2.75rem] items-center transition-colors hover:text-gold-hover"
+              >
                 Pricing
               </a>
-              <a href="#faq" className="py-1.5 transition-colors hover:text-gold-300">
+              <a
+                href="#faq"
+                className="inline-flex min-h-[2.75rem] items-center transition-colors hover:text-gold-hover"
+              >
                 Questions
               </a>
-              <a href="/start" className="py-1.5 transition-colors hover:text-gold-300">
+              <a
+                href="/start"
+                className="inline-flex min-h-[2.75rem] items-center transition-colors hover:text-gold-hover"
+              >
                 Get started
               </a>
             </div>

@@ -1,4 +1,4 @@
-import { Mark } from "../Logo";
+import { MarkTile } from "../Logo";
 import { client } from "@/lib/sample-data";
 
 /**
@@ -11,7 +11,7 @@ export default function DocFrame({ title, subtitle, pageNo, children }) {
   return (
     <div className="doc-shell paper-grain relative h-full w-full overflow-hidden bg-white text-ink">
       {/* gold spine */}
-      <div aria-hidden="true" className="absolute inset-y-0 left-0 w-[0.45%] bg-gold-500" />
+      <div aria-hidden="true" className="absolute inset-y-0 left-0 w-[0.45%] bg-gold-on-dark" />
 
       {/* SAMPLE watermark */}
       <div
@@ -25,7 +25,7 @@ export default function DocFrame({ title, subtitle, pageNo, children }) {
         {/* letterhead */}
         <header className="flex items-start justify-between border-b border-cream-200 pb-[1.1em]">
           <div>
-            <p className="text-[0.76em] font-bold uppercase tracking-[0.16em] text-gold-700">
+            <p className="text-[0.76em] font-bold uppercase tracking-[0.16em] text-gold-on-light">
               {client.name}
             </p>
             <h3 className="mt-[0.35em] text-[1.5em] font-bold leading-tight tracking-[-0.02em] text-ink">
@@ -34,9 +34,11 @@ export default function DocFrame({ title, subtitle, pageNo, children }) {
             <p className="mt-[0.25em] text-[0.86em] text-ink-600">{subtitle}</p>
           </div>
           <div className="flex shrink-0 items-center gap-[0.45em] pt-[0.2em]">
-            <Mark className="h-[2em] w-[2em] text-gold-600" />
+            {/* The letterhead mark renders around 20px — well under the size
+                where the outline's hairline survives, so it uses the tile. */}
+            <MarkTile className="h-[2em] w-[2em]" />
             <span className="font-display text-[1.05em] font-semibold tracking-[-0.035em] text-ink">
-              Day<span className="text-gold-700">Five</span>
+              Day<span className="text-gold-on-light">Five</span>
             </span>
           </div>
         </header>
@@ -115,7 +117,7 @@ export function ColumnHeads({ heads }) {
 
 export function GroupHead({ children }) {
   return (
-    <p className="mt-[0.9em] text-[0.74em] font-bold uppercase tracking-[0.14em] text-gold-700">
+    <p className="mt-[0.9em] text-[0.74em] font-bold uppercase tracking-[0.14em] text-gold-on-light">
       {children}
     </p>
   );

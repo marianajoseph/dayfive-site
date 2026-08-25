@@ -10,13 +10,13 @@ const base =
 const variants = {
   /* gold fill, navy label — 8.3:1 */
   primary:
-    "bg-gold-500 text-navy-950 shadow-soft hover:bg-gold-600 hover:text-cream hover:-translate-y-0.5 hover:shadow-card",
+    "bg-gold-on-dark text-navy-950 shadow-soft hover:bg-gold-on-light hover:text-cream hover:-translate-y-0.5 hover:shadow-card",
   /* outlined, for cream backgrounds */
   secondary:
-    "border-2 border-cream-300 bg-white text-ink shadow-soft hover:border-gold-600 hover:text-gold-700 hover:-translate-y-0.5",
+    "border-2 border-cream-300 bg-white text-ink shadow-soft hover:border-gold-on-light hover:text-gold-on-light hover:-translate-y-0.5",
   /* outlined, for the navy bands */
   onNavy:
-    "border-2 border-navy-600 bg-transparent text-mist hover:border-gold-400 hover:text-gold-300 hover:-translate-y-0.5",
+    "border-2 border-navy-600 bg-transparent text-mist hover:border-gold-on-dark hover:text-gold-hover hover:-translate-y-0.5",
 };
 
 export default function CTAButton({

@@ -1,15 +1,18 @@
 /**
- * The DayFive mark, to spec:
- *   · a calendar tab — two even ticks over the top edge
- *   · a single 2px-stroke rounded-rectangle frame
- *   · the numeral 5 optically centred inside
- *   · all of it in one gold stroke, nothing filled
+ * Two marks, one geometry.
  *
- * Drawn on a 32-unit grid so `strokeWidth={2}` is a literal 2px at the 32px
- * size the mark is used at in the header. The 5 sits at optical centre, not
- * arithmetic centre: its ink spans y 12.4–22.2 (centre 17.3) against the
- * frame's interior centre of 17.5, so the heavy bowl doesn't drag it low.
+ * `Mark` is the outline calendar: a tab of two even ticks, a single 2px-stroke
+ * rounded frame, and the numeral 5 optically centred inside (its ink spans
+ * y 12.4–22.2, centre 17.3, against the frame's interior centre of 17.5, so
+ * the heavy bowl doesn't drag it low). Drawn on a 32-unit grid so the stroke
+ * is a literal 2px at 32px.
+ *
+ * `MarkTile` is the same 5 on a solid gold tile. The outline's hairline turns
+ * to mush below about 24px, so everything small — nav, favicon, document
+ * letterheads, email avatars — uses the tile instead. The 5 is scaled 1.63×
+ * about its own optical centre and re-seated on the tile's true centre.
  */
+
 export function Mark({ size = 32, className = "" }) {
   return (
     <svg
@@ -36,26 +39,50 @@ export function Mark({ size = 32, className = "" }) {
   );
 }
 
+export function MarkTile({ size = 32, className = "" }) {
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      width={size}
+      height={size}
+      className={className}
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect width="32" height="32" rx="7" fill="var(--color-gold-on-dark)" />
+      <g transform="translate(16 16) scale(1.63) translate(-16 -17.3)">
+        <path
+          d="M19.3 12.4H12.7v4.2H16a2.8 2.8 0 1 1-2.5 4"
+          fill="none"
+          stroke="var(--color-navy-900)"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+    </svg>
+  );
+}
+
 /**
- * Wordmark beside the mark. `tone="dark"` is the default, for cream
- * backgrounds; `tone="light"` is the cream/gold variant for the navy bands.
+ * Wordmark beside the tile. `tone="dark"` for cream backgrounds,
+ * `tone="light"` for the navy bands.
  */
 export default function Logo({ tone = "dark", className = "", markSize = 32 }) {
   const light = tone === "light";
 
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
-      <Mark
-        size={markSize}
-        className={light ? "text-gold-400" : "text-gold-600"}
-      />
+      <MarkTile size={markSize} />
       <span
         className={`font-display text-[1.4rem] font-semibold tracking-[-0.035em] ${
           light ? "text-cream" : "text-ink"
         }`}
       >
         Day
-        <span className={light ? "text-gold-400" : "text-gold-700"}>Five</span>
+        <span className={light ? "text-gold-on-dark" : "text-gold-on-light"}>
+          Five
+        </span>
       </span>
     </span>
   );
