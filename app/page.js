@@ -15,11 +15,6 @@ import {
   Lock,
   Clock,
   Check,
-  Wrench,
-  Laptop,
-  Cart,
-  Stethoscope,
-  Blocks,
   Squiggle,
   Route,
   Gift,
@@ -388,16 +383,6 @@ function NoMeetings() {
 
 /* ──────────────────────────────────────────── who we serve + security ─── */
 
-/* "E-commerce" ran to two lines while the other four sat on one, which broke
-   the row's baseline. Unhyphenated it fits, and the label row is fixed. */
-const trades = [
-  [Wrench, "Contractors"],
-  [Laptop, "Agencies"],
-  [Cart, "Ecommerce"],
-  [Stethoscope, "Healthcare"],
-  [Blocks, "Childcare"],
-];
-
 /* Kept as data rather than one long sentence so the separators can be set in
    gold and given room — six specialisms run together in plain prose read as a
    wall, and this paragraph is the one a sceptical reader scans for their own
@@ -442,7 +427,7 @@ function WhoWeServe() {
             they are, in your system or ours.
           </p>
 
-          <p className="mt-5 max-w-[64ch] text-lg leading-relaxed text-ink-600">
+          <p className="mt-5 max-w-[64ch] text-lg italic leading-relaxed text-ink-600">
             <strong className="font-bold text-ink">Fluency where it counts:</strong>{" "}
             {fluency.map((item, i) => (
               <span key={item}>
@@ -456,31 +441,6 @@ function WhoWeServe() {
             ))}
             . Whatever your industry calls its numbers, we speak it.
           </p>
-
-          <ul className="mt-10 flex flex-wrap items-start gap-x-6 gap-y-6">
-            {trades.map(([TradeIcon, label]) => (
-              <li
-                key={label}
-                className="flex min-w-[5rem] flex-col items-center text-center"
-              >
-                <TradeIcon size={34} className="text-gold-on-light" />
-                <span className="mt-2 flex h-10 items-start whitespace-nowrap text-[0.95rem] font-medium text-ink-600">
-                  {label}
-                </span>
-              </li>
-            ))}
-
-            {/* Sixth slot. The row now says the list is open, so the copy no
-                longer has to. Dashed, so it reads as an invitation rather than
-                a sixth category, and held to the icons' 34px so every label
-                below keeps its shared baseline. */}
-            <li className="flex min-w-[5rem] flex-col items-center text-center">
-              <span className="flex h-[34px] items-center rounded-full border border-dashed border-gold-on-light px-3.5 text-[0.95rem] font-semibold text-gold-on-light">
-                + yours
-              </span>
-              <span aria-hidden="true" className="mt-2 flex h-10 items-start" />
-            </li>
-          </ul>
         </div>
 
         <div>
