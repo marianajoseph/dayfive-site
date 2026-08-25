@@ -495,8 +495,8 @@ const faqs = [
     "We prepare everything your tax preparer needs and partner with licensed EAs/CPAs for filing. Your books will be the cleanest they've ever received.",
   ],
   [
-    "What does “no meetings” mean if I have a problem?",
-    "Write to us any hour; answers come fast and in writing. You'll find it's better: written answers can be re-read, forwarded, and acted on.",
+    "What if I have a problem or an urgent question?",
+    "Write to us — any hour, any day. Answers come fast and in writing, usually within hours, often within minutes. And written answers work harder: you can re-read them, forward them to your partner or your banker, and act on them without waiting for anyone's calendar.",
   ],
   [
     "Can I really cancel anytime?",
