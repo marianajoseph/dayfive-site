@@ -187,30 +187,6 @@ function HowItWorks() {
           );
         })}
       </ol>
-
-      {/* Ties to step 2, not step 3: what he is holding is an invoice he
-          raised, which is exactly the paperwork he forwards to us.
-
-          Two constraints set the size. The source is 1200x630 and there is
-          no larger one, so a full-width slot would render it soft on retina;
-          held to max-w-3xl it lands near 1.6x instead. That narrower width
-          also keeps the small print on the handset below reading size, which
-          is the right outcome — the numbers on that screen are a stock
-          mock-up and do not add up. Aspect is 40:21, the file's own ratio,
-          so nothing is cropped away. */}
-      <figure className="mx-auto mt-12 max-w-3xl">
-        <div className="overflow-hidden rounded-3xl shadow-card">
-          <div className="relative aspect-[40/21] w-full bg-cream-tint">
-            <Image
-              src="/tradesperson-invoice-on-phone.webp"
-              alt="Over the shoulder of a tradesperson in a blue work shirt, standing at the open back of his van, holding a phone with an invoice open on it."
-              fill
-              sizes="(min-width: 768px) 768px, 100vw"
-              className="object-cover [filter:saturate(0.92)_contrast(1.01)_sepia(0.05)]"
-            />
-          </div>
-        </div>
-      </figure>
     </Section>
   );
 }
