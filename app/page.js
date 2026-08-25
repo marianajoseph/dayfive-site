@@ -213,17 +213,23 @@ function AlwaysOn() {
 
           {/* The client's side of the promise: his workday, his phone, his
               numbers arriving — sitting opposite the 11:04pm exchange.
-              Held to 380px and cropped 4:5 rather than run full-width: the
-              source file is 408px wide, so a wider slot would visibly soften
-              it. Reads as a deliberate portrait at this size. */}
+              Held to 380px and cropped 4:5 rather than run full-width, so it
+              reads as a deliberate portrait. The source is 816px wide, which
+              covers this slot at 2x — it stays sharp on retina screens.
+
+              Crop is biased upward (26%) to hold his face and the phone in
+              frame together; centring it would cut the phone. The filter is
+              doing real work: the denim is the coolest thing on the page, so
+              a little desaturation and a touch of sepia settle it onto the
+              cream instead of letting it sit on top as a cold rectangle. */}
           <figure className="mt-10 max-w-[380px] overflow-hidden rounded-3xl shadow-card">
             <div className="relative aspect-[4/5] w-full bg-cream-tint">
               <Image
-                src="/tradesperson-checking-phone.jpg"
-                alt="A tradesperson in work overalls stands in a utility room, frowning slightly as he reads something on his phone."
+                src="/handyman-checking-phone.jpg"
+                alt="A handyman in a denim shirt and tan overalls stands in his workshop, frowning slightly as he reads something on his phone."
                 fill
                 sizes="380px"
-                className="object-cover object-[50%_28%] [filter:saturate(0.97)_contrast(1.02)]"
+                className="object-cover object-[50%_26%] [filter:saturate(0.92)_contrast(1.01)_sepia(0.05)]"
               />
             </div>
           </figure>
