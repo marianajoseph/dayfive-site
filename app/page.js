@@ -460,9 +460,6 @@ function WhoWeServe() {
               </li>
             ))}
           </ul>
-          <p className="mt-7 rounded-2xl bg-white px-6 py-5 text-[1.2rem] font-bold leading-snug tracking-[-0.01em] text-ink shadow-soft">
-            Money never moves without a human&rsquo;s explicit action. Ever.
-          </p>
         </div>
       </div>
     </Section>
