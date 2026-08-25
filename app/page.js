@@ -192,6 +192,32 @@ function HowItWorks() {
           );
         })}
       </ol>
+
+      {/* Step 3, shown instead of described. The screen is our own artwork
+          warped into the photograph, so what he is reading is the insight
+          quoted directly above — not a stock prop carrying invented numbers
+          that fall apart when you look at them. Cropped 14:9 so the handset
+          stays big enough to read in one glance; the file is 2240px, twice
+          the widest slot it can occupy here. The filter pulls the jacket's
+          red back toward brick, so it sits with the cream instead of
+          shouting over it. */}
+      <figure className="mt-12">
+        <div className="overflow-hidden rounded-3xl shadow-card">
+          <div className="relative aspect-[14/9] w-full bg-cream-tint">
+            <Image
+              src="/day-five-insight-in-hand.jpg"
+              alt="A tradesperson in a red work jacket stands at a job holding his phone. The screen reads: Day 5, insight 1 of 5 — card fees grew 19%, revenue grew 8%, here's the script for that call."
+              fill
+              sizes="(min-width: 1200px) 1088px, 100vw"
+              className="object-cover [filter:saturate(0.9)_contrast(1.01)_sepia(0.05)]"
+            />
+          </div>
+        </div>
+        <figcaption className="mt-4 text-[0.95rem] leading-relaxed text-ink-500">
+          Day five, as it actually arrives: one ranked insight and the next move,
+          on the job, with nobody booking a call about it.
+        </figcaption>
+      </figure>
     </Section>
   );
 }
