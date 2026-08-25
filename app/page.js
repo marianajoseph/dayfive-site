@@ -496,12 +496,12 @@ function About() {
 
 const faqs = [
   [
-    "Is this just ChatGPT doing my books?",
-    "No. Purpose-built agent workflows with confidence thresholds, independent review agents checking the work, and human sign-off on everything client-facing. The AI does the volume; the judgment is layered and audited.",
+    "My books are a mess — months behind, maybe years. Can you fix that?",
+    "That's our favorite starting point. Send what you have — statements, shoeboxes, a neglected QuickBooks — and we'll bring everything current, fast. Catch-up is quoted flat per backlog month before we start, so there are no surprises. Most businesses are looking at clean, current books within days, not weeks.",
   ],
   [
-    "What if the AI makes a mistake?",
-    "Every entry is confidence-scored; anything uncertain routes to human review before posting. We carry professional liability insurance like any real firm — because we are one.",
+    "How much of my time does this take each month?",
+    "About twenty minutes to get started — then almost none. Forward receipts as they come (or don't; bank feeds catch most of it), answer the occasional one-line question from us, and read your close on day five. You run the business; the books stop being your second job.",
   ],
   [
     "Do I have to switch accounting software?",
