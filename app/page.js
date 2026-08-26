@@ -558,7 +558,8 @@ function ClosingBand() {
       <footer className="relative border-t border-navy-700 px-5 py-12 sm:px-8">
         <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <Logo tone="light" />
+            {/* footer mark is 32px per the lockup spec; nav keeps the 40 default */}
+            <Logo tone="light" markSize={32} />
             <p className="mt-3 max-w-sm text-[1rem] leading-relaxed text-mist-600">
               Automated bookkeeping and FP&amp;A. Your monthly close, by business day
               five.

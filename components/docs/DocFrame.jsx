@@ -1,4 +1,4 @@
-import { Mark } from "../Logo";
+import { MarkTile } from "../Logo";
 import { client } from "@/lib/sample-data";
 
 /**
@@ -34,11 +34,10 @@ export default function DocFrame({ title, subtitle, pageNo, children }) {
             <p className="mt-[0.25em] text-[0.86em] text-ink-600">{subtitle}</p>
           </div>
           <div className="flex shrink-0 items-center gap-[0.45em] pt-[0.2em]">
-            {/* Same outline mark as the nav, in the same gold as the "Five"
-                beside it. It renders around 20px here, where the 2px stroke
-                lands near 1.3px — light, but the letterhead sits on white at
-                a size people mostly see enlarged in the viewer. */}
-            <Mark className="h-[2em] w-[2em] text-gold-on-light" />
+            {/* This renders around 20px — below the size the outline holds up,
+                so the letterhead takes the solid tile. The one place the tabs
+                are allowed to disappear. */}
+            <MarkTile className="h-[2em] w-[2em]" />
             <span className="font-display text-[1.05em] font-semibold tracking-[-0.035em] text-ink">
               Day<span className="text-gold-on-light">Five</span>
             </span>
