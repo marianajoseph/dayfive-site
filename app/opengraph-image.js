@@ -13,26 +13,26 @@ const GOLD_TEXT = "#8a6a20";
 const NAVY = "#081426";
 
 /**
- * Hand-copy of components/Logo.jsx `Mark`. Satori draws this card with no
- * webfont loaded, so the 5 has to be a path here as it is in the favicon.
- * Keep the geometry in step with both.
+ * Hand-copy of components/Logo.jsx `Mark` — the outline form, since this
+ * renders around 61px, well above the size where the tile takes over.
+ *
+ * One deliberate difference: the numeral is the drawn path rather than live
+ * Fraunces. Satori composes this card with no webfont in its set, so a <text>
+ * element here would silently fall back to its default sans — the mark would
+ * be wrong on every link anyone shares, in the one place nobody thinks to
+ * check. The path is a serif 5 built for this frame. Keep it in step with
+ * MarkTile's, which uses the same outline.
  */
 function MarkPaths({ scale = 1 }) {
   return (
-    <svg width={32 * scale} height={32 * scale} viewBox="0 0 32 32">
-      <g
-        fill="none"
-        stroke={GOLD_TEXT}
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        {/* calendar tab — two even ticks */}
-        <path d="M9.5 3.2v3.6" />
-        <path d="M22.5 3.2v3.6" />
-        <rect x="3" y="6.8" width="26" height="22.2" rx="5" />
+    <svg width={24 * scale} height={24 * scale} viewBox="0 0 24 24">
+      <g fill="none" stroke={GOLD_TEXT} strokeWidth="1.6" strokeLinecap="round">
+        {/* tabs */}
+        <path d="M8 2.4v2.6M16 2.4v2.6" />
+        {/* frame */}
+        <rect x="3.2" y="5" width="17.6" height="16.4" rx="3.2" />
       </g>
-      <g transform="translate(16 17.9) scale(0.9) translate(-16.6 -18.07)">
+      <g transform="translate(12 13.4) scale(0.72) translate(-16.6 -18.07)">
         <path
           fill={GOLD_TEXT}
           d="M12.75 12.30 H19.95 V13.70 H14.35
@@ -84,7 +84,7 @@ export default function OpengraphImage() {
 
         {/* logo lockup */}
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <MarkPaths scale={1.9} />
+          <MarkPaths scale={2.5} />
           <div
             style={{
               display: "flex",

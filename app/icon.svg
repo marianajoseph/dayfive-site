@@ -1,13 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Hand-copy of components/Logo.jsx `Mark`. A standalone favicon cannot load
-       the site's webfont, which is why the 5 is a path here too. Keep in step. -->
-  <g fill="none" stroke="#8a6a20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M9.5 3.2v3.6"/>
-    <path d="M22.5 3.2v3.6"/>
-    <rect x="3" y="6.8" width="26" height="22.2" rx="5"/>
-  </g>
-  <g transform="translate(16 17.9) scale(0.9) translate(-16.6 -18.07)">
-    <path fill="#8a6a20" d="M12.75 12.30 H19.95 V13.70 H14.35
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Favicon renders at 16-32px, below the size the outline mark holds up, so
+       it takes the solid tile. Hand-copy of MarkTile in components/Logo.jsx;
+       keep the two in step. The numeral is a path because a standalone SVG
+       favicon cannot load the site's webfont. -->
+  <rect width="24" height="24" rx="5.28" fill="#C9A227"/>
+  <g transform="translate(12 12.6) scale(0.78) translate(-16.6 -18.07)">
+    <path fill="#0B1A2C" d="M12.75 12.30 H19.95 V13.70 H14.35
       C14.20 14.90 14.08 15.85 13.98 16.62
       C14.95 16.15 15.95 15.92 16.90 15.92
       C19.35 15.92 20.95 17.45 20.95 19.70
