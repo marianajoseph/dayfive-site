@@ -15,7 +15,7 @@ const plans = [
       "Unlimited document intake",
       "Works with your ERP or ours",
     ],
-    fit: "Fits businesses up to ~$50K/month in expenses.",
+    fit: "Best for businesses up to ~$50K/month in expenses — bigger or busier? Growth is your home.",
     popular: false,
   },
   {
