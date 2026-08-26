@@ -9,26 +9,44 @@ const CREAM = "#f7f3ea";
 const CREAM_300 = "#dbcfb7";
 const INK = "#0e1c31";
 const INK_600 = "#36434f";
-const GOLD_ON_DARK = "#d9ae52";
 const GOLD_TEXT = "#8a6a20";
 const NAVY = "#081426";
 
-/** The solid tile mark — the same asset the nav and favicon use. */
+/**
+ * Hand-copy of components/Logo.jsx `Mark`. Satori draws this card with no
+ * webfont loaded, so the 5 has to be a path here as it is in the favicon.
+ * Keep the geometry in step with both.
+ */
 function MarkPaths({ scale = 1 }) {
   return (
     <svg width={32 * scale} height={32 * scale} viewBox="0 0 32 32">
-      <rect width="32" height="32" rx="7" fill={GOLD_ON_DARK} />
-      {/* calendar tab — two notches cut into the top edge, matching MarkTile */}
-      <rect x="8.96" y="0" width="3" height="6" fill={NAVY} />
-      <rect x="20.04" y="0" width="3" height="6" fill={NAVY} />
-      <g transform="translate(16 16) scale(1.63) translate(-16 -17.3)">
+      <g
+        fill="none"
+        stroke={GOLD_TEXT}
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {/* calendar tab — two even ticks */}
+        <path d="M9.5 3.2v3.6" />
+        <path d="M22.5 3.2v3.6" />
+        <rect x="3" y="6.8" width="26" height="22.2" rx="5" />
+      </g>
+      <g transform="translate(16 17.9) scale(0.9) translate(-16.6 -18.07)">
         <path
-          d="M19.3 12.4H12.7v4.2H16a2.8 2.8 0 1 1-2.5 4"
-          fill="none"
-          stroke={NAVY}
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          fill={GOLD_TEXT}
+          d="M12.75 12.30 H19.95 V13.70 H14.35
+             C14.20 14.90 14.08 15.85 13.98 16.62
+             C14.95 16.15 15.95 15.92 16.90 15.92
+             C19.35 15.92 20.95 17.45 20.95 19.70
+             C20.95 22.10 19.10 23.85 16.45 23.85
+             C14.55 23.85 13.05 23.00 12.25 21.60
+             L13.35 20.85
+             C13.95 22.00 15.05 22.70 16.40 22.70
+             C18.25 22.70 19.45 21.45 19.45 19.75
+             C19.45 18.10 18.35 17.00 16.65 17.00
+             C15.45 17.00 14.35 17.45 13.35 18.30
+             L12.30 17.85 Z"
         />
       </g>
     </svg>
