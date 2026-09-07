@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
 import CTAButton from "./CTAButton";
+import OfferBanner from "./OfferBanner";
+import { PHONE, hasPhone, phoneHref } from "@/lib/site-config";
 
 const links = [
   ["How it works", "#how-it-works"],
@@ -36,6 +38,10 @@ export default function Nav() {
           : "border-b border-transparent"
       }`}
     >
+      {/* The banner rides INSIDE the fixed header so it stays put on scroll
+          and needs no layout offset anywhere else on the page. */}
+      <OfferBanner />
+
       <div className="mx-auto flex h-[3.75rem] max-w-6xl items-center justify-between px-5 sm:h-[4.5rem] sm:px-8">
         <Link href="/" aria-label="DayFive — home" className="shrink-0 py-2">
           <Logo tone={solid ? "dark" : "light"} />
@@ -55,7 +61,17 @@ export default function Nav() {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-6 lg:flex">
+          {hasPhone() && (
+            <a
+              href={phoneHref()}
+              className={`text-[1rem] font-semibold transition-colors ${
+                solid ? "text-ink hover:text-gold-on-light" : "text-cream hover:text-gold-hover"
+              }`}
+            >
+              {PHONE}
+            </a>
+          )}
           <CTAButton
             location="nav"
             className="min-h-[2.9rem] px-6 text-[0.98rem] sm:min-h-[2.9rem]"
@@ -64,6 +80,20 @@ export default function Nav() {
             Get your first close free
           </CTAButton>
         </div>
+
+        {/* Click-to-call, phones only. Renders nothing until a real number is
+            set in lib/site-config.js — see the note on PHONE. */}
+        {hasPhone() && (
+          <a
+            href={phoneHref()}
+            aria-label={`Call DayFive on ${PHONE}`}
+            className={`ml-auto mr-1 flex h-12 items-center rounded-full px-3 text-[0.95rem] font-semibold transition-colors lg:hidden ${
+              solid ? "text-ink hover:bg-cream-tint" : "text-cream hover:bg-white/10"
+            }`}
+          >
+            {PHONE}
+          </a>
+        )}
 
         <button
           type="button"

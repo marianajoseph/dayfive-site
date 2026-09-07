@@ -1,6 +1,8 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
+import { BOOKS_BEHIND_OPTIONS } from "@/lib/site-config";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -97,10 +99,23 @@ export async function POST(request) {
     return Response.json({ ok: true });
   }
 
+  // The qualifying answer, checked against the known options rather than
+  // passed through: a hand-crafted POST must not be able to write arbitrary
+  // text into a column the owner reads as a category. An unrecognised value
+  // records as blank — never dropped, and never invented.
+  const answered = String(body?.booksBehind ?? "").trim();
+  const booksBehind = BOOKS_BEHIND_OPTIONS.includes(answered) ? answered : "";
+
   const entry = {
     timestamp: new Date().toISOString(),
     email,
     source: String(body?.source ?? "start-page").slice(0, 60),
+    booksBehind,
+    // Campaign attribution. Always present as keys, even when empty, so every
+    // row has the same shape and the Sheet's columns cannot slip.
+    utm_source: String(body?.utm_source ?? "").trim().slice(0, 120),
+    utm_campaign: String(body?.utm_campaign ?? "").trim().slice(0, 120),
+    utm_adgroup: String(body?.utm_adgroup ?? "").trim().slice(0, 120),
   };
 
   let result = await toSheet(entry);
