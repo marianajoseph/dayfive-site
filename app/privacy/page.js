@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import Logo from "@/components/Logo";
 import OfferBanner from "@/components/OfferBanner";
-import { LAST_UPDATED, SECTIONS, hasPrivacyPolicy } from "@/lib/privacy";
+import { CLOSING, EFFECTIVE_DATE, INTRO, SECTIONS, hasPrivacyPolicy } from "@/lib/privacy";
 import { ADDRESS_LINE, PHONE, hasPhone, phoneHref } from "@/lib/site-config";
 
 export const metadata = {
@@ -45,8 +45,14 @@ export default function PrivacyPage() {
           Privacy Policy
         </h1>
         <p className="mt-4 text-[1rem] text-ink-500">
-          Last updated {LAST_UPDATED}
+          Effective {EFFECTIVE_DATE}
         </p>
+
+        {INTRO.map((p) => (
+          <p key={p} className="mt-6 text-lg leading-relaxed text-ink-600">
+            {p}
+          </p>
+        ))}
 
         {SECTIONS.map((section) => (
           <section key={section.heading} className="mt-10">
@@ -70,6 +76,12 @@ export default function PrivacyPage() {
             )}
           </section>
         ))}
+
+        {CLOSING && (
+          <p className="mt-12 border-t border-cream-200 pt-6 text-[1rem] leading-relaxed text-ink-500">
+            {CLOSING}
+          </p>
+        )}
       </article>
 
       <footer className="mx-auto w-full max-w-3xl border-t border-cream-200 pt-6 text-[1rem] text-ink-600">
