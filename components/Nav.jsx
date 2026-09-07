@@ -82,16 +82,36 @@ export default function Nav() {
         </div>
 
         {/* Click-to-call, phones only. Renders nothing until a real number is
-            set in lib/site-config.js — see the note on PHONE. */}
+            set in lib/site-config.js — see the note on PHONE.
+
+            A GLYPH, NOT THE NUMBER. Spelled out at 0.95rem the number is ~160px
+            wide, which alongside the logo and the menu button overflowed a
+            390px viewport and pushed the whole document sideways — the hero
+            headline clipped at the right edge on every phone. The number itself
+            is one tap away and repeated in both footers; the header only has to
+            offer the call. */}
         {hasPhone() && (
           <a
             href={phoneHref()}
             aria-label={`Call DayFive on ${PHONE}`}
-            className={`ml-auto mr-1 flex h-12 items-center rounded-full px-3 text-[0.95rem] font-semibold transition-colors lg:hidden ${
+            className={`ml-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full transition-colors lg:hidden ${
               solid ? "text-ink hover:bg-cream-tint" : "text-cream hover:bg-white/10"
             }`}
           >
-            {PHONE}
+            <svg
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M6.5 3.5h3l1.5 4-2 1.4a12 12 0 0 0 6.1 6.1l1.4-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2Z" />
+            </svg>
           </a>
         )}
 
