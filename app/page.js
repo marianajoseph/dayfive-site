@@ -19,6 +19,7 @@ import {
   Question,
 } from "@/components/Icons";
 import { ADDRESS_LINE, PHONE, hasPhone, phoneHref } from "@/lib/site-config";
+import { hasPrivacyPolicy } from "@/lib/privacy";
 
 /* ───────────────────────────────────────────────────────────── hero ─── */
 
@@ -605,6 +606,15 @@ function ClosingBand() {
               >
                 Get started
               </a>
+              {/* Linked only once there is a policy to link to. */}
+              {hasPrivacyPolicy() && (
+                <a
+                  href="/privacy"
+                  className="inline-flex min-h-[2.75rem] items-center transition-colors hover:text-gold-hover"
+                >
+                  Privacy
+                </a>
+              )}
             </div>
             <p className="mt-2 text-[0.9rem] text-mist-700 sm:text-right">
               {ADDRESS_LINE}
