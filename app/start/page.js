@@ -2,6 +2,8 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 import EmailCapture from "@/components/EmailCapture";
 import { Check, EnvelopeSpark } from "@/components/Icons";
+import OfferBanner from "@/components/OfferBanner";
+import { ADDRESS_LINE, PHONE, hasPhone, phoneHref } from "@/lib/site-config";
 
 export const metadata = {
   title: "Get started",
@@ -19,6 +21,10 @@ const promises = [
 export default function StartPage() {
   return (
     <main className="flex min-h-dvh flex-col bg-cream px-5 py-6 sm:px-8">
+      {/* No fixed nav on this page, so the banner is an ordinary first element
+          rather than part of a floating header. -mx pulls it full-bleed. */}
+      <OfferBanner inFlow />
+
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4">
         <Link href="/" aria-label="DayFive — home" className="py-2">
           <Logo />
@@ -79,9 +85,21 @@ export default function StartPage() {
             className="font-semibold text-gold-on-light underline decoration-gold-on-dark decoration-2 underline-offset-4"
           >
             docs@getdayfive.com
-          </a>{" "}
+          </a>
+          {hasPhone() && (
+            <>
+              {" or call "}
+              <a
+                href={phoneHref()}
+                className="font-semibold text-gold-on-light underline decoration-gold-on-dark decoration-2 underline-offset-4"
+              >
+                {PHONE}
+              </a>
+            </>
+          )}{" "}
           — you&rsquo;ll get a written answer, usually within hours.
         </p>
+        <p className="mt-2 text-[0.9rem] text-ink-500">{ADDRESS_LINE}</p>
       </footer>
     </main>
   );

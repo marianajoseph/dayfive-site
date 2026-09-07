@@ -2,6 +2,7 @@ import Section, { Eyebrow, SectionTitle } from "./Section";
 import CTAButton from "./CTAButton";
 import Scoreboard from "./Scoreboard";
 import { Check, Tag, Gauge } from "./Icons";
+import { ESSENTIALS_OFFER_NOTE } from "@/lib/site-config";
 
 const plans = [
   {
@@ -102,6 +103,11 @@ export default function Pricing() {
               </span>
               <span className="text-[1.05rem] text-ink-600">/mo</span>
             </p>
+            {p.name === "ESSENTIALS" && ESSENTIALS_OFFER_NOTE && (
+              <p className="mt-2 text-[1rem] font-semibold leading-snug text-gold-on-light">
+                {ESSENTIALS_OFFER_NOTE}
+              </p>
+            )}
             <p className="mt-4 text-lg leading-relaxed text-ink-600">
               <Rich text={p.lede} />
             </p>

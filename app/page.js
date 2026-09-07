@@ -18,6 +18,7 @@ import {
   Notebook,
   Question,
 } from "@/components/Icons";
+import { ADDRESS_LINE, PHONE, hasPhone, phoneHref } from "@/lib/site-config";
 
 /* ───────────────────────────────────────────────────────────── hero ─── */
 
@@ -30,7 +31,9 @@ const trustSignals = [
 
 function Hero() {
   return (
-    <section className="band-navy relative overflow-hidden bg-navy-900 px-5 pb-16 pt-[5.5rem] text-mist sm:px-8 sm:pb-24 sm:pt-32 lg:pb-28 lg:pt-40">
+    /* pt clears the FIXED HEADER, which is now the offer banner plus the nav
+       row. The old mobile value had barely any slack over the 3.75rem bar. */
+    <section className="band-navy relative overflow-hidden bg-navy-900 px-5 pb-16 pt-[7.75rem] text-mist sm:px-8 sm:pb-24 sm:pt-36 lg:pb-28 lg:pt-44">
       <div aria-hidden="true" className="glow-gold absolute inset-0" />
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-12 lg:gap-12">
@@ -574,6 +577,15 @@ function ClosingBand() {
             >
               docs@getdayfive.com
             </a>
+            {/* Beside docs@. Nothing renders until a real number is set. */}
+            {hasPhone() && (
+              <a
+                href={phoneHref()}
+                className="inline-flex min-h-[2.75rem] items-center transition-colors hover:text-gold-hover"
+              >
+                {PHONE}
+              </a>
+            )}
             <div className="flex gap-6">
               <a
                 href="#pricing"
@@ -594,7 +606,10 @@ function ClosingBand() {
                 Get started
               </a>
             </div>
-            <p className="mt-2 text-[0.9rem] text-mist-700">
+            <p className="mt-2 text-[0.9rem] text-mist-700 sm:text-right">
+              {ADDRESS_LINE}
+            </p>
+            <p className="mt-2 text-[0.9rem] text-mist-700 sm:text-right">
               © {new Date().getFullYear()} DayFive. All figures shown are illustrative
               samples for a fictional client.
             </p>

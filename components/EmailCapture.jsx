@@ -1,21 +1,61 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { track } from "@/lib/analytics";
 import { Check } from "./Icons";
+import {
+  BOOKS_BEHIND_OPTIONS,
+  BOOKS_BEHIND_QUESTION,
+  CONFIRMATION,
+} from "@/lib/site-config";
 
 const field =
   "w-full rounded-2xl border-2 border-cream-300 bg-cream px-5 py-4 text-lg text-ink placeholder:text-ink-500/70 transition-colors focus:border-gold-on-light focus:outline-none";
 
+/**
+ * Campaign parameters, read off the URL and sent along silently.
+ *
+ * Read on mount, not at module scope: this component is prerendered on the
+ * server where there is no location to read. Missing params are simply absent
+ * rather than empty strings, so a direct visit does not write blank columns.
+ */
+const UTM_KEYS = ["utm_source", "utm_campaign", "utm_adgroup"];
+
+function readUtm() {
+  if (typeof window === "undefined") return {};
+  const params = new URLSearchParams(window.location.search);
+  const out = {};
+  for (const key of UTM_KEYS) {
+    const value = (params.get(key) || "").trim();
+    if (value) out[key] = value.slice(0, 120);
+  }
+  return out;
+}
+
 export default function EmailCapture() {
   const [email, setEmail] = useState("");
+  const [booksBehind, setBooksBehind] = useState("");
+  const [utm, setUtm] = useState({});
   const [company, setCompany] = useState(""); // honeypot
+
+  // Captured once on mount so it survives the visitor scrolling, opening the
+  // FAQ, and coming back — the params are still in the URL, but reading them
+  // here keeps submit-time simple.
+  useEffect(() => setUtm(readUtm()), []);
   const [state, setState] = useState("idle"); // idle | sending | done | error
   const [error, setError] = useState("");
 
   async function onSubmit(e) {
     e.preventDefault();
     if (state === "sending") return;
+
+    // Required, and checked here as well as in the markup so the browser's
+    // own validation being bypassed does not lose the answer silently.
+    if (!booksBehind) {
+      setError("Let us know how far behind your books are.");
+      setState("error");
+      return;
+    }
 
     setState("sending");
     setError("");
@@ -24,7 +64,13 @@ export default function EmailCapture() {
       const res = await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, company, source: "start-page" }),
+        body: JSON.stringify({
+          email,
+          company,
+          source: "start-page",
+          booksBehind,
+          ...utm,
+        }),
       });
       const data = await res.json().catch(() => ({}));
 
@@ -34,7 +80,7 @@ export default function EmailCapture() {
         return;
       }
 
-      track("lead_captured", { source: "start-page" });
+      track("lead_captured", { source: "start-page", booksBehind, ...utm });
       setState("done");
     } catch {
       setError("We couldn't reach the server. Check your connection and try again.");
@@ -50,11 +96,7 @@ export default function EmailCapture() {
           You&rsquo;re on the list.
         </p>
         <p className="mt-3 text-lg leading-relaxed text-ink-600">
-          We&rsquo;ll write to{" "}
-          <strong className="font-bold text-gold-on-light">{email}</strong> the moment
-          onboarding opens — one email, no drip campaign. Want a head start? Reply to it
-          with how far behind your books are and we&rsquo;ll quote the catch-up before you
-          sign anything.
+          {CONFIRMATION.replace(/^You're on the list — /, "")}
         </p>
       </div>
     );
@@ -83,6 +125,41 @@ export default function EmailCapture() {
           aria-describedby={state === "error" ? "capture-error" : undefined}
           className={field}
         />
+      </div>
+
+      <div>
+        <label
+          htmlFor="books-behind"
+          className="mb-2 block text-[0.85rem] font-bold uppercase tracking-[0.12em] text-ink-600"
+        >
+          {BOOKS_BEHIND_QUESTION}
+        </label>
+        <select
+          id="books-behind"
+          name="booksBehind"
+          required
+          value={booksBehind}
+          onChange={(e) => setBooksBehind(e.target.value)}
+          aria-invalid={state === "error" && !booksBehind}
+          className={`${field} appearance-none bg-[length:1.1rem] bg-[right_1.25rem_center] bg-no-repeat pr-12 ${
+            booksBehind ? "" : "text-ink-500/70"
+          }`}
+          style={{
+            // Inline so the caret follows the field's own colour without a
+            // Tailwind plugin. appearance-none removes the native one.
+            backgroundImage:
+              "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23596273' stroke-width='2'><path d='M5 7.5l5 5 5-5'/></svg>\")",
+          }}
+        >
+          <option value="" disabled>
+            Choose one…
+          </option>
+          {BOOKS_BEHIND_OPTIONS.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* honeypot — hidden from people, irresistible to bots */}
