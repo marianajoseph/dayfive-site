@@ -1,11 +1,12 @@
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import EmailCapture from "@/components/EmailCapture";
-import { Check, EnvelopeSpark } from "@/components/Icons";
+import { Check, Tag } from "@/components/Icons";
 import OfferBanner from "@/components/OfferBanner";
 import {
   ADDRESS_LINE,
   PHONE,
+  RESERVE_EYEBROW,
   RESERVE_HEADING_ACCENT,
   RESERVE_HEADING_LEAD,
   RESERVE_INTRO,
@@ -49,9 +50,15 @@ export default function StartPage() {
       <div className="mx-auto flex w-full max-w-5xl flex-1 items-center py-12 sm:py-20">
         <div className="grid w-full items-start gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
+            {/* Same eyebrow treatment as before — 24px glyph, gold, uppercase,
+                0.16em tracking. The GLYPH changed from an envelope to the tag:
+                an envelope beside a price reads as a mistake, and Tag is
+                already this site's symbol for pricing (see the Pricing
+                section's eyebrow). Swap EnvelopeSpark back in if you meant the
+                icon itself to stay. */}
             <p className="mb-5 flex items-center gap-3 text-[0.8rem] font-bold uppercase tracking-[0.16em] text-gold-on-light">
-              <EnvelopeSpark size={24} className="text-gold-on-light" />
-              Almost there
+              <Tag size={24} className="text-gold-on-light" />
+              {RESERVE_EYEBROW}
             </p>
 
             {/* NOT operator copy. The originals said onboarding "opens shortly"
