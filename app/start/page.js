@@ -3,12 +3,21 @@ import Logo from "@/components/Logo";
 import EmailCapture from "@/components/EmailCapture";
 import { Check, EnvelopeSpark } from "@/components/Icons";
 import OfferBanner from "@/components/OfferBanner";
-import { ADDRESS_LINE, PHONE, hasPhone, phoneHref } from "@/lib/site-config";
+import {
+  ADDRESS_LINE,
+  PHONE,
+  RESERVE_HEADING_ACCENT,
+  RESERVE_HEADING_LEAD,
+  RESERVE_INTRO,
+  RESERVE_LEDE,
+  hasPhone,
+  phoneHref,
+} from "@/lib/site-config";
 
 export const metadata = {
   title: "Get started",
   description:
-    "Onboarding for DayFive — automated bookkeeping and FP&A — opens shortly. Leave your email and we'll write to you the moment it does.",
+    "Reserve your free first close with DayFive — automated bookkeeping and FP&A. Tell us about your business and we will reach out within one business day.",
   robots: { index: false, follow: true },
 };
 
@@ -45,15 +54,18 @@ export default function StartPage() {
               Almost there
             </p>
 
+            {/* NOT operator copy. The originals said onboarding "opens shortly"
+                and invited people to "leave your email" — waitlist language,
+                which contradicts a page whose button now reserves a close.
+                Changed for coherence rather than for style; both live in
+                lib/site-config.js and are one line each to replace. */}
             <h1 className="font-display text-[2.1rem] font-semibold leading-[1.08] tracking-[-0.03em] text-ink sm:text-[3rem]">
-              Onboarding opens shortly —{" "}
-              <span className="text-gold-on-light">leave your email</span>
+              {RESERVE_HEADING_LEAD}{" "}
+              <span className="text-gold-on-light">{RESERVE_HEADING_ACCENT}</span>
             </h1>
 
             <p className="mt-6 max-w-lg text-xl leading-relaxed text-ink-600">
-              We&rsquo;re finishing the twenty-minute checkout — package, electronic
-              signature, bank connection. Leave your address and you&rsquo;ll be first
-              through the door, with your first monthly close free.
+              {RESERVE_LEDE}
             </p>
 
             <ul className="mt-9 flex flex-col gap-5 border-t border-cream-200 pt-8">
@@ -72,6 +84,9 @@ export default function StartPage() {
           </div>
 
           <div className="rounded-3xl bg-white p-7 shadow-card sm:p-9">
+            <p className="mb-7 text-lg leading-relaxed text-ink-600">
+              {RESERVE_INTRO}
+            </p>
             <EmailCapture />
           </div>
         </div>
