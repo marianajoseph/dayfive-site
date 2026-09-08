@@ -41,7 +41,14 @@ export async function POST(request) {
 
   const entry = {
     timestamp: new Date().toISOString(),
+    // Trimmed and length-capped, not validated further: a name is whatever the
+    // person says it is, and a rule that rejects a real one is worse than an
+    // untidy cell. The Apps Script adds `businessName` as a new column on its
+    // own, so nothing there needs changing for these three.
+    name: String(body?.name ?? "").trim().slice(0, 120),
+    businessName: String(body?.businessName ?? "").trim().slice(0, 160),
     email,
+    phone: String(body?.phone ?? "").trim().slice(0, 40),
     source: String(body?.source ?? "start-page").slice(0, 60),
     booksBehind,
     // Campaign attribution. Always present as keys, even when empty, so every

@@ -7,10 +7,15 @@ import {
   BOOKS_BEHIND_OPTIONS,
   BOOKS_BEHIND_QUESTION,
   CONFIRMATION,
+  RESERVE_BUTTON,
+  RESERVE_PRIVACY_LINE,
 } from "@/lib/site-config";
 
 const field =
   "w-full rounded-2xl border-2 border-cream-300 bg-cream px-5 py-4 text-lg text-ink placeholder:text-ink-500/70 transition-colors focus:border-gold-on-light focus:outline-none";
+
+const label =
+  "mb-2 block text-[0.85rem] font-bold uppercase tracking-[0.12em] text-ink-600";
 
 /**
  * Campaign parameters, read off the URL and sent along silently.
@@ -33,26 +38,31 @@ function readUtm() {
 }
 
 export default function EmailCapture() {
+  const [name, setName] = useState("");
+  const [businessName, setBusinessName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [booksBehind, setBooksBehind] = useState("");
   const [utm, setUtm] = useState({});
   const [company, setCompany] = useState(""); // honeypot
-
-  // Captured once on mount so it survives the visitor scrolling, opening the
-  // FAQ, and coming back — the params are still in the URL, but reading them
-  // here keeps submit-time simple.
-  useEffect(() => setUtm(readUtm()), []);
   const [state, setState] = useState("idle"); // idle | sending | done | error
   const [error, setError] = useState("");
+
+  useEffect(() => setUtm(readUtm()), []);
 
   async function onSubmit(e) {
     e.preventDefault();
     if (state === "sending") return;
 
-    // Required, and checked here as well as in the markup so the browser's
-    // own validation being bypassed does not lose the answer silently.
-    if (!booksBehind) {
-      setError("Let us know how far behind your books are.");
+    // Checked here as well as in the markup, so the browser's own validation
+    // being bypassed cannot lose an answer silently.
+    const missing =
+      (!name.trim() && "your name") ||
+      (!businessName.trim() && "your business name") ||
+      (!email.trim() && "your email") ||
+      (!booksBehind && "how far behind your books are");
+    if (missing) {
+      setError(`We still need ${missing}.`);
       setState("error");
       return;
     }
@@ -65,10 +75,13 @@ export default function EmailCapture() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          name,
+          businessName,
           email,
+          phone,
+          booksBehind,
           company,
           source: "start-page",
-          booksBehind,
           ...utm,
         }),
       });
@@ -105,10 +118,41 @@ export default function EmailCapture() {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-5" noValidate>
       <div>
-        <label
-          htmlFor="email"
-          className="mb-2 block text-[0.85rem] font-bold uppercase tracking-[0.12em] text-ink-600"
-        >
+        <label htmlFor="name" className={label}>
+          Your name
+        </label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          required
+          autoComplete="name"
+          placeholder="Alex Rivera"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className={field}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="business" className={label}>
+          Business name
+        </label>
+        <input
+          id="business"
+          name="businessName"
+          type="text"
+          required
+          autoComplete="organization"
+          placeholder="Rivera Plumbing LLC"
+          value={businessName}
+          onChange={(e) => setBusinessName(e.target.value)}
+          className={field}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="email" className={label}>
           Your email
         </label>
         <input
@@ -128,10 +172,24 @@ export default function EmailCapture() {
       </div>
 
       <div>
-        <label
-          htmlFor="books-behind"
-          className="mb-2 block text-[0.85rem] font-bold uppercase tracking-[0.12em] text-ink-600"
-        >
+        <label htmlFor="phone" className={label}>
+          Phone <span className="font-medium normal-case tracking-normal text-ink-500">(optional)</span>
+        </label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          autoComplete="tel"
+          inputMode="tel"
+          placeholder="(609) 555-0142"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          className={field}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="books-behind" className={label}>
           {BOOKS_BEHIND_QUESTION}
         </label>
         <select
@@ -145,8 +203,6 @@ export default function EmailCapture() {
             booksBehind ? "" : "text-ink-500/70"
           }`}
           style={{
-            // Inline so the caret follows the field's own colour without a
-            // Tailwind plugin. appearance-none removes the native one.
             backgroundImage:
               "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23596273' stroke-width='2'><path d='M5 7.5l5 5 5-5'/></svg>\")",
           }}
@@ -185,14 +241,13 @@ export default function EmailCapture() {
       <button
         type="submit"
         disabled={state === "sending"}
-        className="inline-flex min-h-[3.5rem] items-center justify-center rounded-full bg-gold-on-dark px-8 text-[1.05rem] font-semibold tracking-tight text-navy-950 shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-gold-on-light hover:text-cream disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex min-h-[3.5rem] items-center justify-center rounded-full bg-gold-on-dark px-8 text-center text-[1.05rem] font-semibold tracking-tight text-navy-950 shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:bg-gold-on-light hover:text-cream disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {state === "sending" ? "Adding you…" : "Tell me when it opens"}
+        {state === "sending" ? "Reserving…" : RESERVE_BUTTON}
       </button>
 
       <p className="text-[1rem] leading-relaxed text-ink-600">
-        One email when onboarding opens. No newsletter, we don&rsquo;t share your address
-        with anyone, and you can unsubscribe in one click.
+        {RESERVE_PRIVACY_LINE}
       </p>
     </form>
   );
