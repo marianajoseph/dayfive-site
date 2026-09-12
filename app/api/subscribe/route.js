@@ -1,4 +1,5 @@
 import { appendLead } from "@/lib/leads";
+import { sendConfirmation } from "@/lib/email";
 import { BOOKS_BEHIND_OPTIONS } from "@/lib/site-config";
 
 export const runtime = "nodejs";
@@ -57,6 +58,11 @@ export async function POST(request) {
     utm_campaign: String(body?.utm_campaign ?? "").trim().slice(0, 120),
     utm_adgroup: String(body?.utm_adgroup ?? "").trim().slice(0, 120),
   };
+
+  // Sent BEFORE the Sheet write so its outcome travels with the lead as a
+  // column, rather than living in a log nobody reads. sendConfirmation never
+  // throws and is time-bounded — see lib/email.js.
+  entry.confirmSent = await sendConfirmation({ to: entry.email, name: entry.name });
 
   const result = await appendLead(entry);
 
