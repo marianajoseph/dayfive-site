@@ -1,4 +1,5 @@
 import { appendLead } from "@/lib/leads";
+import { sendConfirmation } from "@/lib/email";
 import { BOOKS_BEHIND_OPTIONS } from "@/lib/site-config";
 
 export const runtime = "nodejs";
@@ -130,6 +131,13 @@ export async function POST(request) {
     // webhook, which is the opposite of what the button is for.
     is_test: Boolean(body?.is_test),
   };
+
+  // A TEST LEAD GETS NO EMAIL. Google's "Send test data" carries a plausible
+  // address, and a real person receiving a real email from a button marked
+  // "test" is a bad surprise.
+  entry.confirmSent = entry.is_test
+    ? "skipped: test lead"
+    : await sendConfirmation({ to: entry.email, name: entry.name });
 
   const result = await appendLead(entry);
   if (result.ok) {
