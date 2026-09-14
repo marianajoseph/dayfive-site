@@ -1,0 +1,61 @@
+/**
+ * DayFive explainer — Remotion config.
+ *
+ * TWO THINGS THIS FILE EXISTS FOR.
+ *
+ * 1. The `@/` alias, pointing at the SITE ROOT. Beats 4, 5 and 6 render the
+ *    site's own sample-pack components (components/docs/DocPages.jsx) rather
+ *    than a copy of them, so the video cannot drift from the site. Those
+ *    components import `@/lib/sample-data`, and Remotion's webpack does not
+ *    read the site's jsconfig.json, so the alias is restated here.
+ *
+ * 2. Tailwind v4, because the sample pack is written in Tailwind classes
+ *    against the tokens in app/globals.css. Re-implementing those classes for
+ *    the video would be a second definition of the brand - exactly the drift
+ *    the machine's pack renderer has a golden test to prevent.
+ *
+ * Rendered output goes to C:\DayFive\staging\video\, never into the repo.
+ * Operator: "never commit the keys or the rendered MP4s to git."
+ */
+import path from "node:path";
+import fs from "node:fs";
+import { Config } from "@remotion/cli/config";
+import { enableTailwind } from "@remotion/tailwind-v4";
+
+/* Remotion transpiles this config to CJS before running it, so `import.meta`
+ * is empty here and cannot be used to locate the file. The config is loaded
+ * relative to the working directory, so the working directory is video/.
+ *
+ * CHECKED, NOT ASSUMED. An alias pointing at the wrong root would not fail —
+ * webpack would simply not resolve `@/components/...`, and the error names a
+ * missing module rather than a misconfigured path. Failing here says what is
+ * actually wrong. */
+const SITE_ROOT = path.resolve(process.cwd(), "..");
+if (!fs.existsSync(path.join(SITE_ROOT, "components", "docs", "DocPages.jsx"))) {
+  throw new Error(
+    `remotion.config.js resolved the site root to ${SITE_ROOT}, which does not ` +
+      "contain components/docs/DocPages.jsx. Run remotion from the video/ " +
+      "directory — the '@' alias is resolved relative to the working directory."
+  );
+}
+
+Config.setVideoImageFormat("jpeg");
+Config.setOverwriteOutput(true);
+Config.setOutputLocation("C:\DayFive\staging\video");
+
+Config.overrideWebpackConfig((current) => {
+  const withTailwind = enableTailwind(current);
+  return {
+    ...withTailwind,
+    resolve: {
+      ...withTailwind.resolve,
+      alias: {
+        ...(withTailwind.resolve?.alias ?? {}),
+        // Exact-prefix alias only. `resolve.extensions` is deliberately NOT
+        // touched: replacing it dropped Remotion's own defaults and broke
+        // resolution of every local .jsx import in this directory.
+        "@": SITE_ROOT,
+      },
+    },
+  };
+});

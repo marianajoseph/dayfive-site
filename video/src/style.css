@@ -1,0 +1,25 @@
+/* The SITE's stylesheet, not a copy of it.
+ *
+ * app/globals.css carries `@import "tailwindcss"` and the `@theme` block that
+ * defines every brand token. Importing it here means the video is drawn with
+ * the same colours, type scale and shadows as the page, and a token changed on
+ * the site changes the video on the next render.
+ *
+ * Re-implementing those tokens for the video would be a second definition of
+ * the brand — which is exactly the drift the machine's pack renderer keeps a
+ * golden test to prevent, and this route avoids needing one.
+ */
+@import "../../app/globals.css";
+
+/* Tailwind v4 discovers utilities by scanning source files near the CSS it was
+ * imported from. The classes the video uses live in two places it would not
+ * otherwise look: the site's shared components, and this directory.
+ */
+@source "../../components";
+@source "../../lib";
+@source "./";
+
+/* next/font sets --font-fraunces and --font-manrope on the site. There is no
+ * Next here, so the same two families are loaded by @remotion/google-fonts and
+ * the variables are set from the family names it returns — see fonts.js.
+ */

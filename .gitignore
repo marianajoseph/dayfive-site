@@ -28,3 +28,13 @@ yarn-error.log*
 
 # captured leads (local dev only — never commit real emails)
 /data/leads.json
+
+# video: Remotion's own dependency tree, and everything it renders.
+# The root /node_modules rule is anchored and does not reach video/.
+# Rendered MP4s never enter git — they go to C:\DayFive\staging\video\.
+/video/node_modules
+/video/out
+*.mp4
+*.mov
+*.wav
+*.mp3
