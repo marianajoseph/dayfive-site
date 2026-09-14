@@ -17,6 +17,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 export const STAGING = "C:\\DayFive\\staging\\video";
 const LOG = path.join(STAGING, "spend-log.jsonl");
@@ -74,7 +75,12 @@ export function summary() {
 }
 
 // `node scripts/spend-log.mjs` prints the ledger.
-if (import.meta.url === `file://${process.argv[1].replace(/\\/g, "/")}`) {
+//
+// pathToFileURL, not a hand-built "file://" string: on Windows process.argv[1]
+// is "C:\...\spend-log.mjs" and the naive comparison produced "file://C:/..."
+// against an import.meta.url of "file:///C:/...". Three slashes against two, so
+// the ledger silently printed nothing when asked.
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const s = summary();
   for (const r of s.rows) {
     const cost = r.usd != null ? `$${r.usd.toFixed(2)}${r.exact ? "" : " est"}` : "—";
