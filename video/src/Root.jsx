@@ -27,6 +27,7 @@ import { MASTER } from "./config";
 import timings from "./timings.json";
 import Master, { MASTER_FRAMES, layout } from "./Master";
 import Cutdown, { CUTDOWN_FRAMES } from "./Cutdown";
+import Ad, { AD_FRAMES } from "./Ad";
 import PnlScroll from "./beats/PnlScroll";
 import {
   Beat03Intake, Beat05Citation, Beat06Insights, Beat07Question,
@@ -52,6 +53,15 @@ const beat = (id, component, n) => (
 
 export const Root = () => (
   <>
+    {/* The ad — the deliverable. v1 sits below it, kept. */}
+    <Composition
+      id="Ad60"
+      component={Ad}
+      durationInFrames={AD_FRAMES}
+      fps={MASTER.fps}
+      width={MASTER.width}
+      height={MASTER.height}
+    />
     <Composition
       id="MasterV1"
       component={Master}
