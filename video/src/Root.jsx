@@ -5,6 +5,23 @@
  * rendering one beat to look at it is the loop this was built for — a 9-second
  * render answers "does that read?" and an 86-second one does not.
  */
+/**
+ * V1 — THE CALM FILM. Kept, not deleted.
+ *
+ * Operator, 2026-09-20: the master was "approved as craft but rejected as an
+ * ad — too slow, too calm, too premium for our buyer… Keep the old master as
+ * v1 in the repo — it's a good film for a different audience."
+ *
+ * So it stays whole and renderable: Master.jsx, Cutdown.jsx, the beats in
+ * motion.jsx, the timings, the Sarah takes. The 60-second ad is a NEW set of
+ * compositions beside these, not an edit of them — rebuilding in place would
+ * destroy the thing that was judged good at what it does.
+ *
+ * Its audience is somebody already considering us: a page, a proposal, an
+ * onboarding email. The ad's audience is somebody scrolling past.
+ *
+ * Renders are named dayfive-explainer-v1-*.mp4 in staging.
+ */
 import { Composition } from "remotion";
 import { MASTER } from "./config";
 import timings from "./timings.json";
@@ -36,7 +53,7 @@ const beat = (id, component, n) => (
 export const Root = () => (
   <>
     <Composition
-      id="Master"
+      id="MasterV1"
       component={Master}
       durationInFrames={MASTER_FRAMES}
       fps={MASTER.fps}
@@ -44,7 +61,7 @@ export const Root = () => (
       height={MASTER.height}
     />
     <Composition
-      id="Cutdown30"
+      id="CutdownV1-30"
       component={Cutdown}
       durationInFrames={CUTDOWN_FRAMES}
       fps={MASTER.fps}

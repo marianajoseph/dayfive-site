@@ -62,8 +62,8 @@ export const BEATS = [
   },
   {
     n: 8,
-    text: "One flat monthly price. No hourly meters. No surprise invoices. And your first close is free.",
-    visual: "Text '$450/month. Flat. No hourly billing.' then 'Fall Offer: $299/mo for life.'",
+    text: "One flat monthly price. No hourly meters. No surprise invoices. And your first month is free.",
+    visual: "The price and the offer, both read from lib/pricing.js — never typed here.",
     source: "motion",
   },
   {
@@ -89,7 +89,7 @@ export const CUTDOWN_BEATS = [7, 8, 9, 10];
 
 /** The 15s bumper. Its own copy, not a beat of the master. */
 export const BUMPER_TEXT =
-  "Books closed by day five. Flat price. First close free. DayFive.";
+  "Books closed by day five. Flat price. First month free. DayFive.";
 
 /** Rough spoken length of a line, for laying beats out before audio exists. */
 export function estimateSeconds(text) {
