@@ -9,6 +9,7 @@ import { Composition } from "remotion";
 import { MASTER } from "./config";
 import timings from "./timings.json";
 import Master, { MASTER_FRAMES, layout } from "./Master";
+import Cutdown, { CUTDOWN_FRAMES } from "./Cutdown";
 import PnlScroll from "./beats/PnlScroll";
 import {
   Beat03Intake, Beat05Citation, Beat06Insights, Beat07Question,
@@ -38,6 +39,14 @@ export const Root = () => (
       id="Master"
       component={Master}
       durationInFrames={MASTER_FRAMES}
+      fps={MASTER.fps}
+      width={MASTER.width}
+      height={MASTER.height}
+    />
+    <Composition
+      id="Cutdown30"
+      component={Cutdown}
+      durationInFrames={CUTDOWN_FRAMES}
       fps={MASTER.fps}
       width={MASTER.width}
       height={MASTER.height}

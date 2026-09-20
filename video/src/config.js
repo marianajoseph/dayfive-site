@@ -1,40 +1,54 @@
 /**
- * Everything on screen that could change without the video being remade.
+ * THE PRICES COME FROM THE SITE. They are not restated here.
  *
- * Operator, 2026-09-14: "the offer line and price must be config values, not
- * baked pixels."
+ * This file used to carry its own copies — "$450/month", "Fall Offer: $299/mo
+ * for life" — and when the site moved to one product at $299 the video went on
+ * rendering the old ones. The cutdown was built, encoded and watched before
+ * anybody noticed, with a price on screen that the company no longer charges.
  *
- * The point is a re-render, not an edit. When Essentials moves off $450, or the
- * fall offer ends, or the phone number changes, this file changes and the video
- * is rendered again — nobody opens an editor, nobody re-types a number into a
- * title card, and no stale price survives in a frame somebody forgot about.
+ * The docstring right here warned about exactly that: "a number typed twice is
+ * a number that will eventually disagree with itself." It was typed twice
+ * anyway, two files apart, which is the distance at which the rule stops
+ * feeling like it applies.
  *
- * That is the same reason the machine's pack renders from the ledger rather
- * than from a document somebody updated: a number typed twice is a number that
- * will eventually disagree with itself.
+ * So the video reads lib/pricing.js — the same module the price card, the
+ * banner, the /start eyebrow and the structured data read. Remotion already
+ * resolves `@` to the site root for the sample-pack components; this is the
+ * same door.
  */
+import { OFFER, PLAN, TERMS } from "@/lib/pricing";
+
+/**
+ * Contact details, read from the site so there is one of each.
+ *
+ * PHONE comes from lib/site-config.js — the same string the header and footer
+ * render. A phone number on an end card that the site has changed is a call
+ * nobody answers.
+ */
+import { PHONE, ADDRESS } from "@/lib/site-config";
 
 export const brand = {
   url: "getdayfive.com",
-  phone: "(609) 482-5663",
+  phone: PHONE.replace(/^\+1\s*/, ""),
   wordmark: { plain: "Day", accent: "Five" },
 };
 
 export const pricing = {
-  /** The list price of Essentials, as it appears on the pricing page. */
-  essentials: "$450/month",
-  /** The flat-price claim, beat 8. */
+  /** e.g. "$299/month" — assembled from the site's plan, never retyped. */
+  essentials: `${PLAN.price}${PLAN.period}`,
   flatLine: "Flat. No hourly billing.",
   /**
-   * The fall offer. `active: false` drops the line from beat 8 entirely rather
-   * than leaving an expired promise on screen — a video that keeps running
-   * after the offer ends is the failure this config exists to prevent.
+   * The offer. `active` comes from the site, so ending the offer there ends it
+   * in the video on the next render — no second flag to remember.
    */
   offer: {
-    active: true,
-    line: "Fall Offer: $299/mo for life.",
+    active: OFFER.active,
+    // The SHORT form. OFFER.banner is written for a one-line web banner and
+    // wraps to two lines on a video card; OFFER.note is the same offer said
+    // briefly, which is what a card three seconds long needs.
+    line: OFFER.note,
   },
-  firstCloseFree: "Your first close is free.",
+  firstCloseFree: TERMS.firstMonthFree,
 };
 
 /** The end card, beat 10. */
@@ -44,31 +58,8 @@ export const endCard = {
   phone: brand.phone,
 };
 
+export { colors } from "./colors";
 /**
- * Brand colours, read from the SITE's tokens at build time via Tailwind
- * classes wherever possible. These literals exist only for the handful of
- * places that need a colour in JS — an SVG fill, an interpolated background —
- * and each is the same hex as app/globals.css.
- *
- * A test compares them to globals.css, the same way the machine's pack
- * renderer keeps its TOKENS honest. Two copies of a palette with nothing
- * checking them is how a brand drifts.
- */
-export const colors = {
-  cream: "#f7f3ea",
-  creamTint: "#f1e9db",
-  cream200: "#e9dfcd",
-  cream300: "#dbcfb7",
-  navy950: "#050c17",
-  navy900: "#081426",
-  ink: "#0e1c31",
-  ink600: "#36434f",
-  ink500: "#626d7e",
-  goldOnDark: "#d9ae52",
-  goldOnLight: "#8a6a20",
-  mist: "#e6edf7",
-};
-
 /** 1080p, 16:9, 30fps. The master's format, per the brief. */
 export const MASTER = { width: 1920, height: 1080, fps: 30 };
 

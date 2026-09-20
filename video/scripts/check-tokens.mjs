@@ -18,7 +18,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { colors } from "../src/config.js";
+import { colors } from "../src/colors.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const GLOBALS = path.resolve(HERE, "..", "..", "app", "globals.css");
