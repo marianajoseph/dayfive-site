@@ -38,3 +38,10 @@ yarn-error.log*
 *.mov
 *.wav
 *.mp3
+
+# …but the GENERATED media the render is made from is a source asset, not
+# build output. Veo and ElevenLabs have no seed: regenerating produces
+# different footage, so a clean clone could not rebuild the film without
+# these. Operator ruling 2026-09-20.
+!/video/assets/broll/*.mp4
+!/video/assets/vo/*.mp3
