@@ -45,3 +45,5 @@ yarn-error.log*
 # these. Operator ruling 2026-09-20.
 !/video/assets/broll/*.mp4
 !/video/assets/vo/*.mp3
+!/video/assets/ad-broll/*.mp4
+!/video/assets/ad-vo/*.mp3
