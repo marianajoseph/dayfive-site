@@ -77,7 +77,7 @@ export default function Nav() {
             className="min-h-[2.9rem] px-6 text-[0.98rem] sm:min-h-[2.9rem]"
             arrow={false}
           >
-            Get your first close free
+            Get your first month free
           </CTAButton>
         </div>
 
@@ -160,7 +160,7 @@ export default function Nav() {
             ))}
           </nav>
           <CTAButton location="nav-mobile" className="mt-5 w-full">
-            Get your first close free
+            Get your first month free
           </CTAButton>
         </div>
       )}

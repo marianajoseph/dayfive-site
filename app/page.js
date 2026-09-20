@@ -6,6 +6,7 @@ import CalendarFive from "@/components/CalendarFive";
 import Inbox from "@/components/Inbox";
 import Pricing from "@/components/Pricing";
 import Logo from "@/components/Logo";
+import Scoreboard from "@/components/Scoreboard";
 import {
   CalendarStruck,
   Moon,
@@ -17,6 +18,7 @@ import {
   People,
   Notebook,
   Question,
+  Gauge,
 } from "@/components/Icons";
 import { ADDRESS_LINE, PHONE, hasPhone, phoneHref } from "@/lib/site-config";
 import { hasPrivacyPolicy } from "@/lib/privacy";
@@ -62,7 +64,7 @@ function Hero() {
           <div
             className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:items-center"
           >
-            <CTAButton location="hero">Get your first close free</CTAButton>
+            <CTAButton location="hero">Get your first month free</CTAButton>
             <CTAButton href="#how-it-works" variant="onNavy" location="hero" arrow={false}>
               How it works
             </CTAButton>
@@ -122,7 +124,7 @@ const steps = [
     title: "Order online.",
     body: (
       <>
-        Pick a package, sign electronically, connect your bank. Twenty minutes, start to
+        Sign electronically, connect your bank, send us last month. Twenty minutes, start to
         finish. No discovery call. No proposal. No calendar links.
       </>
     ),
@@ -182,6 +184,36 @@ function HowItWorks() {
           </li>
         ))}
       </ol>
+
+      {/* The Scoreboard sample.
+          Moved here from the pricing section on 2026-09-20. It was labelled
+          "included with Insights" and that tier no longer exists — but the
+          tier leaving is no reason for the asset to, and it is the clearest
+          thing on the site for showing what a close actually produces.
+          Labelled neutrally: no tier name, no promise about which plan it
+          belongs to. It illustrates the work, which is what this section is
+          for. */}
+      <div className="mt-14 rounded-3xl bg-white p-6 shadow-soft ring-1 ring-cream-200 sm:p-9">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow text-gold-on-light">
+              <Gauge size={20} className="shrink-0" />
+              From a real close
+            </p>
+            <h3 className="mt-2 font-display text-[1.8rem] font-semibold tracking-[-0.03em] text-ink sm:text-[2.1rem]">
+              What a month looks like when it lands
+            </h3>
+          </div>
+          <p className="max-w-sm text-[1rem] leading-relaxed text-ink-600">
+            Riverside Plumbing LLC, July 2026 — a sample close. Your numbers,
+            read at a glance.
+          </p>
+        </div>
+
+        <div className="mt-10 text-base">
+          <Scoreboard theme="cream" />
+        </div>
+      </div>
     </Section>
   );
 }
@@ -276,7 +308,7 @@ function FirstClose() {
           <Check size={44} className="text-gold-on-light" />
         </div>
         <Eyebrow icon={Gift} className="justify-center">
-            Your first close is on us
+          Your first month is on us
           </Eyebrow>
         <SectionTitle>Try DayFive with nothing to lose.</SectionTitle>
 
@@ -554,7 +586,7 @@ function ClosingBand() {
             lose" is the dominant close; this band is the reminder. */}
         <div className="mt-9 flex justify-center">
           <CTAButton location="footer-cta" variant="linkOnNavy">
-            Get your first close free
+            Get your first month free
           </CTAButton>
         </div>
       </div>
