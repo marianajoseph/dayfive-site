@@ -16,7 +16,7 @@ import {
 const groups = [
   {
     id: "close-pack",
-    tier: "Every plan",
+    tier: "Included today",
     title: "The monthly close pack",
     /* `page` is where the sheet actually sits in the real pack, so the viewer
        can say "Page 5 of 14" rather than pretending the pack is three pages. */
@@ -28,7 +28,7 @@ const groups = [
     ],
     body: (
       <p>
-        <strong className="font-bold text-ink">Every plan:</strong> the monthly close
+        <strong className="font-bold text-ink">Included today:</strong> the monthly close
         pack — clean statements plus{" "}
         <strong className="font-bold text-gold-on-light">
           the one-page summary: five insights, ranked, each one actionable.
@@ -38,7 +38,7 @@ const groups = [
   },
   {
     id: "money-in-motion",
-    tier: "Growth adds",
+    tier: "Building next",
     title: "Money in Motion",
     packSize: 3,
     pages: [
@@ -48,7 +48,7 @@ const groups = [
     ],
     body: (
       <p>
-        <strong className="font-bold text-ink">Growth adds:</strong> the{" "}
+        <strong className="font-bold text-ink">Building next:</strong> the{" "}
         <strong className="font-bold text-gold-on-light">
           &ldquo;Money in Motion&rdquo; page
         </strong>{" "}
@@ -61,7 +61,7 @@ const groups = [
   },
   {
     id: "fpa-pack",
-    tier: "Insights adds",
+    tier: "Building next",
     title: "The FP&A pack",
     packSize: 9,
     pages: [
@@ -71,7 +71,7 @@ const groups = [
     ],
     body: (
       <p>
-        <strong className="font-bold text-ink">Insights adds:</strong> the{" "}
+        <strong className="font-bold text-ink">Building next:</strong> the{" "}
         <strong className="font-bold text-gold-on-light">FP&amp;A pack</strong> — your budget
         vs. what actually happened, explained; the rolling 12-month forecast;{" "}
         <strong className="font-bold text-gold-on-light">Your Business Scoreboard</strong> with

@@ -18,13 +18,13 @@ import {
 export const metadata = {
   title: "Get started",
   description:
-    "Reserve your free first close with DayFive — automated bookkeeping and FP&A. Tell us about your business and we will reach out within one business day.",
+    "Reserve your free first month with DayFive — automated bookkeeping, one flat price. Tell us about your business and we will reach out within one business day.",
   robots: { index: false, follow: true },
 };
 
 const promises = [
-  ["Twenty minutes", "Pick a package, sign electronically, connect your bank."],
-  ["First close free", "Statements plus the five-insight summary, on us."],
+  ["Twenty minutes", "Sign electronically, connect your bank, send us last month."],
+  ["First month free", "Statements plus the five-insight summary, on us."],
   ["Cancel in two clicks", "And keep the clean books. No contract, no call."],
 ];
 
@@ -48,8 +48,15 @@ export default function StartPage() {
       </header>
 
       <div className="mx-auto flex w-full max-w-5xl flex-1 items-center py-12 sm:py-20">
-        <div className="grid w-full items-start gap-12 lg:grid-cols-2 lg:gap-20">
-          <div>
+        {/* MOBILE FIRST: headline, then the FORM, then the promises.
+            Operator, 2026-09-20 — two thirds of ad traffic is phones.
+            Stacked in DOM order the form sat about 900px down, a full scroll
+            below the fold on a 390x844 screen, behind three benefit bullets
+            somebody has already read in the ad.
+            On lg the explicit row/column placement puts it back beside the
+            copy, so the desktop layout is unchanged. */}
+        <div className="flex w-full flex-col gap-10 lg:grid lg:grid-cols-2 lg:items-start lg:gap-20">
+          <div className="lg:col-start-1 lg:row-start-1">
             {/* Same eyebrow treatment as before — 24px glyph, gold, uppercase,
                 0.16em tracking. The GLYPH changed from an envelope to the tag:
                 an envelope beside a price reads as a mistake, and Tag is
@@ -75,27 +82,29 @@ export default function StartPage() {
               {RESERVE_LEDE}
             </p>
 
-            <ul className="mt-9 flex flex-col gap-5 border-t border-cream-200 pt-8">
-              {promises.map(([title, body]) => (
-                <li key={title} className="flex gap-4">
-                  <Check size={22} className="mt-1 shrink-0 text-gold-on-light" />
-                  <span>
-                    <strong className="block text-[1.15rem] font-bold tracking-[-0.015em] text-ink">
-                      {title}
-                    </strong>
-                    <span className="text-lg leading-relaxed text-ink-600">{body}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
           </div>
 
-          <div className="rounded-3xl bg-white p-7 shadow-card sm:p-9">
+          <div className="rounded-3xl bg-white p-6 shadow-card sm:p-9 lg:col-start-2 lg:row-start-1 lg:row-span-2">
             <p className="mb-7 text-lg leading-relaxed text-ink-600">
               {RESERVE_INTRO}
             </p>
             <EmailCapture />
           </div>
+
+          {/* Last on a phone, back under the headline on desktop. */}
+          <ul className="flex flex-col gap-5 border-t border-cream-200 pt-8 lg:col-start-1 lg:row-start-2 lg:mt-1">
+            {promises.map(([title, body]) => (
+              <li key={title} className="flex gap-4">
+                <Check size={22} className="mt-1 shrink-0 text-gold-on-light" />
+                <span>
+                  <strong className="block text-[1.15rem] font-bold tracking-[-0.015em] text-ink">
+                    {title}
+                  </strong>
+                  <span className="text-lg leading-relaxed text-ink-600">{body}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 

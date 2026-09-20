@@ -453,7 +453,7 @@ export function WeeklyEmail() {
       </div>
 
       <p className="mt-auto pt-[0.9em] text-[0.72em] leading-snug text-ink-500">
-        Sent every Monday at 6:00 AM Eastern. Included in Growth and Insights plans.
+        Sent every Monday at 6:00 AM Eastern. Building next — not included today.
       </p>
     </DocFrame>
   );

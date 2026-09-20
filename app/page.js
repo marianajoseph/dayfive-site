@@ -256,7 +256,7 @@ function AlwaysOn() {
               </p>
             </div>
             <p className="mt-5 text-[1rem] text-ink-600">
-              Included in Growth and Insights plans when the portal ships. Until then,
+              Building next — not included today. Until the portal ships,
               write to us — the answer still arrives, in writing.
             </p>
           </div>

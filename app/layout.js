@@ -1,3 +1,4 @@
+import { PLAN, SCHEMA_PRICE } from "@/lib/pricing";
 import { Fraunces, Manrope } from "next/font/google";
 import "./globals.css";
 
@@ -29,11 +30,11 @@ export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
-      "DayFive — Automated Bookkeeping & FP&A | Your Books Closed by Day Five",
+      "DayFive — Automated Bookkeeping | Your Books Closed by Day Five",
     template: "%s · DayFive",
   },
   description:
-    "DayFive is an automated bookkeeping and FP&A service for small businesses. Your monthly close lands by business day 5 with five plain-English insights. Flat monthly price, no meetings, first close free.",
+    "DayFive is an automated bookkeeping service for small businesses. Your monthly close lands by business day 5 with five plain-English insights. Flat monthly price, no meetings, first month free.",
   // Deliberately national and capability-led. The page qualifies its market by
   // what a business has (transactions) rather than where it is, so geographic
   // and single-vertical terms were pulling against the copy they sit on.
@@ -45,7 +46,7 @@ export const metadata = {
     "catch-up bookkeeping",
     "small business accounting",
     "AI bookkeeping",
-    "FP&A for small business",
+    "monthly bookkeeping service",
   ],
   applicationName: "DayFive",
   authors: [{ name: "DayFive" }],
@@ -57,14 +58,14 @@ export const metadata = {
     siteName: "DayFive",
     title: "Your books. Closed by day five. Every month.",
     description:
-      "An automated bookkeeping and FP&A service. Clean financials plus five ranked, plain-English insights by business day 5 — every month. First close free.",
+      "An automated bookkeeping service. Clean financials plus five ranked, plain-English insights by business day 5 — every month. First month free.",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
     title: "Your books. Closed by day five. Every month.",
     description:
-      "An automated bookkeeping and FP&A service. Clean financials plus five ranked insights by business day 5. First close free.",
+      "An automated bookkeeping service. Clean financials plus five ranked insights by business day 5. First month free.",
   },
   robots: {
     index: true,
@@ -86,19 +87,26 @@ const jsonLd = {
   "@type": "ProfessionalService",
   name: "DayFive",
   description:
-    "Automated bookkeeping and FP&A. Monthly close delivered by business day 5 with five plain-English insights.",
+    "Automated bookkeeping, one flat price. Monthly close delivered by business day 5 with five plain-English insights.",
   url: SITE_URL,
   email: "docs@getdayfive.com",
   areaServed: { "@type": "Country", name: "United States" },
   address: { "@type": "PostalAddress", addressCountry: "US" },
-  priceRange: "$450–$1,800 per month",
+  // Structured data reads from lib/pricing.js like everything else. A search
+  // engine quoting a price the page no longer charges is the worst place for
+  // a stale number: it is cached, it is out of our hands, and the visitor sees
+  // it before the site.
+  priceRange: `${PLAN.price} per month`,
   hasOfferCatalog: {
     "@type": "OfferCatalog",
-    name: "Bookkeeping plans",
+    name: "Bookkeeping",
     itemListElement: [
-      { "@type": "Offer", name: "Essentials", price: "450", priceCurrency: "USD" },
-      { "@type": "Offer", name: "Growth", price: "850", priceCurrency: "USD" },
-      { "@type": "Offer", name: "Insights", price: "1800", priceCurrency: "USD" },
+      {
+        "@type": "Offer",
+        name: PLAN.name,
+        price: SCHEMA_PRICE,
+        priceCurrency: "USD",
+      },
     ],
   },
 };

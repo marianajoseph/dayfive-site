@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "DayFive — your books, closed by day five, every month. Automated bookkeeping and FP&A.";
+  "DayFive — your books, closed by day five, every month. Automated bookkeeping, one flat price.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
