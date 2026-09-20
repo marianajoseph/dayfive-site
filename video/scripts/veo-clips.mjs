@@ -154,7 +154,15 @@ export const CLIPS = [
  * exactly and marks the dollar estimate as unconfirmed. Reconcile against the
  * AI Studio billing page rather than trusting this number.
  */
-const ASSUMED_USD_PER_SECOND = 0.15;
+// Published rate, ai.google.dev/gemini-api/docs/pricing, read 2026-09-20:
+// veo-3.1-fast is $0.12/s at 1080p (and $0.10/s at 720p, which the first
+// clip came back as before the resolution parameter was added). Audio is
+// included in the price — which is why these clips arrive with a track that
+// is then muted: it was paid for whether it was wanted or not.
+//
+// Still not a bill. scripts/reconcile-spend.mjs re-costs the ledger from this
+// table and says so; the AI Studio usage page is the authority.
+const ASSUMED_USD_PER_SECOND = 0.12;
 
 function loadKey() {
   for (const file of [".env.local", ".env"]) {
