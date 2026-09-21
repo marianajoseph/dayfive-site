@@ -75,6 +75,36 @@ const MAX_RETRIES = 4;
 /** 60s, 120s, 240s, 480s. Doubling, because a fixed wait meets a limit that
  *  has not reset yet and burns a retry finding out. */
 const BACKOFF = (attempt) => THROTTLE_SECONDS * 2 ** attempt;
+/**
+ * THE DAILY CAP, AND THE ORDER THAT MATTERS IF WE RUN OUT.
+ *
+ * Operator, 2026-09-21, confirmed at ai.dev/rate-limit: Veo 3 Fast on Tier 1
+ * is 10 requests per DAY and 2 per minute. The batch that failed had spent all
+ * ten. No amount of backoff clears a daily cap, which is why fifteen minutes
+ * of doubling waits achieved nothing — the retry was right for the error it
+ * was written for and useless against this one.
+ *
+ * So: nine attempts, one held back for a re-roll, and a priority order because
+ * there are exactly nine plates and therefore no slack. If a shot has to be
+ * regenerated, something else does not get made today.
+ *
+ *   1. the three worried faces   the film does not exist without its opening
+ *   2. the three relief shots    the payoff; the reason act 1 is bearable
+ *   3. the banker pair and the   context — strong, but the cut survives a day
+ *      spreadsheet                without them
+ *
+ * `--limit` enforces it. Passing more than the cap is refused rather than
+ * silently clamped: a run that quietly does less than asked is how nine
+ * becomes "some of them" in somebody's memory.
+ */
+const DAILY_CAP = 10;
+const DEFAULT_LIMIT = 9;   // one held in reserve for a re-roll
+
+const PRIORITY = [
+  "ad01", "ad02", "ad03",          // worried faces
+  "ad13", "ad15", "ad16",          // relief
+  "ad06", "ad07", "ad05",          // the bank, and the spreadsheet
+];
 /** Eight seconds: 1080p refuses six. */
 const SECONDS = 8;
 
@@ -320,6 +350,27 @@ async function main() {
     });
   }
 
+  // Priority order, then the cap. Anything not in PRIORITY sorts last rather
+  // than being dropped — a new clip that nobody ranked should still be made.
+  queue.sort((a, b) => {
+    const ia = PRIORITY.indexOf(a.id), ib = PRIORITY.indexOf(b.id);
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+  });
+
+  const limitArg = args.includes("--limit")
+    ? Number(args[args.indexOf("--limit") + 1]) : DEFAULT_LIMIT;
+  if (!Number.isFinite(limitArg) || limitArg < 1 || limitArg > DAILY_CAP) {
+    console.error(`--limit must be between 1 and the daily cap of ${DAILY_CAP}.`);
+    process.exit(2);
+  }
+  const deferred = queue.slice(limitArg);
+  queue = queue.slice(0, limitArg);
+  if (deferred.length) {
+    console.log(
+      `\nDEFERRED to tomorrow (${limitArg}-request limit, cap is ${DAILY_CAP}):` +
+      deferred.map((c) => `\n  ${c.id} — ${c.note}`).join("")
+    );
+  }
   const secs = queue.length * SECONDS;
   console.log(
     `\n${queue.length} clip(s) x ${SECONDS}s = ${secs}s · ` +

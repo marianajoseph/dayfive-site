@@ -138,6 +138,10 @@ function DateCallout() {
   );
 }
 
+export function BeatVisualForTest(props) {
+  return <BeatVisual {...props} />;
+}
+
 function BeatVisual({ n }) {
   if (PLATE[n]) {
     return (

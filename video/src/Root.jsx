@@ -28,6 +28,11 @@ import timings from "./timings.json";
 import Master, { MASTER_FRAMES, layout } from "./Master";
 import Cutdown, { CUTDOWN_FRAMES } from "./Cutdown";
 import Ad, { AD_FRAMES } from "./Ad";
+import MusicTest, { TEST_FRAMES } from "./MusicTest";
+
+/** The three tracks, by their slugged names. sources.json keeps the originals. */
+const BED_XYLO = "musical-loop-xylophone-strings-melody-happy.wav";
+const PUNCH_09 = "musical-sample-cartoon-orchest---happy-cheerful-09.wav";
 import PnlScroll from "./beats/PnlScroll";
 import {
   Beat03Intake, Beat05Citation, Beat06Insights, Beat07Question,
@@ -53,6 +58,21 @@ const beat = (id, component, n) => (
 
 export const Root = () => (
   <>
+    {/* Music tests. One composition per bed; render with --props to swap the
+        track without editing anything:
+          npx remotion render src/index.js MusicTest out.mp4 \
+            --props='{"bed":"<file>.wav","punch":"<file>.wav"}'
+        The default below is the fallback bed, so the harness is runnable
+        before the real beds land. */}
+    <Composition
+      id="MusicTest"
+      component={MusicTest}
+      durationInFrames={TEST_FRAMES}
+      fps={MASTER.fps}
+      width={MASTER.width}
+      height={MASTER.height}
+      defaultProps={{ bed: BED_XYLO, punch: PUNCH_09 }}
+    />
     {/* The ad — the deliverable. v1 sits below it, kept. */}
     <Composition
       id="Ad60"
