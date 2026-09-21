@@ -47,3 +47,11 @@ yarn-error.log*
 !/video/assets/vo/*.mp3
 !/video/assets/ad-broll/*.mp4
 !/video/assets/ad-vo/*.mp3
+
+# Licensed music is a SOURCE ASSET too — bought, not generated, and equally
+# unrebuildable from the repo. The rule that committed the Veo plates and the
+# voiceover missed this folder, and three tracks were lost: staging was
+# replaced upstream and the only other copy was deleted locally.
+!/video/assets/music/*.wav
+!/video/assets/music/*.mp3
+!/video/assets/music/LICENSE.txt

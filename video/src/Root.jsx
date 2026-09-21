@@ -31,8 +31,9 @@ import Ad, { AD_FRAMES } from "./Ad";
 import MusicTest, { TEST_FRAMES } from "./MusicTest";
 
 /** The three tracks, by their slugged names. sources.json keeps the originals. */
-const BED_XYLO = "musical-loop-xylophone-strings-melody-happy.wav";
-const PUNCH_09 = "musical-sample-cartoon-orchest---happy-cheerful-09.wav";
+const BED_DEFAULT = "moving-up-origo.wav";
+/* The stinger is pending re-supply — see the note in Root. */
+const PUNCH_DEFAULT = null;
 import PnlScroll from "./beats/PnlScroll";
 import {
   Beat03Intake, Beat05Citation, Beat06Insights, Beat07Question,
@@ -71,7 +72,7 @@ export const Root = () => (
       fps={MASTER.fps}
       width={MASTER.width}
       height={MASTER.height}
-      defaultProps={{ bed: BED_XYLO, punch: PUNCH_09 }}
+      defaultProps={{ bed: BED_DEFAULT, punch: PUNCH_DEFAULT }}
     />
     {/* The ad — the deliverable. v1 sits below it, kept. */}
     <Composition

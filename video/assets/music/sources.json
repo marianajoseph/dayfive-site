@@ -1,14 +1,29 @@
 {
-  "musical-loop-xylophone-strings-melody-happy.wav": {
-    "original": "ES_Musical, Loop, Xylophone, Strings, Melody, Happy - Epidemic Sound.wav",
-    "library": "Epidemic Sound Pro"
+  "i-remember-you-instrumental-version-nickolas-jones.wav": {
+    "original": "ES_I Remember You (Instrumental Version) - Nickolas Jones.wav",
+    "library": "Epidemic Sound Pro",
+    "track": "I Remember You (Instrumental Version)",
+    "artist": "Nickolas Jones",
+    "epidemicId": "8bb29e63-a4b9-38b2-a488-2df51d54e1ae",
+    "licence": "Epidemic Sound Pro (monthly, free trial), account docs@getdayfive.com",
+    "use": "DayFive explainer ad (web, YouTube, Google Ads)"
   },
-  "musical-sample-cartoon-orchest--rgetic-cheerful-02.wav": {
-    "original": "ES_Musical, Sample, Cartoon Orchestra, Short Reaction, Energetic, Cheerful 02 - Epidemic Sound.wav",
-    "library": "Epidemic Sound Pro"
+  "let-s-go-speedy-the-spider.wav": {
+    "original": "ES_Let's Go! - Speedy The Spider.wav",
+    "library": "Epidemic Sound Pro",
+    "track": "Let's go!",
+    "artist": "Speedy The Spider",
+    "epidemicId": "023229d7-0feb-4c56-bd4c-e5a218e2b97b",
+    "licence": "Epidemic Sound Pro (monthly, free trial), account docs@getdayfive.com",
+    "use": "DayFive explainer ad (web, YouTube, Google Ads)"
   },
-  "musical-sample-cartoon-orchest---happy-cheerful-09.wav": {
-    "original": "ES_Musical, Sample, Cartoon Orchestra, Short Reaction, Energetic, Happy, Cheerful 09 - Epidemic Sound.wav",
-    "library": "Epidemic Sound Pro"
+  "moving-up-origo.wav": {
+    "original": "ES_Moving Up - Origo.wav",
+    "library": "Epidemic Sound Pro",
+    "track": "Moving Up",
+    "artist": "Origo",
+    "epidemicId": "72ead9c2-60c5-4e9f-9f5d-bbdb4aeaaca3",
+    "licence": "Epidemic Sound Pro (monthly, free trial), account docs@getdayfive.com",
+    "use": "DayFive explainer ad (web, YouTube, Google Ads)"
   }
 }
