@@ -23,7 +23,7 @@ import { colors } from "./colors";
 import { MASTER } from "./config";
 import { Body, Eyebrow, Headline, Stage, smooth } from "./brand";
 import {
-  BeatCalendar, BeatChecks, BeatContact, BeatEndMark, BeatInsights,
+  BeatChecks, BeatContact, BeatEndMark, BeatInsights,
   BeatIntake, BeatPnl, BeatPromo, BeatSnap, BeatTabs, BeatUrl,
 } from "./ad/beats";
 
@@ -38,21 +38,31 @@ const f = (s) => Math.round(s * FPS);
  */
 const MUSIC = null;
 
-/** Which plate each Veo beat uses. */
+/**
+ * Which plate each character beat uses.
+ *
+ * Beat 13 JOINED this list in the casting revision and the calendar-snapping-
+ * to-five graphic came out to make room. Three relief characters were asked
+ * for — contractor, bakery owner, freelancer — and acts 3–5 had only two
+ * plate slots. The day-five motif still lands twice without it: in the
+ * narration ("on the fifth of every month") and on the end card ("Day five.
+ * Done."). Swapping the calendar back in means giving up one of the three.
+ */
 const PLATE = {
   1: "ad01", 2: "ad02", 3: "ad03", 5: "ad05",
-  6: "ad06", 7: "ad07", 15: "ad15", 16: "ad16",
+  6: "ad06", 7: "ad07", 13: "ad13", 15: "ad15", 16: "ad16",
 };
 
 /**
  * Where the useful second of each plate starts.
  *
- * Veo hands back eight seconds because 1080p demands it; a 2.5–4s cut wants
- * the moment the action actually happens, which is rarely frame one. These are
- * chosen per shot rather than defaulted to zero.
+ * Veo hands back eight seconds because 1080p demands it; a 2–4s cut wants the
+ * moment the action happens, which is rarely frame one. These are chosen per
+ * shot after watching them, not defaulted to zero.
  */
 const PLATE_IN = {
-  1: 1.6, 2: 1.2, 3: 1.8, 5: 2.4, 6: 1.4, 7: 1.2, 15: 2.0, 16: 2.2,
+  1: 1.6, 2: 1.2, 3: 1.8, 5: 2.4, 6: 1.4,
+  7: 1.2, 13: 1.6, 15: 2.0, 16: 2.2,
 };
 
 export function adLayout() {
@@ -144,7 +154,7 @@ function BeatVisual({ n }) {
     case 10: return <BeatChecks />;
     case 11: return <BeatPnl />;
     case 12: return <BeatInsights />;
-    case 13: return <BeatCalendar />;
+
     case 14: return <BeatPromo />;
     case 17: return <BeatEndMark />;
     case 18: return <BeatUrl />;
