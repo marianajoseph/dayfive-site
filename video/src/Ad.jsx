@@ -22,8 +22,10 @@ import { AD } from "./ad-script";
 import { colors } from "./colors";
 import { MASTER } from "./config";
 import { Body, Eyebrow, Headline, Stage, smooth } from "./brand";
+import { Bed, Punch } from "./ad/music";
+import plates from "./plates.json";
 import {
-  BeatChecks, BeatContact, BeatEndMark, BeatInsights,
+  BeatCalendar, BeatChecks, BeatContact, BeatEndMark, BeatInsights,
   BeatIntake, BeatPnl, BeatPromo, BeatSnap, BeatTabs, BeatUrl,
 } from "./ad/beats";
 
@@ -31,12 +33,16 @@ const FPS = timings.fps;
 const f = (s) => Math.round(s * FPS);
 
 /**
- * The licensed music bed. null until a track exists.
+ * The bed and the promo-card punch. Operator's pick, 2026-09-21.
  *
- * Set to a filename under assets/music/ once one is bought. Nothing else needs
- * to change — the cut is already timed and the bed simply plays under it.
+ * The punch is a hit lifted out of this same track at 106.24s — the moment
+ * scripts/find-punch.mjs scored highest on attack and on the space in front of
+ * it. A stinger from another library over this bed would be the likeliest
+ * thing in the film to sound bolted on; a hit from the track already playing
+ * cannot clash with it.
  */
-const MUSIC = null;
+const BED = "moving-up-origo.wav";
+const PUNCH = "punch-moving-up-origo-106.24s.wav";
 
 /**
  * Which plate each character beat uses.
@@ -142,8 +148,19 @@ export function BeatVisualForTest(props) {
   return <BeatVisual {...props} />;
 }
 
+/**
+ * Does this beat have a plate ON DISK?
+ *
+ * Not "is it in the PLATE map" — the map is the intention and plates.json is
+ * the fact. The casting revision pointed beat 13 at a shot the daily Veo cap
+ * had not allowed yet, and the render died at frame 1144 on a 404. A beat
+ * whose plate is still queued falls back to its motion version, so the film
+ * stays watchable while the picture catches up.
+ */
+const hasPlate = (n) => PLATE[n] && plates.have.includes(PLATE[n]);
+
 function BeatVisual({ n }) {
-  if (PLATE[n]) {
+  if (hasPlate(n)) {
     return (
       <>
         <Plate beat={n} />
@@ -158,7 +175,11 @@ function BeatVisual({ n }) {
     case 10: return <BeatChecks />;
     case 11: return <BeatPnl />;
     case 12: return <BeatInsights />;
-
+    // Beat 13's plate (the freelancer closing her laptop) is queued behind the
+    // Veo cap. Until it lands, the calendar snapping to five holds the slot —
+    // which is the motif the casting revision traded away, so the fallback is
+    // the thing it replaced rather than a placeholder.
+    case 13: return <BeatCalendar />;
     case 14: return <BeatPromo />;
     case 17: return <BeatEndMark />;
     case 18: return <BeatUrl />;
@@ -187,11 +208,26 @@ export default function Ad() {
         </Sequence>
       ))}
 
-      {MUSIC && (
-        <Sequence from={0} durationInFrames={AD_FRAMES}>
-          <Audio src={staticFile(`music/${MUSIC}`)} volume={0.18} />
-        </Sequence>
-      )}
+      {/* The bed, ducked from the cut's own timings — a beat that moves takes
+          its ducking with it. Up on the eight picture-only beats, which is
+          most of what makes a scored cut feel scored. */}
+      <Sequence from={0} durationInFrames={AD_FRAMES}>
+        <Bed
+          track={BED}
+          windows={beats.filter((b) => b.vo > 0)
+            .map((b) => [b.from / FPS, (b.from + f(b.vo)) / FPS])}
+        />
+      </Sequence>
+
+      {/* The punch, on the promo card. */}
+      {(() => {
+        const promo = beats.find((b) => b.n === 14);
+        return promo ? (
+          <Sequence from={promo.from} durationInFrames={AD_FRAMES - promo.from}>
+            <Punch track={PUNCH} />
+          </Sequence>
+        ) : null;
+      })()}
     </AbsoluteFill>
   );
 }
