@@ -90,14 +90,30 @@ export function Bed({ track, windows }) {
 }
 
 /**
- * The promo card's punch.
+ * The promo card's punch — a hit lifted out of the bed itself.
  *
  * A stinger, not a bed: it is allowed to ring out past the card and into the
  * next beat, which is what a stinger does. Loud, because it is the one moment
  * the film asks for attention rather than giving information — but under 0 dB,
  * since it lands over no narration and full scale would clip against the bed.
+ *
+ * THE TAIL FADES HERE, not in the file. The extracted hit is a clean slice
+ * with a hard edge; fading in the render keeps one asset and a curve that can
+ * be tuned against the picture. (The bundled ffmpeg has no `afade` filter
+ * either, which settled the question.)
  */
-export function Punch({ track }) {
+export function Punch({ track, fadeFrom = 1.5, fadeOver = 0.6 }) {
+  const { fps } = useVideoConfig();
   if (!track) return null;
-  return <Audio src={staticFile(`music/${track}`)} volume={db(-3)} />;
+  return (
+    <Audio
+      src={staticFile(`punch/${track}`)}
+      volume={(frame) => {
+        const t = frame / fps;
+        if (t <= fadeFrom) return db(-3);
+        const k = Math.min(1, (t - fadeFrom) / fadeOver);
+        return db(-3) * (1 - k);
+      }}
+    />
+  );
 }

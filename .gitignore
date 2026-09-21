@@ -55,3 +55,4 @@ yarn-error.log*
 !/video/assets/music/*.wav
 !/video/assets/music/*.mp3
 !/video/assets/music/LICENSE.txt
+!/video/assets/punch/*.wav
