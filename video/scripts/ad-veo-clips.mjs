@@ -55,6 +55,26 @@ const CLIPS_DIR = path.join(STAGING, "ad-broll");
 const MODEL = "veo-3.1-fast-generate-preview";
 const USD_PER_SECOND = 0.12; // 1080p, published rate, read 2026-09-20
 
+/**
+ * RATE LIMITING. Operator, 2026-09-21: the 429 was "too many requests" — a
+ * rate limit from firing nine at once, not quota and not money.
+ *
+ * The loop below always awaited each clip, so it LOOKED sequential. It was
+ * not, in the way that mattered: a failed submit returns immediately, with no
+ * polling, so once the first call was refused the remaining eight fired within
+ * a couple of seconds and were refused too. Sequential-by-await is only
+ * sequential when the work actually takes time.
+ *
+ * So the spacing is now explicit rather than a side effect of how long a
+ * success happens to take, and a 429 is retried rather than counted as a
+ * failure — it means the request was never accepted, so nothing was generated
+ * and nothing was charged. Retrying costs a wait, not a clip.
+ */
+const THROTTLE_SECONDS = 60;
+const MAX_RETRIES = 4;
+/** 60s, 120s, 240s, 480s. Doubling, because a fixed wait meets a limit that
+ *  has not reset yet and burns a retry finding out. */
+const BACKOFF = (attempt) => THROTTLE_SECONDS * 2 ** attempt;
 /** Eight seconds: 1080p refuses six. */
 const SECONDS = 8;
 
@@ -196,36 +216,62 @@ function loadKey() {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+/**
+ * Submit one clip, retrying while the API says "too many requests".
+ *
+ * A 429 is not a failure of the job — the request was never accepted, so
+ * nothing was generated and nothing was charged. Treating it as a failure is
+ * what turned one rate limit into nine.
+ *
+ * Any other non-OK status fails immediately: a 400 will be a 400 again in two
+ * minutes, and waiting to re-learn that is just slower.
+ */
+async function submit(clip, key) {
+  const body = JSON.stringify({
+    instances: [{ prompt: `${clip.prompt}\n\n${LOOK}` }],
+    parameters: {
+      aspectRatio: "16:9",
+      resolution: "1080p",
+      durationSeconds: SECONDS,
+      negativePrompt: NEGATIVE,
+    },
+  });
+
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:predictLongRunning`,
+      { method: "POST",
+        headers: { "x-goog-api-key": key, "Content-Type": "application/json" },
+        body }
+    );
+
+    if (res.ok) return { op: await res.json(), retries: attempt };
+
+    const text = await res.text();
+    if (res.status !== 429) return { error: `HTTP ${res.status}: ${text.slice(0, 220)}` };
+
+    if (attempt === MAX_RETRIES) {
+      return { error: `rate limited after ${MAX_RETRIES + 1} attempts` };
+    }
+    const wait = BACKOFF(attempt);
+    process.stdout.write(`\n  429 — waiting ${wait}s then retrying … `);
+    await sleep(wait * 1000);
+  }
+}
+
 async function generate(clip, key) {
   const out = path.join(CLIPS_DIR, `${clip.id}.mp4`);
   process.stdout.write(`${clip.id}: submitting … `);
 
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:predictLongRunning`,
-    {
-      method: "POST",
-      headers: { "x-goog-api-key": key, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        instances: [{ prompt: `${clip.prompt}\n\n${LOOK}` }],
-        parameters: {
-          aspectRatio: "16:9",
-          resolution: "1080p",
-          durationSeconds: SECONDS,
-          negativePrompt: NEGATIVE,
-        },
-      }),
-    }
-  );
-
-  if (!res.ok) {
-    console.log(`FAILED ${res.status}\n  ${(await res.text()).slice(0, 300)}`);
+  const { op, error, retries } = await submit(clip, key);
+  if (error) {
+    console.log(`FAILED — ${error}`);
     logCall({ provider: "veo", model: MODEL, unit: "seconds", quantity: 0,
               usd: 0, exact: true, output: null,
-              note: `${clip.id}: HTTP ${res.status}` });
+              note: `${clip.id}: ${error}` });
     return null;
   }
-
-  const op = await res.json();
+  if (retries) process.stdout.write(`(after ${retries} retr${retries > 1 ? "ies" : "y"}) `);
   process.stdout.write("polling ");
   let done = null;
   for (let i = 0; i < 60; i++) {
@@ -290,7 +336,13 @@ async function main() {
   if (!key) { console.error("GEMINI_API_KEY not found."); process.exit(2); }
 
   let made = 0;
-  for (const c of queue) {
+  for (const [i, c] of queue.entries()) {
+    // The pause is BETWEEN clips, not before the first — nothing has been
+    // asked of the API yet when the batch starts.
+    if (i > 0) {
+      process.stdout.write(`(pausing ${THROTTLE_SECONDS}s) `);
+      await sleep(THROTTLE_SECONDS * 1000);
+    }
     if (await generate(c, key)) made += 1;
   }
 
