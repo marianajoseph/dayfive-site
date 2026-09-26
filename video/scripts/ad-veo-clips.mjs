@@ -314,8 +314,26 @@ async function generate(clip, key) {
     const state = await poll.json();
     if (state.done) { done = state; break; }
   }
-  if (!done) { console.log(" TIMED OUT"); return null; }
-  if (done.error) { console.log(` ERROR: ${done.error.message}`); return null; }
+  if (!done) {
+    console.log(" TIMED OUT");
+    // Also a spent request — see the note on the error path below.
+    logCall({ provider: "veo", model: MODEL, unit: "seconds", quantity: 0,
+              usd: 0, exact: true, output: null,
+              note: `${clip.id}: timed out after 10 minutes` });
+    return null;
+  }
+  if (done.error) {
+    console.log(` ERROR: ${done.error.message}`);
+    // LOGGED, even though no video came back. The daily cap counts REQUESTS,
+    // not successes — an operation that started and then failed has spent one.
+    // This path returned silently before, so the ledger showed eight requests
+    // on a day nine were made, which is exactly the number you need when the
+    // limit is ten.
+    logCall({ provider: "veo", model: MODEL, unit: "seconds", quantity: 0,
+              usd: 0, exact: true, output: null,
+              note: `${clip.id}: generation failed — ${done.error.message}` });
+    return null;
+  }
 
   const sample =
     done.response?.generateVideoResponse?.generatedSamples?.[0] ??
