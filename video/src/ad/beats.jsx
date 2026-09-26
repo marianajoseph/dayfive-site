@@ -16,7 +16,8 @@ import { pnl, usd } from "@/lib/sample-data";
 import { OFFER, PLAN, TERMS } from "@/lib/pricing";
 import { colors } from "../colors";
 import { brand, endCard } from "../config";
-import { Card, Check, Eyebrow, Headline, Screen, Stage, Wordmark } from "../brand";
+import { Card, Check, Eyebrow, Headline, Screen, Stage, Wordmark,
+         useContentWidth } from "../brand";
 
 /** The ad's entrance: quick, with a little overshoot. v1's had neither. */
 function pop(frame, fps, delay = 0, damping = 13) {
@@ -107,10 +108,11 @@ const DOCS = ["Bank statement", "Card statement", "Supplier invoices",
 export function BeatIntake() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const listWidth = useContentWidth(1120);
   return (
     <Screen>
       <AbsoluteFill className="items-center justify-center">
-        <div style={{ width: 1120 }}>
+        <div style={{ width: listWidth }}>
           {DOCS.map((d, i) => {
             const p = pop(frame, fps, 0.08 * i, 12);
             return (
@@ -136,10 +138,11 @@ export function BeatIntake() {
 export function BeatChecks() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const listWidth = useContentWidth(1120);
   return (
     <Screen>
       <AbsoluteFill className="items-center justify-center">
-        <div style={{ width: 1120 }}>
+        <div style={{ width: listWidth }}>
           {DOCS.map((d, i) => {
             const t = interpolate(frame, [i * 0.1 * fps, (i * 0.1 + 0.3) * fps],
                                   [0, 1], { extrapolateLeft: "clamp",
@@ -172,11 +175,12 @@ export function BeatPnl() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const rows = [...pnl.revenue, ...pnl.cogs];
+  const pnlWidth = useContentWidth(1280);
 
   return (
     <Screen>
       <AbsoluteFill className="items-center justify-center">
-        <div style={{ width: 1280 }}>
+        <div style={{ width: pnlWidth }}>
           <Eyebrow style={{ fontSize: 24, marginBottom: 18 }}>
             Profit &amp; Loss · assembling
           </Eyebrow>

@@ -23,11 +23,12 @@
  * Renders are named dayfive-explainer-v1-*.mp4 in staging.
  */
 import { Composition } from "remotion";
-import { MASTER } from "./config";
+import { MASTER, VERTICAL } from "./config";
 import timings from "./timings.json";
 import Master, { MASTER_FRAMES, layout } from "./Master";
 import Cutdown, { CUTDOWN_FRAMES } from "./Cutdown";
 import Ad, { AD_FRAMES } from "./Ad";
+
 import MusicTest, { TEST_FRAMES } from "./MusicTest";
 import { AdCut30, AdBumper15, THIRTY_FRAMES, FIFTEEN_FRAMES } from "./AdCuts";
 

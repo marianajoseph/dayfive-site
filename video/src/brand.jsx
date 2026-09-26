@@ -189,3 +189,27 @@ export function Card({ children, className = "", style }) {
     </div>
   );
 }
+
+/**
+ * A content column that fits the frame it is in.
+ *
+ * The beats were authored for a 1920-wide frame and several carry a fixed
+ * pixel width — the P&L's 1280, the intake list's 1120. In a 1080-wide 9:16
+ * frame those overflow and the rows bleed off BOTH edges, because the column
+ * is also left-aligned inside an AbsoluteFill.
+ *
+ * `design` is the width the beat was drawn at; what comes back is that, or as
+ * much of it as the frame can hold with a margin. One helper rather than a
+ * vertical variant of each component: the layouts are already correct, they
+ * were only ever too wide.
+ */
+export function useContentWidth(design, margin = 0.08) {
+  const { width } = useVideoConfig();
+  return Math.min(design, Math.round(width * (1 - margin * 2)));
+}
+
+/** True when the frame is taller than it is wide. */
+export function useIsVertical() {
+  const { width, height } = useVideoConfig();
+  return height > width;
+}
