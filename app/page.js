@@ -21,6 +21,7 @@ import {
   Gauge,
 } from "@/components/Icons";
 import { ADDRESS_LINE, PHONE, hasPhone, phoneHref } from "@/lib/site-config";
+import { RISK_LINE } from "@/lib/pricing";
 import { hasPrivacyPolicy } from "@/lib/privacy";
 
 /* ───────────────────────────────────────────────────────────── hero ─── */
@@ -322,6 +323,10 @@ function FirstClose() {
           Cancel in two clicks{" "}
           <strong className="font-bold text-ink">and keep the clean books.</strong>{" "}
           That&rsquo;s how confident we are in what lands on day five.
+        </p>
+
+        <p className="mx-auto mt-6 max-w-2xl text-[1.05rem] leading-relaxed text-ink-600">
+          {RISK_LINE}
         </p>
 
         {/* the dominant close on the page */}

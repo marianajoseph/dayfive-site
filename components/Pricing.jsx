@@ -2,7 +2,7 @@ import Link from "next/link";
 import Section, { Eyebrow, SectionTitle } from "./Section";
 import CTAButton from "./CTAButton";
 import { Check, Tag } from "./Icons";
-import { OFFER, PLAN, ROADMAP, TERMS } from "@/lib/pricing";
+import { OFFER, PLAN, RISK_LINE, ROADMAP, TERMS } from "@/lib/pricing";
 
 /**
  * ONE PRODUCT. Operator ruling, 2026-09-20.
@@ -78,6 +78,10 @@ export default function Pricing() {
               Start now
             </CTAButton>
           </div>
+
+          <p className="mt-6 border-t border-cream-200 pt-6 text-[1rem] leading-relaxed text-ink-600">
+            {RISK_LINE}
+          </p>
 
           {/* Everything we do not sell yet. It ASKS rather than promises —
               "we're building it next" is a statement about our plans, which we
