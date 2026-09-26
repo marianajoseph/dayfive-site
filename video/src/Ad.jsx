@@ -83,6 +83,44 @@ export function adLayout() {
 export const AD_FRAMES = timings.totalFrames;
 
 /**
+ * Per-plate reframing, to crop generated artifacts out of shot.
+ *
+ * Three of the nine came back with something that should not be on screen, and
+ * all three sit near a frame edge — so a tighter frame removes them for
+ * nothing, where a regenerate would cost a request against a ten-a-day cap.
+ *
+ *   ad01  a camera VIEWFINDER overlay: corner brackets and a battery icon.
+ *         Veo decided "documentary" meant showing the camera's own UI.
+ *   ad07  bank signage reading "Bahide" — garbled, which is the failure the
+ *         no-readable-text rule exists for: it survives a glance and fails a
+ *         pause.
+ *   ad06  a CONTINUITY break. The apron woman seen over the shoulder is white
+ *         and blonde; the bakery owner in ad02, ad07 and ad15 is Black. The
+ *         same person has to be at that desk in act 2 and act 4 or the arc
+ *         does not land. Cropping reduces her to a hand at the frame edge,
+ *         which identifies nobody.
+ *
+ * Expressed as the ffmpeg crop each was tested with, then converted — so the
+ * numbers here are the ones actually verified on a frame, not re-derived.
+ */
+const FULL = { w: 1920, h: 1080 };
+const CROPS = {
+  1: { w: 1520, h: 855, x: 200, y: 130 },
+  6: { w: 1330, h: 748, x: 80, y: 160 },
+  7: { w: 1520, h: 855, x: 340, y: 180 },
+};
+
+function reframe(beat) {
+  const c = CROPS[beat];
+  if (!c) return { zoom: 1, dx: 0, dy: 0 };
+  const zoom = FULL.w / c.w;
+  return {
+    zoom,
+    dx: (FULL.w / 2 - (c.x + c.w / 2)) * zoom,
+    dy: (FULL.h / 2 - (c.y + c.h / 2)) * zoom,
+  };
+}
+/**
  * A plate, graded up and cropped to fill.
  *
  * The lift is a CSS filter rather than a colour pass in the prompt: it is free,
@@ -94,9 +132,17 @@ function Plate({ beat }) {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
   const id = PLATE[beat];
+  const { zoom, dx, dy } = reframe(beat);
 
-  // A slow push, so even a locked-off plate is moving under a fast cut.
-  const scale = 1.04 + (0.03 * frame) / durationInFrames;
+  // A slow push on top of whatever reframing the plate needs.
+  //
+  // A REFRAMED PLATE STARTS EXACTLY WHERE IT WAS VERIFIED. The base 1.04 —
+  // which exists to hide the edges of an un-reframed shot — multiplied with
+  // the crop zoom and pushed ad01 a further 4% past the framing that had been
+  // checked on a still. The crop is already the framing decision; only the
+  // 3% push belongs on top of it.
+  const base = CROPS[beat] ? 1 : 1.04;
+  const scale = zoom * (base + (0.03 * frame) / durationInFrames);
 
   // Quick edges only — this film cuts, it does not dissolve.
   const edge = 0.12 * fps;
@@ -113,7 +159,7 @@ function Plate({ beat }) {
           muted
           startFrom={Math.round((PLATE_IN[beat] ?? 0) * fps)}
           style={{ width: "100%", height: "100%", objectFit: "cover",
-                   transform: `scale(${scale})`,
+                   transform: `translate(${dx}px, ${dy}px) scale(${scale})`,
                    filter: "brightness(1.18) saturate(1.06) contrast(1.02)" }}
         />
       </AbsoluteFill>
