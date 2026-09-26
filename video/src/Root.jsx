@@ -29,6 +29,7 @@ import Master, { MASTER_FRAMES, layout } from "./Master";
 import Cutdown, { CUTDOWN_FRAMES } from "./Cutdown";
 import Ad, { AD_FRAMES } from "./Ad";
 import MusicTest, { TEST_FRAMES } from "./MusicTest";
+import { AdCut30, AdBumper15, THIRTY_FRAMES, FIFTEEN_FRAMES } from "./AdCuts";
 
 /** The three tracks, by their slugged names. sources.json keeps the originals. */
 const BED_DEFAULT = "moving-up-origo.wav";
@@ -79,6 +80,24 @@ export const Root = () => (
       id="Ad60"
       component={Ad}
       durationInFrames={AD_FRAMES}
+      fps={MASTER.fps}
+      width={MASTER.width}
+      height={MASTER.height}
+    />
+    {/* The cutdowns. Same beats, same score, different selection — see the
+        note at the top of AdCuts.jsx for what each one keeps and why. */}
+    <Composition
+      id="AdCut30"
+      component={AdCut30}
+      durationInFrames={THIRTY_FRAMES}
+      fps={MASTER.fps}
+      width={MASTER.width}
+      height={MASTER.height}
+    />
+    <Composition
+      id="AdBumper15"
+      component={AdBumper15}
+      durationInFrames={FIFTEEN_FRAMES}
       fps={MASTER.fps}
       width={MASTER.width}
       height={MASTER.height}
