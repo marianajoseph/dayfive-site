@@ -2,9 +2,9 @@ import Image from "next/image";
 import Nav from "@/components/Nav";
 import CTAButton from "@/components/CTAButton";
 import Section, { Eyebrow, SectionTitle } from "@/components/Section";
-import CalendarFive from "@/components/CalendarFive";
 import Inbox from "@/components/Inbox";
 import Pricing from "@/components/Pricing";
+import VideoEmbed from "@/components/VideoEmbed";
 import Logo from "@/components/Logo";
 import Scoreboard from "@/components/Scoreboard";
 import {
@@ -20,7 +20,7 @@ import {
   Question,
   Gauge,
 } from "@/components/Icons";
-import { ADDRESS_LINE, PHONE, hasPhone, phoneHref } from "@/lib/site-config";
+import { ADDRESS_LINE, PHONE, VIDEO_ID, hasPhone, phoneHref } from "@/lib/site-config";
 import { RISK_LINE } from "@/lib/pricing";
 import { hasPrivacyPolicy } from "@/lib/privacy";
 
@@ -73,8 +73,17 @@ function Hero() {
 
         </div>
 
+        {/* THE VIDEO TAKES THE HERO SLOT, and <CalendarFive /> comes out of
+            it. Both cannot be here: stacked on a phone they push the CTAs
+            below two full screens of decoration, and the hero's job is to be
+            understood and acted on without scrolling.
+
+            The video wins the slot because it has a face in it and the
+            calendar has a number. CalendarFive is still in the repo and still
+            the logo's own motif — it is retired from this position, not
+            deleted. */}
         <div className="lg:col-span-5">
-          <CalendarFive />
+          <VideoEmbed id={VIDEO_ID} />
         </div>
       </div>
 
